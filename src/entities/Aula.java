@@ -2,12 +2,12 @@ package entities;
 
 public class Aula {
 
-    String nome;
-    String descricao;
-    int capacidadeMaxima;
-    String horario;  // conferir
-    int duracao;  // se for em minutos
-    String instrutor;
+    private String nome;
+    private String descricao;
+    private int capacidadeMaxima;
+    private String horario;  // conferir
+    private int duracao;  // se for em minutos
+    private String instrutor;
 
     private Aula(String nome, String descricao, int capacidadeMaxima, String horario, int duracao, String instrutor) {
         this.nome = nome;

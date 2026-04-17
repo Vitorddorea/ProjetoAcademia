@@ -1,17 +1,19 @@
 package entities;
 
+import java.time.LocalDate;
+
 public class Aluno extends Pessoa{
 
-    String dataNascimento; // confirmar
-    String email;
-    String dataMatricula;
-    String planoAtivo;
+    private String dataNascimento; // confirmar
+    private String email;
+    private LocalDate dataMatricula;
+    private String planoAtivo;
 
-    private Aluno(String nome, String cpf, String dataNascimento, String telefone, String email, String dataMatricula, String planoAtivo) {
+    public Aluno(String nome, String cpf, String dataNascimento, String telefone, String email,  String planoAtivo) {
         super(nome, cpf, telefone);
         this.dataNascimento = dataNascimento;
         this.email = email;
-        this.dataMatricula = dataMatricula;
+        this.dataMatricula = LocalDate.now();
         this.planoAtivo = planoAtivo;
     }
 
@@ -55,11 +57,11 @@ public class Aluno extends Pessoa{
         this.email = email;
     }
 
-    public String getDataMatricula() {
+    public LocalDate getDataMatricula() {
         return dataMatricula;
     }
 
-    public void setDataMatricula(String dataMatricula) {
+    public void setDataMatricula(LocalDate dataMatricula) {
         this.dataMatricula = dataMatricula;
     }
 
@@ -69,6 +71,15 @@ public class Aluno extends Pessoa{
 
     public void setPlanoAtivo(String planoAtivo) {
         this.planoAtivo = planoAtivo;
+    }
+
+    public void mostrarAluno(){
+        System.out.println("Aluno: " + getNome());
+        System.out.println("CPF: " + getCpf());
+        System.out.println("Data de Nascimento: " + getDataNascimento());
+        System.out.println("Telefone: " + getTelefone());
+        System.out.println("E-mail: " + getEmail());
+        System.out.println("Plano ativo: " + getPlanoAtivo());
     }
 
 }

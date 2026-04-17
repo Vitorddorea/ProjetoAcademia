@@ -2,8 +2,8 @@ package entities;
 
 public class Frequencia {
 
-    String presençaAluno;
-    String data;
-    String hora;
+    private String presençaAluno;
+    private String data;
+    private String hora;
 
 }

@@ -2,10 +2,10 @@ package entities;
 
 public class Instrutor extends Pessoa {
 
-    String especialidade;
-    String horarioTrabalho;
+    private String especialidade;
+    private String horarioTrabalho;
 
-    private Instrutor(String nome, String cpf, String telefone, String especialidade, String horarioTrabalho) {
+    public Instrutor(String nome, String cpf, String telefone, String especialidade, String horarioTrabalho) {
         super(nome, cpf, telefone);
         this.especialidade = especialidade;
         this.horarioTrabalho = horarioTrabalho;

@@ -2,11 +2,11 @@ package entities;
 
 public class Plano {
 
-    String nome;
-    String descricao;
-    int valorMensal;
-    int duracaoMeses;
-    String beneficios;
+    private String nome;
+    private String descricao;
+    private int valorMensal;
+    private int duracaoMeses;
+    private String beneficios;
 
     private Plano(String nome, String descricao, int valorMensal, int duracaoMeses, String beneficios) {
         this.nome = nome;

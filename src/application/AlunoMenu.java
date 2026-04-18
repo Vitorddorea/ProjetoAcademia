@@ -30,7 +30,7 @@ public class AlunoMenu {
                     listaAlunos.add(aluno);
                     break;
                 case 2:
-                    System.out.println("Lista de alunos");
+                    System.out.println("Lista de alunos ");
                 case 3:
                     System.out.println("Atualizar aluno");
                     break;

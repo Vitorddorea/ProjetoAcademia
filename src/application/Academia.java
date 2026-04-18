@@ -15,7 +15,8 @@ public class Academia {
         Scanner sc = new Scanner(System.in);
         ArrayList<Aluno> listaAlunos = new ArrayList<>();
 
-        while (true) {
+        boolean executando = true;
+        while (executando) {
             System.out.println("\n==== SISTEMA ACADEMIA ====");
             System.out.println("1- Alunos");
             System.out.println("2- Instrutores");
@@ -45,6 +46,7 @@ public class Academia {
                     break;
                 case 0:
                     System.out.println("Encerrando programa...");
+                    executando = false;
                     break;
                 default:
                     System.out.println("Opção invalída!");

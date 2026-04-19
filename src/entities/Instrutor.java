@@ -51,4 +51,12 @@ public class Instrutor extends Pessoa {
         this.horarioTrabalho = horarioTrabalho;
     }
 
+    public void mostrarInstrutor() {
+        System.out.println("Instrutor: " + this.nome);
+        System.out.println("CPF: " + this.cpf);
+        System.out.println("Telefone: " + this.telefone);
+        System.out.println("Especialidade: " + this.especialidade);
+        System.out.println("Horário de trabalho: " + this.horarioTrabalho);
+    }
+
 }

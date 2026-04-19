@@ -4,15 +4,15 @@ public class Plano {
 
     private String nome;
     private String descricao;
-    private int valorMensal;
+    private float valorMensal;
     private int duracaoMeses;
     private String beneficios;
 
-    private Plano(String nome, String descricao, int valorMensal, int duracaoMeses, String beneficios) {
+    public Plano(String nome, String descricao, float valorMensal, int duracaoMeses, String beneficios) {
         this.nome = nome;
         this.descricao = descricao;
         this.valorMensal = valorMensal;
-        this.duracaoMeses = duracaoMeses;
+        setDuracaoMeses(duracaoMeses);
         this.beneficios = beneficios;
     }
 
@@ -32,11 +32,11 @@ public class Plano {
         this.descricao = descricao;
     }
 
-    public int getValorMensal() {
+    public float getValorMensal() {
         return valorMensal;
     }
 
-    public void setValorMensal(int valorMensal) {
+    public void setValorMensal(float valorMensal) {
         this.valorMensal = valorMensal;
     }
 
@@ -45,7 +45,12 @@ public class Plano {
     }
 
     public void setDuracaoMeses(int duracaoMeses) {
-        this.duracaoMeses = duracaoMeses;
+        if (duracaoMeses < 1 || duracaoMeses > 12) {
+            throw new IllegalArgumentException("Duração deve ser entre 1 e 12 meses");
+        }else {
+            this.duracaoMeses = duracaoMeses;
+        }
+
     }
 
     public String getBeneficios() {

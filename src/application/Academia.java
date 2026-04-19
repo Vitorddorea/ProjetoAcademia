@@ -1,19 +1,18 @@
 package application;
 
-import entities.Aluno;
-import util.AlunoService;
+import menus.AlunoMenu;
+import menus.InstrutorMenu;
+import menus.PlanoMenu;
 
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
 public class Academia {
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
 
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
-        ArrayList<Aluno> listaAlunos = new ArrayList<>();
 
         boolean executando = true;
         while (executando) {
@@ -30,13 +29,13 @@ public class Academia {
 
             switch (opcao){
                 case 1:
-                    AlunoMenu.exibirMenu(sc, listaAlunos);
+                    AlunoMenu.exibirMenu(sc);
                     break;
                 case 2:
-                    System.out.println("menu instrutores");
+                    InstrutorMenu.exibirMenu(sc);
                     break;
                 case 3:
-                    System.out.println("menu planos");
+                    PlanoMenu.exibirMenu(sc);
                     break;
                 case 4:
                     System.out.println("menu aulas");
@@ -53,9 +52,6 @@ public class Academia {
             }
 
         }
-
-
-
 
     }
 

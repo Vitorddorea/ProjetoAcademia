@@ -77,12 +77,12 @@ public class Aluno extends Pessoa{
     }
 
     public void mostrarAluno(){
-        System.out.println("Aluno: " + getNome());
-        System.out.println("CPF: " + getCpf());
-        System.out.println("Data de Nascimento: " + getDataNascimento());
-        System.out.println("Telefone: " + getTelefone());
-        System.out.println("E-mail: " + getEmail());
-        System.out.println("Plano ativo: " + getPlanoAtivo());
+        System.out.println("Aluno: " + this.nome);
+        System.out.println("CPF: " + this.cpf);
+        System.out.println("Data de Nascimento: " + this.dataNascimento);
+        System.out.println("Telefone: " + this.telefone);
+        System.out.println("E-mail: " + this.email);
+        System.out.println("Plano ativo: " + this.planoAtivo);
     }
     
     public static void listarAlunos(ArrayList <Aluno> listaAlunos) {

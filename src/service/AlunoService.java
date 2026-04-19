@@ -1,4 +1,4 @@
-package util;
+package service;
 
 import entities.Aluno;
 import java.util.Locale;

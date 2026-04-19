@@ -1,15 +1,14 @@
-package application;
-
+package menus;
 
 import entities.Aluno;
-import util.AlunoService;
+import service.AlunoService;
 
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
 public class AlunoMenu {
-    public static void exibirMenu(Scanner sc, ArrayList<Aluno> lista){
+    public static void exibirMenu(Scanner sc){
 
         Locale.setDefault(Locale.US);
         ArrayList<Aluno> listaAlunos = new ArrayList<>();

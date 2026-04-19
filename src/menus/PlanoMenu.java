@@ -42,17 +42,17 @@ public class PlanoMenu implements Menu{
                     listaPlanos.add(plano);
                     break;
                 case 2:
-                    //Plano.listarPlanos(listaPlanos);
+                    //PlanoService.listarPlanos(listaPlanos);
                     break;
                 case 3:
-                    System.out.println("Atualizar instrutor:");
-                    //Plano.atualizarPlano(sc, listaPlanos);
+                    System.out.println("Atualizar plano:");
+                    //PlanoService.atualizarPlano(sc, listaPlanos);
                     break;
                 case 4:
-                    System.out.println("Excluir aluno:");
+                    System.out.println("Excluir plano:");
                     //System.out.print("Nome Plano: ");
 
-                    //Plano.excluirPlano(listaPlanos);
+                    //PlanoService.excluirPlano(listaPlanos);
                     break;
                 case 0:
                     return;

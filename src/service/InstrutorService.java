@@ -11,7 +11,7 @@ public class InstrutorService {
 
         Locale.setDefault(Locale.US);
 
-        System.out.println("Nome do Instrutor:");
+        System.out.println("Nome do Instrutor: ");
         String nome = sc.nextLine();
 
         System.out.println("CPF:");

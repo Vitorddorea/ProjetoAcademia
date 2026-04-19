@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class PlanoMenu implements Menu{
 
-    ArrayList<Plano> listaPlanos = new ArrayList<>();
+    private ArrayList<Plano> listaPlanos = new ArrayList<>();
 
     public PlanoMenu(){
         Plano plano1 = new Plano("plano A","correr em circulos", 1000.0f,2,"nao tem");
@@ -19,8 +19,6 @@ public class PlanoMenu implements Menu{
         listaPlanos.add(plano1);
         listaPlanos.add(plano2);
     }
-
-
 
     @Override
     public void exibir(Scanner sc) {

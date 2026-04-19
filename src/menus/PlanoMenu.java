@@ -2,6 +2,7 @@ package menus;
 
 import entities.Plano;
 import service.PlanoService;
+import util.Util;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -27,9 +28,8 @@ public class PlanoMenu {
             System.out.println("3- Atualizar plano");
             System.out.println("4- Excluir plano");
             System.out.println("0- Voltar para o menu principal");
-
-            int opcao = sc.nextInt();
-            sc.nextLine();
+            System.out.println("Escolha uma opção: ");
+            int opcao = Util.lerInteiro(sc);
 
             switch (opcao) {
                 case 1:

@@ -3,19 +3,21 @@ package application;
 import menus.AlunoMenu;
 import menus.InstrutorMenu;
 import menus.PlanoMenu;
+import util.Util;
 
 import java.util.Locale;
 import java.util.Scanner;
 
 public class Academia {
 
-    static void main(String[] args) {
+    public static void main(String[] args) {
 
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
 
         boolean executando = true;
         while (executando) {
+
             System.out.println("\n==== SISTEMA ACADEMIA ====");
             System.out.println("1- Alunos");
             System.out.println("2- Instrutores");
@@ -24,8 +26,7 @@ public class Academia {
             System.out.println("5- Registro de frequência");
             System.out.println("0- Encerrar programa");
 
-            int opcao = sc.nextInt();
-            sc.nextLine();
+            int opcao = Util.lerInteiro(sc);
 
             switch (opcao){
                 case 1:

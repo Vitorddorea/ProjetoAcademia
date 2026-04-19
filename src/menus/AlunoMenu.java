@@ -2,6 +2,7 @@ package menus;
 
 import entities.Aluno;
 import service.AlunoService;
+import util.Util;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -27,8 +28,8 @@ public class AlunoMenu {
             System.out.println("4- Excluir aluno");
             System.out.println("0- Voltar para o menu principal");
 
-            int opcao = sc.nextInt();
-            sc.nextLine();
+            System.out.println("Escolha uma opção: ");
+            int opcao = Util.lerInteiro(sc);
 
             switch (opcao) {
                 case 1:

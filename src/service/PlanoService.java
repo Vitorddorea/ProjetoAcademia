@@ -1,6 +1,7 @@
 package service;
 
 import entities.Plano;
+import util.Util;
 
 import java.util.Locale;
 import java.util.Scanner;
@@ -25,7 +26,7 @@ public class PlanoService {
 
         while (true) {
             System.out.print("Duração em meses (1 a 12): ");
-            duracaoMeses = sc.nextInt();
+            duracaoMeses = Util.lerInteiro(sc);
 
             if (duracaoMeses >= 1 && duracaoMeses <= 12) {
                 break;

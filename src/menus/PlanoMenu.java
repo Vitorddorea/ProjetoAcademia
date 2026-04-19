@@ -8,21 +8,28 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class PlanoMenu {
+public class PlanoMenu implements Menu{
 
-    public static void exibirMenu(Scanner sc) {
+    ArrayList<Plano> listaPlanos = new ArrayList<>();
 
-        Locale.setDefault(Locale.US);
-        ArrayList<Plano> listaPlanos = new ArrayList<>();
-
+    public PlanoMenu(){
         Plano plano1 = new Plano("plano A","correr em circulos", 1000.0f,2,"nao tem");
         Plano plano2 = new Plano("plano b","pular plantando bananeira", 2.4f,1,"fortalece os braços" );
 
         listaPlanos.add(plano1);
         listaPlanos.add(plano2);
+    }
+
+
+
+    @Override
+    public void exibir(Scanner sc) {
+
+        Locale.setDefault(Locale.US);
 
         while (true){
-            System.out.println("\n==== GERENCIAR INSTRUTOR ====");
+
+            System.out.println("\n==== GERENCIAR PLANO ====");
             System.out.println("1- Cadastrar novo plano");
             System.out.println("2- Listar planos");
             System.out.println("3- Atualizar plano");

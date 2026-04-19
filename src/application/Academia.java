@@ -2,6 +2,7 @@ package application;
 
 import menus.AlunoMenu;
 import menus.InstrutorMenu;
+import menus.Menu;
 import menus.PlanoMenu;
 import util.Util;
 
@@ -14,6 +15,11 @@ public class Academia {
 
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
+
+        Menu alunoMenu = new AlunoMenu();
+        Menu instrutorMenu = new InstrutorMenu();
+        Menu planoMenu = new PlanoMenu();
+
 
         boolean executando = true;
         while (executando) {
@@ -28,15 +34,17 @@ public class Academia {
 
             int opcao = Util.lerInteiro(sc);
 
+            Menu menu = null;
+
             switch (opcao){
                 case 1:
-                    AlunoMenu.exibirMenu(sc);
+                    menu = alunoMenu;
                     break;
                 case 2:
-                    InstrutorMenu.exibirMenu(sc);
+                    menu = instrutorMenu;
                     break;
                 case 3:
-                    PlanoMenu.exibirMenu(sc);
+                    menu = planoMenu;
                     break;
                 case 4:
                     System.out.println("menu aulas");
@@ -52,8 +60,12 @@ public class Academia {
                     System.out.println("Opção invalída!");
             }
 
-        }
+            if (menu != null) {
+                menu.exibir(sc);
+            }
 
+        }
+        sc.close();
     }
 
 }

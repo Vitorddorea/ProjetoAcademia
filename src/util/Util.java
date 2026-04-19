@@ -19,4 +19,20 @@ public class Util {
             }
         }
     }
+
+    public static float lerReal (Scanner sc) {
+
+        while (true){
+            try {
+                float real = sc.nextFloat();
+                sc.nextLine();
+
+                return real;
+
+            } catch (Exception e) {
+                System.out.println("Digite um número real!");
+                sc.nextLine();
+            }
+        }
+    }
 }

@@ -8,17 +8,19 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class InstrutorMenu {
-    public static void exibirMenu(Scanner sc) {
+public class InstrutorMenu implements Menu {
+    private ArrayList<Instrutor> listaInstrutores = new ArrayList<>();
 
-        Locale.setDefault(Locale.US);
-        ArrayList<Instrutor> listaInstrutores = new ArrayList<>();
-
+    public InstrutorMenu(){
         Instrutor instrutor1 = new Instrutor("Marina","345543334554", "27032007","areobica","19:00");
         Instrutor instrutor2 = new Instrutor("Maria","34455334554", "27042007","luta","18:00" );
-
         listaInstrutores.add(instrutor1);
         listaInstrutores.add(instrutor2);
+    }
+    @Override
+    public void exibir(Scanner sc) {
+
+        Locale.setDefault(Locale.US);
 
         while (true){
             System.out.println("\n==== GERENCIAR INSTRUTOR ====");
@@ -56,9 +58,5 @@ public class InstrutorMenu {
                     System.out.println("Opção inválida!");
             }
         }
-
-
     }
-
-
 }

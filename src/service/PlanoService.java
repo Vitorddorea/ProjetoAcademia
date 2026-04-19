@@ -19,8 +19,7 @@ public class PlanoService {
         String descricao = sc.nextLine();
 
         System.out.print("Valor mensal: R$");
-        float valorMensal = sc.nextFloat();
-        sc.nextLine();
+        float valorMensal = Util.lerReal(sc);
 
         int duracaoMeses;
 

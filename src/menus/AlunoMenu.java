@@ -8,18 +8,22 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class AlunoMenu {
-    public static void exibirMenu(Scanner sc){
+public class AlunoMenu implements Menu{
+    private ArrayList<Aluno> listaAlunos = new ArrayList<> ();
 
-        Locale.setDefault(Locale.US);
-        ArrayList<Aluno> listaAlunos = new ArrayList<>();
-        
+    public AlunoMenu(){
         Aluno aluno1 = new Aluno("Marina","345543334554", "27032007","11911324567","maria@gmail.com", "sim" );
         Aluno aluno2 = new Aluno("Maria","34455334554", "27042007","1191455665467","mariass@gmail.com", "sim" );
-        
+
         listaAlunos.add(aluno1);
         listaAlunos.add(aluno2);
-        
+    }
+
+    @Override
+    public void exibir(Scanner sc){
+
+        Locale.setDefault(Locale.US);
+
         while (true){
             System.out.println("\n==== GERENCIAR ALUNO ====");
             System.out.println("1- Cadastrar aluno");
@@ -37,24 +41,25 @@ public class AlunoMenu {
                     listaAlunos.add(aluno);
                     break;
                 case 2:
-                	Aluno.listarAlunos(listaAlunos);
+                	AlunoService.listarAlunos(listaAlunos);
                 	break;
                 case 3:
                 	System.out.println("Atualizar aluno:");
-                    Aluno.atualizarAluno(sc, listaAlunos);
+                    AlunoService.atualizarAluno(sc, listaAlunos);
                     break;
                 case 4:
                 	System.out.println("Excluir aluno:");
                     System.out.print("Digite o CPF: ");
                     String cpf = sc.nextLine();
 
-                    Aluno.excluirAluno(listaAlunos, cpf);
+                    AlunoService.excluirAluno(listaAlunos, cpf);
                     break;
                 case 0:
                     return;
                 default:
                     System.out.println("Opção inválida!");
             }
+
         }
 
     }

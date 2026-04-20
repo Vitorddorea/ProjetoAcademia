@@ -32,7 +32,7 @@ public class Aluno extends Pessoa{
         return cpf;
     }
 
-    public void setCpf() {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
@@ -84,18 +84,18 @@ public class Aluno extends Pessoa{
         System.out.println("E-mail: " + this.email);
         System.out.println("Plano ativo: " + this.planoAtivo);
     }
+    
+    //public void mostrarAlunos(ArrayList<Aluno> listaAlunos) {
+    //    for (Aluno aluno : listaAlunos) {
+    //        System.out.println("Nome: " + aluno.getNome());
+    //        System.out.println("CPF: " + aluno.getCpf());
+    //        System.out.println("Telefone: " + aluno.getTelefone());
+    //        System.out.println("Email: " + aluno.getEmail());
+    //        System.out.println("Plano ativo: " + aluno.getPlanoAtivo());
+    //        System.out.println("-------------------------");
+    //    }
+    //}
 
-<<<<<<< Updated upstream
-=======
-        for (Aluno aluno : listaAlunos) {
-            System.out.println("Nome: " + aluno.getNome());
-            System.out.println("CPF: " + aluno.getCpf());
-            System.out.println("Telefone: " + aluno.getTelefone());
-            System.out.println("Email: " + aluno.getEmail());
-            System.out.println("Plano ativo: " + aluno.getPlanoAtivo());
-            System.out.println("-------------------------");
-        }
-    }
     public static void excluirAluno(ArrayList<Aluno> listaAlunos, String cpf) {
 
         for (int i = 0; i < listaAlunos.size(); i++) {
@@ -108,9 +108,9 @@ public class Aluno extends Pessoa{
 
         System.out.println("Aluno não encontrado.");
     }
+    
     public static void atualizarAluno(Scanner sc, ArrayList<Aluno> listaAlunos) {
-
-        System.out.print("Digite o CPF do aluno que deseja atualizar: ");
+    	System.out.print("Digite o CPF do aluno que deseja atualizar: ");
         String cpf = sc.nextLine();
 
         for (Aluno aluno : listaAlunos) {
@@ -135,5 +135,5 @@ public class Aluno extends Pessoa{
         }
         System.out.println("Aluno não encontrado.");
     }
->>>>>>> Stashed changes
+
 }

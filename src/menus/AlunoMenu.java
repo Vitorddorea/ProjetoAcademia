@@ -10,21 +10,15 @@ import java.util.Scanner;
 
 public class AlunoMenu implements Menu{
     private ArrayList<Aluno> listaAlunos = new ArrayList<> ();
-
-<<<<<<< Updated upstream:src/menus/AlunoMenu.java
+    
     public AlunoMenu(){
-        Aluno aluno1 = new Aluno("Marina","345543334554", "27032007","11911324567","maria@gmail.com", "sim" );
-        Aluno aluno2 = new Aluno("Maria","34455334554", "27042007","1191455665467","mariass@gmail.com", "sim" );
-
-=======
         Locale.setDefault(Locale.US);
         ArrayList<Aluno> listaAlunos = new ArrayList<>();
         
-        // foi feita a criação apenas para testas as funções aluno Menu!
+        // foi feita a criação apenas para testar as funções aluno Menu!
         Aluno aluno1 = new Aluno("Joana","345543334554", "01032020","11911324567","joana@gmail.com", "sim" );
         Aluno aluno2 = new Aluno("Maria","34455334554", "27042012","1191455665467","mariass@gmail.com", "sim" );
         
->>>>>>> Stashed changes:src/application/AlunoMenu.java
         listaAlunos.add(aluno1);
         listaAlunos.add(aluno2);
     }

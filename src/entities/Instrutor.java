@@ -58,5 +58,14 @@ public class Instrutor extends Pessoa {
         System.out.println("Especialidade: " + this.especialidade);
         System.out.println("Horário de trabalho: " + this.horarioTrabalho);
     }
+    @Override
+    public String toString() {
+        return "Nome: " + nome +
+               "\nCPF: " + cpf +
+               "\nTelefone: " + telefone +
+               "\nEspecialidade: " + especialidade +
+               "\nHorário: " + horarioTrabalho +
+               "\n-------------------------";
+    }
 
 }

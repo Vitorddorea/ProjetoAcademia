@@ -16,6 +16,7 @@ public class Academia {
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
 
+
         Menu alunoMenu = new AlunoMenu();
         Menu instrutorMenu = new InstrutorMenu();
         Menu planoMenu = new PlanoMenu();

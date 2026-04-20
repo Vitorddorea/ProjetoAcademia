@@ -47,11 +47,7 @@ public class AlunoService {
         System.out.println("\nLISTA DE ALUNOS");
 
         for (Aluno aluno : listaAlunos) {
-            System.out.println("Nome: " + aluno.getNome());
-            System.out.println("CPF: " + aluno.getCpf());
-            System.out.println("Telefone: " + aluno.getTelefone());
-            System.out.println("Email: " + aluno.getEmail());
-            System.out.println("Plano ativo: " + aluno.getPlanoAtivo());
+            aluno.mostrarAluno();
             System.out.println("-------------------------");
         }
     }

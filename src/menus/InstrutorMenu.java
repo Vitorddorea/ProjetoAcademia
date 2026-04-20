@@ -39,18 +39,15 @@ public class InstrutorMenu implements Menu {
                     listaInstrutores.add(instrutor);
                     break;
                 case 2:
-                    //InstrutorService.listarInstrutores(listaInstrutores);
+                    InstrutorService.listarInstrutores(sc, listaInstrutores);
                     break;
                 case 3:
                     System.out.println("Atualizar instrutor:");
-                    //InstrutorService.atualizarInstrutor(sc, listaInstrutores);
+                    InstrutorService.atualizarInstrutor(sc, listaInstrutores);
                     break;
                 case 4:
-                    System.out.println("Excluir instrutor:");
-                    System.out.print("Digite o CPF: ");
-                    //String cpf = sc.nextLine();
-
-                    //InstrutorService.excluirInstrutor(listaInstrutores, cpf);
+                	System.out.println("Excluir Instrutor");
+                    InstrutorService.excluirInstrutor(sc, listaInstrutores);
                     break;
                 case 0:
                     return;

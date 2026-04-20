@@ -1,6 +1,7 @@
 package service;
 
 import entities.Instrutor;
+import util.Util;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -31,22 +32,22 @@ public class InstrutorService {
 
         System.out.println("Instrutor cadastrado com sucesso!");
         instrutor.mostrarInstrutor();
-		return instrutor;
-        
-        }
-    public static void listarInstrutores(Scanner sc, ArrayList<Instrutor> listaInstrutores){
-    	
-    	if (listaInstrutores.isEmpty()) {
+        return instrutor;
+
+    }
+
+    public static void listarInstrutores(Scanner sc, ArrayList<Instrutor> listaInstrutores) {
+
+        if (listaInstrutores.isEmpty()) {
             System.out.println("Nenhum instrutor cadastrado.");
             return;
+        } else {
+            for (Instrutor i : listaInstrutores) {
+                System.out.println(i);
+            }
         }
-    	else{
-    		for (Instrutor i: listaInstrutores){
-    			System.out.println(i);
-    		}
-    	}
     }
-    
+
     public static void atualizarInstrutor(Scanner sc, ArrayList<Instrutor> listaInstrutor) {
 
         System.out.println("Digite o CPF do instrutor:");
@@ -61,7 +62,7 @@ public class InstrutorService {
                 System.out.println("3- Telefone");
                 System.out.println("4- Especialidade");
 
-                int opcao = sc.nextInt();
+                int opcao = Util.lerInteiro(sc);
                 sc.nextLine();
 
                 switch (opcao) {
@@ -96,26 +97,26 @@ public class InstrutorService {
 
         System.out.println("Instrutor não encontrado.");
     }
-    public static void excluirInstrutor(Scanner sc, ArrayList<Instrutor> listaInstrutor){
-    	if (listaInstrutor.isEmpty()){
-    		System.out.println("A lista de Instrutores está vazia!");
-    		return;
-    	}
-    	System.out.println("Digite o cpf do  Instrutor para localiza-lo");
-    	String cpf = sc.nextLine();
-    	
-    	 for (int i = 0; i < listaInstrutor.size(); i++){
-    	        if (listaInstrutor.get(i).getCpf().equals(cpf)){
-    	            listaInstrutor.remove(i);
-    	            System.out.println("Instrutor removido com sucesso!");
-    	            return;
-    	        }
-    	    }
-    		System.out.println("Intrutor não encontrado, tente novamente!");
-    		
-    	}
-    	
-    
+
+    public static void excluirInstrutor(Scanner sc, ArrayList<Instrutor> listaInstrutor) {
+        if (listaInstrutor.isEmpty()) {
+            System.out.println("A lista de Instrutores está vazia!");
+            return;
+        }
+        System.out.println("Digite o cpf do  Instrutor para localiza-lo");
+        String cpf = sc.nextLine();
+
+        for (int i = 0; i < listaInstrutor.size(); i++) {
+            if (listaInstrutor.get(i).getCpf().equals(cpf)) {
+                listaInstrutor.remove(i);
+                System.out.println("Instrutor removido com sucesso!");
+                return;
+            }
+        }
+        System.out.println("Instrutor não encontrado, tente novamente!");
+
+    }
 }
+
 
 

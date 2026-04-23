@@ -81,5 +81,4 @@ public class Aluno extends Pessoa{
         System.out.println("E-mail: " + this.email);
         System.out.println("Plano ativo: " + this.planoAtivo);
     }
-
 }

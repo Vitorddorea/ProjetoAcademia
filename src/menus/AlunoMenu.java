@@ -9,11 +9,10 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class AlunoMenu implements Menu{
-    private ArrayList<Aluno> listaAlunos = new ArrayList<> ();
+    public ArrayList<Aluno> listaAlunos = new ArrayList<> ();
     
     public AlunoMenu(){
         Locale.setDefault(Locale.US);
-        ArrayList<Aluno> listaAlunos = new ArrayList<>();
         
         // foi feita a criação apenas para testar as funções aluno Menu!
         Aluno aluno1 = new Aluno("Joana","345543334554", "01032020","11911324567","joana@gmail.com", "sim" );

@@ -16,6 +16,9 @@ public class Instrutor extends Pessoa {
     }
 
     public void setNome(String nome) {
+        if (nome == null || nome.trim().isEmpty()){
+            throw new IllegalArgumentException("Nome inválido!");
+        }
         this.nome = nome;
     }
 

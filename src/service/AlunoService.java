@@ -1,6 +1,7 @@
 package service;
 
 import entities.Aluno;
+import util.Util;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -13,22 +14,22 @@ public class AlunoService {
         Locale.setDefault(Locale.US);
 
         System.out.println("Nome do Aluno:");
-        String nome = sc.nextLine();
+        String nome = Util.lerTexto(sc);
 
         System.out.println("CPF:");
-        String cpf = sc.nextLine();
+        String cpf = Util.lerTexto(sc);
 
         System.out.println("Data de Nascimento:");
-        String dataNascimento = sc.nextLine();
+        String dataNascimento = Util.lerTexto(sc);
 
         System.out.println("Telefone:");
-        String telefone = sc.nextLine();
+        String telefone = Util.lerTexto(sc);
 
         System.out.println("E-mail:");
-        String email = sc.nextLine();
+        String email = Util.lerTexto(sc);
 
         System.out.println("Plano ativo:");
-        String planoAtivo = sc.nextLine();
+        String planoAtivo = Util.lerTexto(sc);
 
         Aluno aluno = new Aluno(nome, cpf, dataNascimento, telefone, email, planoAtivo);
 
@@ -74,16 +75,16 @@ public class AlunoService {
             if (aluno.getCpf().equals(cpf)) {
 
                 System.out.print("Novo nome: ");
-                aluno.setNome(sc.nextLine());
+                aluno.setNome(Util.lerTexto(sc));
 
                 System.out.print("Novo telefone: ");
-                aluno.setTelefone(sc.nextLine());
+                aluno.setTelefone(Util.lerTexto(sc));
 
                 System.out.print("Novo email: ");
-                aluno.setEmail(sc.nextLine());
+                aluno.setEmail(Util.lerTexto(sc));
 
                 System.out.print("Novo plano: ");
-                aluno.setPlanoAtivo(sc.nextLine());
+                aluno.setPlanoAtivo(Util.lerTexto(sc));
 
                 System.out.println("Aluno atualizado com sucesso.");
                 return;

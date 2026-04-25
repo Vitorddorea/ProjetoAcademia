@@ -20,11 +20,11 @@ public class Util {
         }
     }
 
-    public static float lerReal (Scanner sc) {
+    public static double lerReal (Scanner sc) {
 
         while (true){
             try {
-                float real = sc.nextFloat();
+                double real = sc.nextDouble();
                 sc.nextLine();
 
                 return real;
@@ -33,6 +33,18 @@ public class Util {
                 System.out.println("Digite um número real!");
                 sc.nextLine();
             }
+        }
+    }
+
+    public static String lerTexto(Scanner sc) {
+        while (true) {
+            String texto = sc.nextLine();
+
+            if (texto != null && !texto.trim().isEmpty()) {
+                return texto;
+            }
+
+            System.out.println("Digite algo válido!");
         }
     }
 }

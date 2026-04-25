@@ -14,19 +14,19 @@ public class InstrutorService {
         Locale.setDefault(Locale.US);
 
         System.out.println("Nome do Instrutor: ");
-        String nome = sc.nextLine();
+        String nome = Util.lerTexto(sc);
 
         System.out.println("CPF:");
-        String cpf = sc.nextLine();
+        String cpf = Util.lerTexto(sc);
 
         System.out.println("Telefone:");
-        String telefone = sc.nextLine();
+        String telefone = Util.lerTexto(sc);
 
         System.out.println("Especialidade:");
-        String especialidade = sc.nextLine();
+        String especialidade = Util.lerTexto(sc);
 
         System.out.println("Horário de trabalho:");
-        String horarioTrabalho = sc.nextLine();
+        String horarioTrabalho = Util.lerTexto(sc);
 
         Instrutor instrutor = new Instrutor(nome, cpf, telefone, especialidade, horarioTrabalho);
 
@@ -68,22 +68,22 @@ public class InstrutorService {
                 switch (opcao) {
                     case 1:
                         System.out.println("Novo nome:");
-                        i.setNome(sc.nextLine());
+                        i.setNome(Util.lerTexto(sc));
                         break;
 
                     case 2:
                         System.out.println("Novo CPF:");
-                        i.setCpf(sc.nextLine());
+                        i.setCpf(Util.lerTexto(sc));
                         break;
 
                     case 3:
                         System.out.println("Novo telefone:");
-                        i.setTelefone(sc.nextLine());
+                        i.setTelefone(Util.lerTexto(sc));
                         break;
 
                     case 4:
                         System.out.println("Nova especialidade:");
-                        i.setEspecialidade(sc.nextLine());
+                        i.setEspecialidade(Util.lerTexto(sc));
                         break;
 
                     default:
@@ -104,7 +104,7 @@ public class InstrutorService {
             return;
         }
         System.out.println("Digite o cpf do  Instrutor para localiza-lo");
-        String cpf = sc.nextLine();
+        String cpf = Util.lerTexto(sc);
 
         for (int i = 0; i < listaInstrutor.size(); i++) {
             if (listaInstrutor.get(i).getCpf().equals(cpf)) {

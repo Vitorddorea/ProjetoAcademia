@@ -4,11 +4,11 @@ public class Plano {
 
     private String nome;
     private String descricao;
-    private float valorMensal;
+    private double valorMensal;
     private int duracaoMeses;
     private String beneficios;
 
-    public Plano(String nome, String descricao, float valorMensal, int duracaoMeses, String beneficios) {
+    public Plano(String nome, String descricao, double valorMensal, int duracaoMeses, String beneficios) {
         this.nome = nome;
         this.descricao = descricao;
         this.valorMensal = valorMensal;
@@ -32,11 +32,11 @@ public class Plano {
         this.descricao = descricao;
     }
 
-    public float getValorMensal() {
+    public double getValorMensal() {
         return valorMensal;
     }
 
-    public void setValorMensal(float valorMensal) {
+    public void setValorMensal(double valorMensal) {
         this.valorMensal = valorMensal;
     }
 

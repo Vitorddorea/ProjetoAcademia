@@ -7,7 +7,7 @@ public class Pessoa {
     String telefone;
 
     public Pessoa(String nome, String cpf, String telefone) {
-        this.nome = nome;
+        setNome(nome);
         this.cpf = cpf;
         this.telefone = telefone;
     }
@@ -17,6 +17,9 @@ public class Pessoa {
     }
 
     public void setNome(String nome) {
+        if (nome == null || nome.trim().isEmpty()){
+            throw new IllegalArgumentException("Nome inválido!");
+        }
         this.nome = nome;
     }
 

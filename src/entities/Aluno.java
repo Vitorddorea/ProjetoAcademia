@@ -7,7 +7,7 @@ public class Aluno extends Pessoa{
     private String dataNascimento; // confirmar
     private String email;
     private LocalDate dataMatricula;
-    private String planoAtivo;
+    private String planoAtivo;  //mudar depois para tipo planoAtivo
 
     public Aluno(String nome, String cpf, String dataNascimento, String telefone, String email,  String planoAtivo) {
         super(nome, cpf, telefone);
@@ -18,10 +18,14 @@ public class Aluno extends Pessoa{
     }
 
     public String getNome() {
+
         return nome;
     }
 
     public void setNome(String nome) {
+        if (nome == null || nome.trim().isEmpty()){
+            throw new IllegalArgumentException("Nome inválido!");
+        }
         this.nome = nome;
     }
 

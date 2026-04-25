@@ -15,13 +15,13 @@ public class PlanoService {
         Locale.setDefault(Locale.US);
 
         System.out.println("Nome do plano:");
-        String nome = sc.nextLine();
+        String nome = Util.lerTexto(sc);
 
         System.out.println("Descrição:");
-        String descricao = sc.nextLine();
+        String descricao = Util.lerTexto(sc);
 
         System.out.print("Valor mensal: R$");
-        float valorMensal = Util.lerReal(sc);
+        double valorMensal = Util.lerReal(sc);
 
         int duracaoMeses;
 
@@ -38,10 +38,9 @@ public class PlanoService {
         sc.nextLine();
 
         System.out.println("Benefícios: ");
-        String beneficios = sc.nextLine();
+        String beneficios = Util.lerTexto(sc);
 
         Plano plano = new Plano(nome, descricao, valorMensal, duracaoMeses, beneficios);
-
 
         System.out.println("Plano cadastrado com sucesso!");
 
@@ -59,7 +58,7 @@ public class PlanoService {
     }
     	public static void atualizarPlano(Scanner sc, ArrayList<Plano> listaPlanos) {
     	    System.out.println("Digite o nome do plano:");
-    	    String nomeBusca = sc.nextLine();
+    	    String nomeBusca = Util.lerTexto(sc);
 
     	    for (Plano p : listaPlanos) {
     	        if (p.getNome().equalsIgnoreCase(nomeBusca)) {
@@ -72,40 +71,40 @@ public class PlanoService {
     	        	System.out.println("Digite 4 para *Duração do Plano*");
     	        	System.out.println("Digite 5 para *Benefícios*");
     	        	
-    	        	int opcao = sc.nextInt();
+    	        	int opcao = Util.lerInteiro(sc);
     	        	sc.nextLine();
     	        	switch (opcao) {
     	        	case 1:
     	        		 System.out.println("Novo nome:");
-    	    	         String novoNome = sc.nextLine();
+    	    	         String novoNome = Util.lerTexto(sc);
     	    	         p.setNome(novoNome);
     	    	         System.out.println("Nome do Plano atualizado!");
     	    	         break;
     	        	case 2:
     	        		System.out.println("Nova Descrição:");
-    	        		String novaDescricao = sc.nextLine();
+    	        		String novaDescricao = Util.lerTexto(sc);
     	        		p.setDescricao(novaDescricao);
     	        		System.out.println("Descrição do plano atualizado!");
     	        		break;	
     	        	case 3:
     	        		System.out.println("Novo valor mensal:");
-    	        		float novoValorMensal = sc.nextFloat();
+    	        		double novoValorMensal = Util.lerReal(sc);
     	        		sc.nextLine();
     	        		p.setValorMensal(novoValorMensal);
     	        		System.out.println("Valor Mensal do plano atualizado!");
     	        		break;	
     	        	case 4:
     	        		System.out.println("Nova Duração do plano:");
-    	        		int novaDuracao = sc.nextInt();
+    	        		int novaDuracao = Util.lerInteiro(sc);
     	        		sc.nextLine();
     	        		p.setDuracaoMeses(novaDuracao);
     	        		System.out.println("Duração em meses do plano atualizado!");
     	        		break;	
     	        	case 5:
-    	        		System.out.println("Novos beneficios:");
-    	        		String novoBeneficios = sc.nextLine();
+    	        		System.out.println("Novos benefícios:");
+    	        		String novoBeneficios = Util.lerTexto(sc);
     	        		p.setBeneficios(novoBeneficios);
-    	        		System.out.println("Beneficios do plano atualizado!");
+    	        		System.out.println("Benefícios do plano atualizado!");
     	        		break;	
     	        	case 0:
     	        		return;

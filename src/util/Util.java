@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Util {
 
+    // Função para ler a entrada de número inteiros
     public static int lerInteiro(Scanner sc) {
 
         while (true){
@@ -20,6 +21,7 @@ public class Util {
         }
     }
 
+    // Função para ler a entrada de números reais
     public static double lerReal (Scanner sc) {
 
         while (true){
@@ -36,7 +38,10 @@ public class Util {
         }
     }
 
+
+    // Função para ler entrada de texto
     public static String lerTexto(Scanner sc) {
+
         while (true) {
             String texto = sc.nextLine();
 

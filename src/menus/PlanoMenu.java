@@ -9,7 +9,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class PlanoMenu implements Menu{
-  private ArrayList<Plano> listaPlanos = new ArrayList<>();
+  public ArrayList<Plano> listaPlanos = new ArrayList<>();
 
     public PlanoMenu()
     {
@@ -35,7 +35,7 @@ public class PlanoMenu implements Menu{
             System.out.println("3- Atualizar plano");
             System.out.println("4- Excluir plano");
             System.out.println("0- Voltar para o menu principal");
-            
+
             System.out.println("Escolha uma opção: ");
             int opcao = Util.lerInteiro(sc);
 

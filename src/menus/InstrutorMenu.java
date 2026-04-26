@@ -9,7 +9,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class InstrutorMenu implements Menu {
-    private ArrayList<Instrutor> listaInstrutores = new ArrayList<>();
+    public ArrayList<Instrutor> listaInstrutores = new ArrayList<>();
 
     public InstrutorMenu(){
         Instrutor instrutor1 = new Instrutor("Marina","345543334554", "27032007","areobica","19:00");

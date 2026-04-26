@@ -1,9 +1,6 @@
 package application;
 
-import menus.AlunoMenu;
-import menus.InstrutorMenu;
-import menus.Menu;
-import menus.PlanoMenu;
+import menus.*;
 import util.Util;
 
 import java.util.Locale;
@@ -16,11 +13,11 @@ public class Academia {
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
 
-
         Menu alunoMenu = new AlunoMenu();
         Menu instrutorMenu = new InstrutorMenu();
         Menu planoMenu = new PlanoMenu();
-
+        Menu aulaMenu = new AulaMenu();
+        Menu frequenciaMenu = new FrequenciaMenu();
 
         boolean executando = true;
         while (executando) {
@@ -48,10 +45,10 @@ public class Academia {
                     menu = planoMenu;
                     break;
                 case 4:
-                    System.out.println("menu aulas");
+                    menu = aulaMenu;
                     break;
                 case 5:
-                    System.out.println("menu frequência");
+                    menu = frequenciaMenu;
                     break;
                 case 0:
                     System.out.println("Encerrando programa...");

@@ -7,14 +7,14 @@ public class Aula {
     private int capacidadeMaxima;
     private String horario;  // conferir
     private int duracao;  // se for em minutos
-    private String instrutor;
+    private String instrutor; // mudar para o tipo instrutor
 
-    private Aula(String nome, String descricao, int capacidadeMaxima, String horario, int duracao, String instrutor) {
+    public Aula(String nome, String descricao, int capacidadeMaxima, String horario, int duracao, String instrutor) {
         this.nome = nome;
         this.descricao = descricao;
-        this.capacidadeMaxima = capacidadeMaxima;
+        setCapacidadeMaxima(capacidadeMaxima);
         this.horario = horario;
-        this.duracao = duracao;
+        setDuracao(duracao);
         this.instrutor = instrutor;
     }
 
@@ -39,6 +39,12 @@ public class Aula {
     }
 
     public void setCapacidadeMaxima(int capacidadeMaxima) {
+        if (capacidadeMaxima < 0 ) {
+            throw new IllegalArgumentException("Valor inválido!");
+        }
+        if (capacidadeMaxima < 1  || capacidadeMaxima > 30) {
+            throw new IllegalArgumentException("Capacidade inválida!");
+        }
         this.capacidadeMaxima = capacidadeMaxima;
     }
 
@@ -55,6 +61,9 @@ public class Aula {
     }
 
     public void setDuracao(int duracao) {
+        if (duracao <= 0) {
+            throw new IllegalArgumentException("Valor inválido!");
+        }
         this.duracao = duracao;
     }
 

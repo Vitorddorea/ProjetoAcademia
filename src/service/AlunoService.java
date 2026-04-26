@@ -86,7 +86,7 @@ public class AlunoService {
                 System.out.print("Novo plano: ");
                 aluno.setPlanoAtivo(Util.lerTexto(sc));
 
-                System.out.println("Aluno atualizado com sucesso.");
+                System.out.println("Aluno atualizado com sucesso!");
                 return;
             }
         }

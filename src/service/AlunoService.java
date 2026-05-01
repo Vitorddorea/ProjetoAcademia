@@ -33,9 +33,13 @@ public class AlunoService {
 
         Aluno aluno = new Aluno(nome, cpf, dataNascimento, telefone, email, planoAtivo);
 
-        System.out.println("Aluno cadastrado com sucesso!");
+        System.out.println("-------------------------------------------");
+        System.out.println("    Aluno(a) cadastrado com sucesso!   ");
+        System.out.println(" ");
+        System.out.println("     DADOS DO ALUNO(A) CADASTRADO:     ");
+        System.out.println("-------------------------------------------");
         aluno.mostrarAluno();
-
+        System.out.println(" ");
         return aluno;
     }
 
@@ -45,8 +49,11 @@ public class AlunoService {
             System.out.println("Nenhum aluno cadastrado.");
             return;
         }
-        System.out.println("\nLISTA DE ALUNOS");
-
+        System.out.println(" ");
+        System.out.println("\n     LISTA DE ALUNOS:   ");
+        
+        System.out.println(" ");
+        
         for (Aluno aluno : listaAlunos) {
             aluno.mostrarAluno();
             System.out.println("-------------------------");
@@ -68,28 +75,92 @@ public class AlunoService {
 
     public static void atualizarAluno(Scanner sc, ArrayList<Aluno> listaAlunos) {
 
+        if (listaAlunos.isEmpty()) {
+            System.out.println("Nenhum aluno cadastrado.");
+            return;
+        }
         System.out.print("Digite o CPF do aluno que deseja atualizar: ");
         String cpf = sc.nextLine();
+        Aluno alunoEncontrado = null;
 
-        for (Aluno aluno : listaAlunos) {
-            if (aluno.getCpf().equals(cpf)) {
-
-                System.out.print("Novo nome: ");
-                aluno.setNome(Util.lerTexto(sc));
-
-                System.out.print("Novo telefone: ");
-                aluno.setTelefone(Util.lerTexto(sc));
-
-                System.out.print("Novo email: ");
-                aluno.setEmail(Util.lerTexto(sc));
-
-                System.out.print("Novo plano: ");
-                aluno.setPlanoAtivo(Util.lerTexto(sc));
-
-                System.out.println("Aluno atualizado com sucesso!");
-                return;
+        for (Aluno aluno : listaAlunos){
+            if (aluno.getCpf().equals(cpf)){
+                alunoEncontrado = aluno;
+                break;
             }
         }
-        System.out.println("Aluno não encontrado.");
+        if (alunoEncontrado == null){
+            System.out.println("Aluno não encontrado.");
+            return;
+
+        }
+        System.out.println("\n=== O que deseja atualizar? ===");
+        System.out.println("1- Nome");
+        System.out.println("2- CPF");
+        System.out.println("3- Telefone");
+        System.out.println("4- Data de Nascimento");
+        System.out.println("5- Email");
+        System.out.println("6- Plano Ativo");
+        System.out.println("7- Atualizar tudo");
+
+        int opcao = Util.lerInteiro(sc);
+        sc.nextLine();
+
+        switch (opcao) {
+            case 1:
+                System.out.print("Novo nome: ");
+                alunoEncontrado.setNome(Util.lerTexto(sc));
+                break;
+
+            case 2:
+                System.out.print("Novo CPF: ");
+                alunoEncontrado.setCpf(Util.lerTexto(sc));
+                break;
+
+            case 3:
+                System.out.print("Novo telefone: ");
+                alunoEncontrado.setTelefone(Util.lerTexto(sc));
+                break;
+
+            case 4:
+                System.out.print("Nova data de nascimento: ");
+                alunoEncontrado.setDataNascimento(Util.lerTexto(sc));
+                break;
+
+            case 5:
+                System.out.print("Novo email: ");
+                alunoEncontrado.setEmail(Util.lerTexto(sc));
+                break;
+
+            case 6:
+                System.out.print("Novo plano ativo: ");
+                alunoEncontrado.setPlanoAtivo(Util.lerTexto(sc));
+                break;
+
+            case 7:
+                System.out.print("Novo nome: ");
+                alunoEncontrado.setNome(Util.lerTexto(sc));
+
+                System.out.print("Novo CPF: ");
+                alunoEncontrado.setCpf(Util.lerTexto(sc));
+
+                System.out.print("Nova data de nascimento: ");
+                alunoEncontrado.setDataNascimento(Util.lerTexto(sc));
+
+                System.out.print("Novo telefone: ");
+                alunoEncontrado.setTelefone(Util.lerTexto(sc));
+
+                System.out.print("Novo email: ");
+                alunoEncontrado.setEmail(Util.lerTexto(sc));
+
+                System.out.print("Novo plano ativo: ");
+                alunoEncontrado.setPlanoAtivo(Util.lerTexto(sc));
+                break;
+
+            default:
+                System.out.println("Opção inválida.");
+                return;
+        }
+        System.out.println("Aluno atualizado com sucesso.");
     }
 }

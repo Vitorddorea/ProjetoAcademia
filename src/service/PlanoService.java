@@ -1,6 +1,5 @@
 package service;
 
-import entities.Aluno;
 import entities.Plano;
 import util.Util;
 
@@ -57,65 +56,74 @@ public class PlanoService {
     		}
     }
     	public static void atualizarPlano(Scanner sc, ArrayList<Plano> listaPlanos) {
-    	    System.out.println("Digite o nome do plano:");
+    	   if (listaPlanos.isEmpty()) {
+    	        System.out.println("Nenhum plano cadastrado.");
+    	        return;
+    	    }
+			System.out.println("Digite o nome do plano:");
     	    String nomeBusca = Util.lerTexto(sc);
+			
+			Plano planoEncontrado = null;
 
-    	    for (Plano p : listaPlanos) {
+			for (Plano p : listaPlanos) {
     	        if (p.getNome().equalsIgnoreCase(nomeBusca)) {
-    	        	System.out.println("Plano Encontrado: ");
-    	        	System.out.println("O que você deseja atualizar?");
-    	        	
-    	        	System.out.println("Digite 1 para *Nome*");
-    	        	System.out.println("Digite 2 para *Descrição*");
-    	        	System.out.println("Digite 3 para *Valor Mensal*");
-    	        	System.out.println("Digite 4 para *Duração do Plano*");
-    	        	System.out.println("Digite 5 para *Benefícios*");
-    	        	
-    	        	int opcao = Util.lerInteiro(sc);
-    	        	sc.nextLine();
-    	        	switch (opcao) {
-    	        	case 1:
-    	        		 System.out.println("Novo nome:");
-    	    	         String novoNome = Util.lerTexto(sc);
-    	    	         p.setNome(novoNome);
-    	    	         System.out.println("Nome do Plano atualizado!");
-    	    	         break;
-    	        	case 2:
-    	        		System.out.println("Nova Descrição:");
-    	        		String novaDescricao = Util.lerTexto(sc);
-    	        		p.setDescricao(novaDescricao);
-    	        		System.out.println("Descrição do plano atualizado!");
-    	        		break;	
-    	        	case 3:
-    	        		System.out.println("Novo valor mensal:");
-    	        		double novoValorMensal = Util.lerReal(sc);
-    	        		sc.nextLine();
-    	        		p.setValorMensal(novoValorMensal);
-    	        		System.out.println("Valor Mensal do plano atualizado!");
-    	        		break;	
-    	        	case 4:
-    	        		System.out.println("Nova Duração do plano:");
-    	        		int novaDuracao = Util.lerInteiro(sc);
-    	        		sc.nextLine();
-    	        		p.setDuracaoMeses(novaDuracao);
-    	        		System.out.println("Duração em meses do plano atualizado!");
-    	        		break;	
-    	        	case 5:
-    	        		System.out.println("Novos benefícios:");
-    	        		String novoBeneficios = Util.lerTexto(sc);
-    	        		p.setBeneficios(novoBeneficios);
-    	        		System.out.println("Benefícios do plano atualizado!");
-    	        		break;	
-    	        	case 0:
-    	        		return;
-    	        	default:
-    	        		System.out.println("Opção Inválida! tente novamente!");
+    	            planoEncontrado = p;
+    	            break;
     	        }
     	    }
-    	    
+			if (planoEncontrado == null) {
+    	        System.out.println("Plano não encontrado!");
+    	        return;
+    	    }
+
+    	    System.out.println("\n=== O que deseja atualizar? ===");
+    	    System.out.println("1- Nome");
+    	    System.out.println("2- Descrição");
+    	    System.out.println("3- Valor Mensal");
+    	    System.out.println("4- Duração (meses)");
+    	    System.out.println("5- Benefícios");
+
+    	    int opcao = Util.lerInteiro(sc);
+    	    sc.nextLine();
+
+    	    switch (opcao) {
+    	        case 1:
+    	            System.out.print("Novo nome: ");
+    	            planoEncontrado.setNome(Util.lerTexto(sc));
+    	            break;
+    	        case 2:
+    	            System.out.print("Nova descrição: ");
+    	            planoEncontrado.setDescricao(Util.lerTexto(sc));
+    	            break;
+    	        case 3:
+    	            System.out.print("Novo valor mensal: ");
+    	            planoEncontrado.setValorMensal(Util.lerReal(sc));
+    	            sc.nextLine();
+    	            break;
+    	        case 4:
+    	            int novaDuracao;
+    	            while (true) {
+    	                System.out.print("Nova duração (1 a 12 meses): ");
+    	                novaDuracao = Util.lerInteiro(sc);
+
+    	                if (novaDuracao >= 1 && novaDuracao <= 12) {
+    	                    planoEncontrado.setDuracaoMeses(novaDuracao);
+    	                    break;
+    	                }
+    	                System.out.println("Valor inválido!");
+    	            }
+    	            sc.nextLine();
+    	            break;
+    	        case 5:
+    	            System.out.print("Novos benefícios: ");
+    	            planoEncontrado.setBeneficios(Util.lerTexto(sc));
+    	            break;
+    	        default:
+    	            System.out.println("Opção inválida!");
+    	            return;
+    	    }
+    	    System.out.println("Plano atualizado com sucesso!");
     	}
-    
-    }
     	public static void excluirPlano(Scanner sc, ArrayList<Plano> listaPlanos) {
     	    System.out.println("Digite o nome do plano que deseja excluir:");
     	    String nome = sc.nextLine();
@@ -129,4 +137,5 @@ public class PlanoService {
     	    }
     	    System.out.println("Plano não encontrado!");
     	}
+		
 }

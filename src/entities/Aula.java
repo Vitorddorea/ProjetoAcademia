@@ -7,9 +7,11 @@ public class Aula {
     private int capacidadeMaxima;
     private String horario;  // conferir
     private int duracao;  // se for em minutos
-    private String instrutor; // mudar para o tipo instrutor
 
-    public Aula(String nome, String descricao, int capacidadeMaxima, String horario, int duracao, String instrutor) {
+    private Instrutor instrutor; // mudar para o tipo instrutor
+
+      public Aula(String nome, String descricao, int capacidadeMaxima, String horario, int duracao, Instrutor instrutor) {
+
         this.nome = nome;
         this.descricao = descricao;
         setCapacidadeMaxima(capacidadeMaxima);
@@ -18,7 +20,15 @@ public class Aula {
         this.instrutor = instrutor;
     }
 
-    public String getNome() {
+    public Aula(String nome, String horario, int duracao, int capacidadeMaxima, Instrutor instrutor) {
+        this.nome = nome;
+        this.horario = horario;
+        this.duracao = duracao;
+        this.capacidadeMaxima = capacidadeMaxima;
+        this.instrutor = instrutor;
+    }
+
+	public String getNome() {
         return nome;
     }
 
@@ -67,11 +77,11 @@ public class Aula {
         this.duracao = duracao;
     }
 
-    public String getInstrutor() {
+    public Instrutor getInstrutor() {
         return instrutor;
     }
 
-    public void setInstrutor(String instrutor) {
+    public void setInstrutor(Instrutor instrutor) {
         this.instrutor = instrutor;
     }
 }

@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class FrequenciaService {
 
-    public static Frequencia registrarFrequencia(Scanner sc) {
+     public static Frequencia registrarFrequencia(Scanner sc) {
 
         System.out.print("Aluno: ");
         String aluno = Util.lerTexto(sc);

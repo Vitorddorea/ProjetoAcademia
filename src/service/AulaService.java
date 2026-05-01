@@ -1,43 +1,141 @@
 package service;
 
-import entities.Aula;
-import util.Util;
-
-import java.util.Locale;
 import java.util.Scanner;
+import java.util.ArrayList;
+
+
+import entities.Aula;
+import entities.Instrutor;
+
+import util.Util;
 
 public class AulaService {
 
     public static Aula cadastrarAula(Scanner sc) {
 
-        Locale.setDefault(Locale.US);
+        System.out.print("Nome da aula: ");
+        String nome = sc.nextLine();
 
-        System.out.println("Nome da aula:");
-        String nome = Util.lerTexto(sc);
+        System.out.print("Horario (ex: 07:30): ");
+        String horario = sc.nextLine();
 
-        System.out.println("Descrição:");
-        String descricao = Util.lerTexto(sc);
+        System.out.print("Duracao (em minutos): ");
+        int duracao = sc.nextInt();
 
-        System.out.println("Capacidade maxima:");
-        int capacidadeMaxima = Util.lerInteiro(sc);
+        System.out.print("Capacidade maxima de alunos: ");
+        int capacidade = sc.nextInt();
+        sc.nextLine();
 
-        System.out.println("Horário:");
-        String horario = Util.lerTexto(sc);
+        ArrayList<Instrutor> lista = InstrutorService.getLista();
 
-        System.out.println("Duração em minutos:");
-        int duracao = Util.lerInteiro(sc);
+        if (lista.isEmpty()) {
+            System.out.println("Nenhum instrutor cadastrado!");
+            return null;
+        }
 
-        System.out.println("Instrutor:");
-        String instrutor = Util.lerTexto(sc);
+        System.out.println("\nEscolha um instrutor:");
+        for (int i = 0; i < lista.size(); i++) {
+            System.out.println((i + 1) + " - " + lista.get(i).getNome());
+        }
 
-        Aula aula = new Aula(nome, descricao, capacidadeMaxima, horario, duracao, instrutor);
+        int opcao = sc.nextInt();
+        sc.nextLine();
+
+        if (opcao < 1 || opcao > lista.size()) {
+            System.out.println("Opção inválida!");
+            return null;
+        }
+
+        Instrutor instrutor = lista.get(opcao - 1);
+
+        Aula novaAula = new Aula(nome, horario, duracao, capacidade, instrutor);
 
         System.out.println("Aula cadastrada com sucesso!");
 
-        return aula;
-
+        return novaAula;
     }
 
+    public static void listarAulas(Scanner sc, ArrayList<Aula> listaAulas) {
 
+        if (listaAulas.isEmpty()) {
+            System.out.println("Nenhuma aula cadastrada.");
+            return;
+        }
 
+        System.out.println("\n=== LISTA DE AULAS ===");
+
+        for (int i = 0; i < listaAulas.size(); i++) {
+            Aula aula = listaAulas.get(i);
+
+            System.out.println("\nAula #" + (i + 1));
+            System.out.println("Nome: " + aula.getNome());
+            System.out.println("Horario: " + aula.getHorario());
+            System.out.println("Duracao: " + aula.getDuracao() + " minutos");
+            System.out.println("Capacidade: " + aula.getCapacidadeMaxima());
+            System.out.println("Instrutor: " + aula.getInstrutor().getNome());
+        }
+    }
+
+    public static void atualizarAula(Scanner sc, ArrayList<Aula> listaAulas) {
+
+        if (listaAulas.isEmpty()) {
+            System.out.println("Nenhuma aula cadastrada.");
+            return;
+        }
+
+        System.out.println("\nEscolha a aula para atualizar:");
+        for (int i = 0; i < listaAulas.size(); i++) {
+            System.out.println((i + 1) + " - " + listaAulas.get(i).getNome());
+        }
+
+        int opcao = sc.nextInt();
+        sc.nextLine();
+
+        if (opcao < 1 || opcao > listaAulas.size()) {
+            System.out.println("Opção inválida!");
+            return;
+        }
+
+        Aula aula = listaAulas.get(opcao - 1);
+
+        System.out.print("Novo nome: ");
+        aula.setNome(sc.nextLine());
+
+        System.out.print("Novo horario: ");
+        aula.setHorario(sc.nextLine());
+
+        System.out.print("Nova duracao: ");
+        aula.setDuracao(sc.nextInt());
+
+        System.out.print("Nova capacidade: ");
+        aula.setCapacidadeMaxima(sc.nextInt());
+        sc.nextLine();
+
+        System.out.println("Aula atualizada com sucesso!");
+    }
+
+    public static void excluirAula(Scanner sc, ArrayList<Aula> listaAulas) {
+
+        if (listaAulas.isEmpty()) {
+            System.out.println("Nenhuma aula cadastrada.");
+            return;
+        }
+
+        System.out.println("\nEscolha a aula para excluir:");
+        for (int i = 0; i < listaAulas.size(); i++) {
+            System.out.println((i + 1) + " - " + listaAulas.get(i).getNome());
+        }
+
+        int opcao = sc.nextInt();
+        sc.nextLine();
+
+        if (opcao < 1 || opcao > listaAulas.size()) {
+            System.out.println("Opção inválida!");
+            return;
+        }
+
+        listaAulas.remove(opcao - 1);
+
+        System.out.println("Aula excluída com sucesso!");
+    }
 }

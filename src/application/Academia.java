@@ -3,8 +3,11 @@ package application;
 import menus.*;
 import util.Util;
 
+import service.InstrutorService;
+
 import java.util.Locale;
 import java.util.Scanner;
+
 
 public class Academia {
 
@@ -13,11 +16,15 @@ public class Academia {
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
 
+        //instanciando o InstrutorService
+
+        InstrutorService instrutorService = new InstrutorService();  
+
         Menu alunoMenu = new AlunoMenu();
-        Menu instrutorMenu = new InstrutorMenu();
+        Menu instrutorMenu = new InstrutorMenu(instrutorService);
         Menu planoMenu = new PlanoMenu();
         Menu aulaMenu = new AulaMenu();
-        Menu frequenciaMenu = new FrequenciaMenu();
+       // Menu frequenciaMenu = new FrequenciaMenu();
 
         boolean executando = true;
         while (executando) {
@@ -48,7 +55,8 @@ public class Academia {
                     menu = aulaMenu;
                     break;
                 case 5:
-                    menu = frequenciaMenu;
+                    System.out.println("Funcionalidade de registro de frequência ainda não implementada.");
+                    //menu = frequenciaMenu;
                     break;
                 case 0:
                     System.out.println("Encerrando programa...");

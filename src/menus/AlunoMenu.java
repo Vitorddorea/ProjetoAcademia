@@ -40,6 +40,7 @@ public class AlunoMenu implements Menu{
 
             switch (opcao) {
                 case 1:
+                    System.out.println(" === CADASTRAR ALUNO ====");
                     Aluno aluno = AlunoService.cadastrarAluno(sc);
                     listaAlunos.add(aluno);
                     break;
@@ -47,11 +48,11 @@ public class AlunoMenu implements Menu{
                 	AlunoService.listarAlunos(listaAlunos);
                 	break;
                 case 3:
-                	System.out.println("Atualizar aluno:");
+                	System.out.println(" ==== Atualizar aluno: ====");
                     AlunoService.atualizarAluno(sc, listaAlunos);
                     break;
                 case 4:
-                	System.out.println("Excluir aluno:");
+                	System.out.println(" ==== Excluir aluno: ====");
                     System.out.print("Digite o CPF: ");
                     String cpf = sc.nextLine();
 

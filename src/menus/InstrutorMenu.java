@@ -1,25 +1,25 @@
 package menus;
 
-import entities.Instrutor;
+
 import service.InstrutorService;
 import util.Util;
 
-import java.util.ArrayList;
+
 import java.util.Locale;
 import java.util.Scanner;
 
 public class InstrutorMenu implements Menu {
-    public ArrayList<Instrutor> listaInstrutores = new ArrayList<>();
 
-    public InstrutorMenu(){
-        Instrutor instrutor1 = new Instrutor("Marina","345543334554", "27032007","areobica","19:00");
-        Instrutor instrutor2 = new Instrutor("Maria","34455334554", "27042007","luta","18:00" );
-        listaInstrutores.add(instrutor1);
-        listaInstrutores.add(instrutor2);
+    //criando uma depencia do service.
+    private InstrutorService service;
+
+    //injeções de dependencias
+    public InstrutorMenu(InstrutorService service) {
+        this.service = service;
     }
+
     @Override
     public void exibir(Scanner sc) {
-
         Locale.setDefault(Locale.US);
 
         while (true){
@@ -35,19 +35,16 @@ public class InstrutorMenu implements Menu {
 
             switch (opcao) {
                 case 1:
-                    Instrutor instrutor = InstrutorService.cadastrarInstrutor(sc);
-                    listaInstrutores.add(instrutor);
+                    boolean result = service.cadastrarInstrutor(sc);
                     break;
                 case 2:
-                    InstrutorService.listarInstrutores(sc, listaInstrutores);
+                    boolean result2= service.listarInstrutores();
                     break;
                 case 3:
-                    System.out.println("Atualizar instrutor:");
-                    InstrutorService.atualizarInstrutor(sc, listaInstrutores);
+                    boolean result3 = service.atualizarInstrutor(sc);
                     break;
                 case 4:
-                	System.out.println("Excluir Instrutor");
-                    InstrutorService.excluirInstrutor(sc, listaInstrutores);
+                	boolean result4 = service.excluirInstrutor(sc);
                     break;
                 case 0:
                     return;

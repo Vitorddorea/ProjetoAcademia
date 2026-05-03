@@ -37,10 +37,19 @@ public class AlunoService {
         System.out.println("E-mail:");
         String email = Util.lerTexto(sc);
 
-        System.out.println("Plano ativo:");
-        String planoAtivo = Util.lerTexto(sc);
+        System.out.println("Escolha um plano:");
+        PlanoService.listarPlanos();
 
-        Aluno aluno = new Aluno(nome, cpf, dataNascimento, telefone, email);
+        String nomePlano = Util.lerTexto(sc);
+
+        Plano planoEscolhido = PlanoService.buscarPlanoPorNome(nomePlano);
+
+        if (planoEscolhido == null) {
+            System.out.println("Plano não encontrado.");
+            return null;
+        }
+
+        Aluno aluno = new Aluno(nome, cpf, dataNascimento, telefone, email, planoEscolhido);
 
         listaAlunos.add(aluno);
 
@@ -183,7 +192,7 @@ public class AlunoService {
         System.out.println("Aluno atualizado com sucesso.");
     }
 
-    private static Aluno buscarPorCpf(String cpf) { // trabalhar usando isso
+    public static Aluno buscarPorCpf(String cpf) { // trabalhar usando isso
         for (Aluno aluno : listaAlunos) {
             if (aluno.getCpf().equals(cpf)) {
                 return aluno;

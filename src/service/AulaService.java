@@ -136,4 +136,13 @@ public class AulaService {
 
         System.out.println("Aula excluída com sucesso!");
     }
+
+    public static Aula buscarPorNome(String nome) {
+        for (Aula aula : listaAulas) {
+            if (aula.getNome().equalsIgnoreCase(nome)) {
+                return aula;
+            }
+        }
+        return null;
+    }
 }

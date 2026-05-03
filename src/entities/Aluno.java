@@ -9,12 +9,12 @@ public class Aluno extends Pessoa {
     private LocalDate dataMatricula;
     private Plano planoAtivo;
 
-    public Aluno(String nome, String cpf, String dataNascimento, String telefone, String email) {
+    public Aluno(String nome, String cpf, String dataNascimento, String telefone, String email, Plano planoAtivo) {
         super(nome, cpf, telefone);
         this.dataNascimento = dataNascimento;
         this.email = email;
         this.dataMatricula = LocalDate.now();
-        //this.planoAtivo = planoAtivo;
+        this.planoAtivo = planoAtivo;
     }
 
     public Plano getPlanoAtivo() {
@@ -53,7 +53,7 @@ public class Aluno extends Pessoa {
     public String toString() {
         return super.toString() +
                 " | Email: " + email +
-                " | Plano: " + planoAtivo.getNome() +
+                " | Plano: " + (planoAtivo != null ? planoAtivo.getNome() : "Sem plano") +
                 " | Data Nascimento: " + dataNascimento +
                 " | Data Matricula: " + dataMatricula;
     }

@@ -4,22 +4,32 @@ import java.time.LocalDateTime;
 
 public class Frequencia {
 
-    private String aluno; // mudar depois para tipo Aluno
+    private Aluno aluno;
+    private Aula aula;
     private LocalDateTime dataHora;
     private boolean presente;
 
-    public Frequencia(String aluno) {
+    public Frequencia(Aluno aluno, Aula aula) {
         this.aluno = aluno;
+        this.aula = aula;
         this.dataHora = LocalDateTime.now();
         this.presente = false;
     }
 
-    public String getAluno() {
+    public Aluno getAluno() {
         return aluno;
     }
 
-    public void setAluno(String aluno) {
+    public void setAluno(Aluno aluno) {
         this.aluno = aluno;
+    }
+
+    public Aula getAula() {
+        return aula;
+    }
+
+    public void setAula(Aula aula) {
+        this.aula = aula;
     }
 
     public LocalDateTime getDataHora() {
@@ -30,27 +40,15 @@ public class Frequencia {
         return presente;
     }
 
-    public void registrarPresenca(String presenca) {
-        if (presenca == null || presenca.trim().isEmpty()) {
-            throw new IllegalArgumentException("Entrada inválida!");
-        }
-
-        char primeiraLetra = presenca.trim().toUpperCase().charAt(0);
-
-        if (primeiraLetra == 'S') {
-            presente = true;
-        } else if (primeiraLetra == 'N') {
-            presente = false;
-        } else {
-            throw new IllegalArgumentException("Digite apenas S ou N");
-        }
+    public void registrarPresenca(boolean presente) {
+        this.presente = presente;
     }
 
     @Override
     public String toString() {
-        return "Aluno: " + aluno + '\"' +
-                "| Data e Hora: " + dataHora +
-                "| Presente: " + presente +
-                '|';
+        return "Aluno: " + aluno.getNome()
+                + " | Aula: " + aula.getNome()
+                + " | Data e Hora: " + dataHora
+                + " | Presente: " + presente;
     }
 }

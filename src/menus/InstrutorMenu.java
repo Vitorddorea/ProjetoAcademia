@@ -1,9 +1,7 @@
 package menus;
 
-
 import service.InstrutorService;
 import util.Util;
-
 
 import java.util.Locale;
 import java.util.Scanner;

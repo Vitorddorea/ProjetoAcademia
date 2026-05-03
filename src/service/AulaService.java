@@ -14,18 +14,17 @@ public class AulaService {
 
     public static Aula cadastrarAula(Scanner sc) {
 
-        System.out.print("Nome da aula: ");
+        System.out.println("Nome da aula: ");
         String nome = sc.nextLine();
 
-        System.out.print("Horário (ex: 07:30): ");
+        System.out.println("Horário (ex: 07:30): ");
         String horario = sc.nextLine();
 
-        System.out.print("Duração (em minutos): ");
-        int duracao = sc.nextInt();
+        System.out.println("Duração (em minutos): ");
+        int duracao = Util.lerInteiro(sc);
 
-        System.out.print("Capacidade maxima de alunos: ");
-        int capacidade = sc.nextInt();
-        sc.nextLine();
+        System.out.println("Capacidade máxima de alunos: ");
+        int capacidade = Util.lerInteiro(sc);
 
         ArrayList<Instrutor> lista = InstrutorService.getLista();
 
@@ -49,11 +48,17 @@ public class AulaService {
 
         Instrutor instrutor = lista.get(opcao - 1);
 
-        Aula novaAula = new Aula(nome, horario, duracao, capacidade, instrutor);
+        Aula aula = new Aula(nome, horario, duracao, capacidade, instrutor);
 
-        System.out.println("Aula cadastrada com sucesso!");
+        listaAulas.add(aula);
 
-        return novaAula;
+        System.out.println("---------------------------------");
+        System.out.println(aula);
+        System.out.println("--------------------------------");
+        System.out.println("Aula cadastrado com sucesso!");
+        System.out.println("--------------------------------");
+
+        return aula;
     }
 
     public static void listarAulas() {

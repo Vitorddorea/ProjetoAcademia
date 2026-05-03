@@ -2,23 +2,12 @@ package menus;
 
 import entities.Aula;
 import service.AulaService;
-import entities.Instrutor;
-import service.InstrutorService;
-import menus.InstrutorMenu;
 
 import util.Util;
-import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class AulaMenu implements Menu{
 
-    public AulaMenu() {
-
-        //Aula aula1 = new Aula("corrida", "correr em quadrados", 5, "anoite", 123, "marcos");
-
-        //listaAulas.add(aula1);
-    }
     @Override
     public void exibir(Scanner sc) {
 
@@ -31,6 +20,7 @@ public class AulaMenu implements Menu{
             System.out.println("0- Voltar");
             System.out.println("=================================");
 
+            System.out.println("Escolha uma opção:");
             int opcao = Util.lerInteiro(sc);
 
             switch (opcao) {

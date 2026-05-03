@@ -1,10 +1,8 @@
 package menus;
 
-import entities.Aluno;
 import service.AlunoService;
 import util.Util;
 
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 

@@ -28,7 +28,7 @@ public class AlunoService {
         System.out.println("CPF:");
         String cpf = Util.lerTexto(sc);
 
-        System.out.println("Data de Nascimento:");
+        System.out.println("Data de Nascimento (xx/xx/xxxx):");
         String dataNascimento = Util.lerTexto(sc);
 
         System.out.println("Telefone:");
@@ -53,13 +53,11 @@ public class AlunoService {
 
         listaAlunos.add(aluno);
 
-        System.out.println("-------------------------------------------");
-        System.out.println("    Aluno(a) cadastrado com sucesso!   ");
-        System.out.println(" ");
-        System.out.println("     DADOS DO ALUNO(A) CADASTRADO:     ");
-        System.out.println("-------------------------------------------");
+        System.out.println("---------------------------------");
         System.out.println(aluno);
-        System.out.println("-------------------------------------------");
+        System.out.println("--------------------------------");
+        System.out.println("Aluno(a) cadastrado com sucesso!");
+        System.out.println("--------------------------------");
 
         return aluno;
     }
@@ -182,7 +180,7 @@ public class AlunoService {
                 alunoEncontrado.setEmail(Util.lerTexto(sc));
 
                 System.out.print("Novo plano ativo: ");
-               // alunoEncontrado.setPlanoAtivo(Util.lerTexto(sc));
+                //alunoEncontrado.setPlanoAtivo(Util.lerTexto(sc));
                 break;
 
             default:

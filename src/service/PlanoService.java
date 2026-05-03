@@ -47,16 +47,21 @@ public class PlanoService {
 
             System.out.println("Duração deve ser entre 1 e 12 meses");
         }
-        sc.nextLine();
 
         System.out.println("Benefícios: ");
         String beneficios = Util.lerTexto(sc);
 
         Plano plano = new Plano(nome, descricao, valorMensal, duracaoMeses, beneficios);
 
-        System.out.println("Plano cadastrado com sucesso!");
-
 		listaPlanos.add(plano);
+
+		System.out.println("-----------------------------");
+		System.out.println(plano);
+		System.out.println("-----------------------------");
+        System.out.println("Plano cadastrado com sucesso!");
+		System.out.println("-----------------------------");
+
+
         return plano;
 	}
 

@@ -1,17 +1,26 @@
 package service;
 
 import entities.Aluno;
+import entities.Plano;
 import util.Util;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class AlunoService {
+    private static final ArrayList<Aluno> listaAlunos = new ArrayList<> ();
+
+    //public AlunoMenu(){
+
+        // foi feita a criação apenas para testar as funções aluno Menu!
+       // Aluno aluno1 = new Aluno("Joana","345543334554", "01032020","11911324567","joana@gmail.com", "sim" );
+       // Aluno aluno2 = new Aluno("Maria","34455334554", "27042012","1191455665467","mariass@gmail.com", "sim" );
+
+        //listaAlunos.add(aluno1);
+      //  listaAlunos.add(aluno2);
+    //}
 
     public static Aluno cadastrarAluno(Scanner sc) {
-
-        Locale.setDefault(Locale.US);
 
         System.out.println("Nome do Aluno:");
         String nome = Util.lerTexto(sc);
@@ -31,39 +40,50 @@ public class AlunoService {
         System.out.println("Plano ativo:");
         String planoAtivo = Util.lerTexto(sc);
 
-        Aluno aluno = new Aluno(nome, cpf, dataNascimento, telefone, email, planoAtivo);
+        Aluno aluno = new Aluno(nome, cpf, dataNascimento, telefone, email);
+
+        listaAlunos.add(aluno);
 
         System.out.println("-------------------------------------------");
         System.out.println("    Aluno(a) cadastrado com sucesso!   ");
         System.out.println(" ");
         System.out.println("     DADOS DO ALUNO(A) CADASTRADO:     ");
         System.out.println("-------------------------------------------");
-        aluno.mostrarAluno();
-        System.out.println(" ");
+        System.out.println(aluno);
+        System.out.println("-------------------------------------------");
+
         return aluno;
     }
 
-    public static void listarAlunos(ArrayList<Aluno> listaAlunos) {
+    public static void listarAlunos() {
 
         if (listaAlunos.isEmpty()) {
             System.out.println("Nenhum aluno cadastrado.");
             return;
         }
-        System.out.println(" ");
-        System.out.println("\n     LISTA DE ALUNOS:   ");
-        
-        System.out.println(" ");
-        
+
+        System.out.println("\n==== LISTA DE ALUNOS =====");
+
         for (Aluno aluno : listaAlunos) {
-            aluno.mostrarAluno();
+            System.out.println(aluno);
             System.out.println("-------------------------");
         }
     }
 
-    public static void excluirAluno(ArrayList<Aluno> listaAlunos, String cpf) {
+    public static void excluirAluno(Scanner sc) {
+
+        if (listaAlunos.isEmpty()) {
+            System.out.println("Nenhum aluno cadastrado.");
+            return;
+        }
+
+        listarAlunos();
+
+        System.out.print("Digite o ID cpf do aluno: ");
+        String cpf = Util.lerTexto(sc);
 
         for (int i = 0; i < listaAlunos.size(); i++) {
-            if (listaAlunos.get(i).getCpf().equals(cpf)) {
+            if (listaAlunos.get(i).getCpf().equalsIgnoreCase(cpf)) {
                 listaAlunos.remove(i);
                 System.out.println("Aluno removido com sucesso.");
                 return;
@@ -73,7 +93,7 @@ public class AlunoService {
         System.out.println("Aluno não encontrado.");
     }
 
-    public static void atualizarAluno(Scanner sc, ArrayList<Aluno> listaAlunos) {
+    public static void atualizarAluno(Scanner sc) {
 
         if (listaAlunos.isEmpty()) {
             System.out.println("Nenhum aluno cadastrado.");
@@ -104,7 +124,6 @@ public class AlunoService {
         System.out.println("7- Atualizar tudo");
 
         int opcao = Util.lerInteiro(sc);
-        sc.nextLine();
 
         switch (opcao) {
             case 1:
@@ -134,7 +153,7 @@ public class AlunoService {
 
             case 6:
                 System.out.print("Novo plano ativo: ");
-                alunoEncontrado.setPlanoAtivo(Util.lerTexto(sc));
+               // alunoEncontrado.setPlanoAtivo(Util.lerTexto(sc));
                 break;
 
             case 7:
@@ -154,7 +173,7 @@ public class AlunoService {
                 alunoEncontrado.setEmail(Util.lerTexto(sc));
 
                 System.out.print("Novo plano ativo: ");
-                alunoEncontrado.setPlanoAtivo(Util.lerTexto(sc));
+               // alunoEncontrado.setPlanoAtivo(Util.lerTexto(sc));
                 break;
 
             default:
@@ -162,5 +181,14 @@ public class AlunoService {
                 return;
         }
         System.out.println("Aluno atualizado com sucesso.");
+    }
+
+    private static Aluno buscarPorCpf(String cpf) { // trabalhar usando isso
+        for (Aluno aluno : listaAlunos) {
+            if (aluno.getCpf().equals(cpf)) {
+                return aluno;
+            }
+        }
+        return null;
     }
 }

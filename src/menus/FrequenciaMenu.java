@@ -10,14 +10,6 @@ import java.util.Scanner;
 
 public class FrequenciaMenu implements Menu {
 
-   public ArrayList<Frequencia> listaFrequencias = new ArrayList<>();
-
-   public FrequenciaMenu() {
-
-       Frequencia frequencia1 = new Frequencia("Denise");
-
-   }
-
     @Override
     public void exibir(Scanner sc) {
 
@@ -34,11 +26,12 @@ public class FrequenciaMenu implements Menu {
 
             switch (opcao) {
                 case 1:
-                    Frequencia presenca = FrequenciaService.registrarFrequencia(sc);
-                    listaFrequencias.add(presenca);
+                    System.out.println(" ==== Registrar frequência ==== ");
+                    FrequenciaService.registrarFrequencia(sc);
                     break;
                 case 2:
-                    FrequenciaService.mostrarFrequencias(listaFrequencias);
+                    System.out.println(" ==== Lista de frequência");
+                    FrequenciaService.mostrarFrequencias();
                     break;
                 case 0:
                     return;

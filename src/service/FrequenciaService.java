@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 public class FrequenciaService {
 
+     public static ArrayList<Frequencia> listaFrequencias = new ArrayList<>();
+
      public static Frequencia registrarFrequencia(Scanner sc) {
 
         System.out.print("Aluno: ");
@@ -34,7 +36,7 @@ public class FrequenciaService {
         return frequencia;
     }
 
-    public static void mostrarFrequencias(ArrayList<Frequencia> listaFrequencias) {
+    public static void mostrarFrequencias() {
 
         if (listaFrequencias.isEmpty()) {
             System.out.println("Nenhuma frequência registrada.");

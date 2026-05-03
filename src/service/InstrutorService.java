@@ -38,6 +38,8 @@ public class InstrutorService {
                 .orElse(null);
     }
     public boolean listarInstrutores() {
+
+
         try {
             if (listaInstrutores.isEmpty()) {
                 System.out.println("A lista de Instrutores está vazia!");
@@ -63,6 +65,7 @@ public class InstrutorService {
         }
     }
         public boolean cadastrarInstrutor(Scanner sc) {
+
         try {
             Locale.setDefault(Locale.US);
 

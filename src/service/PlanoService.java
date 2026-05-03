@@ -9,6 +9,19 @@ import java.util.Scanner;
 
 public class PlanoService {
 
+	public static ArrayList<Plano> listaPlanos = new ArrayList<>();
+
+	public PlanoService()
+	{
+		Locale.setDefault(Locale.US);
+
+		Plano plano1 = new Plano("plano A","correr em circulos", 1000.0f,2,"nao tem");
+		Plano plano2 = new Plano("plano b","pular plantando bananeira", 2.4f,1,"fortalece os braços" );
+
+		listaPlanos.add(plano1);
+		listaPlanos.add(plano2);
+	}
+
     public static Plano cadastrarPlano(Scanner sc) {
 
         Locale.setDefault(Locale.US);
@@ -45,7 +58,7 @@ public class PlanoService {
 
         return plano;
         }
-    	public static void listarPlanos(Scanner sc, ArrayList<Plano> listaPlanos){
+    	public static void listarPlanos(){
     		if (listaPlanos.isEmpty()){
     			System.out.println("A academia não possui nenhum plano!");
     			return;
@@ -55,7 +68,7 @@ public class PlanoService {
     			}
     		}
     }
-    	public static void atualizarPlano(Scanner sc, ArrayList<Plano> listaPlanos) {
+    	public static void atualizarPlano(Scanner sc) {
     	   if (listaPlanos.isEmpty()) {
     	        System.out.println("Nenhum plano cadastrado.");
     	        return;
@@ -124,7 +137,7 @@ public class PlanoService {
     	    }
     	    System.out.println("Plano atualizado com sucesso!");
     	}
-    	public static void excluirPlano(Scanner sc, ArrayList<Plano> listaPlanos) {
+    	public static void excluirPlano(Scanner sc) {
     	    System.out.println("Digite o nome do plano que deseja excluir:");
     	    String nome = sc.nextLine();
 

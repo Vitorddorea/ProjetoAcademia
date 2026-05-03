@@ -18,7 +18,7 @@ public class Aula {
         this.horario = horario;
         setDuracao(duracao);
         this.instrutor = instrutor;
-    }
+      }
 
     public Aula(String nome, String horario, int duracao, int capacidadeMaxima, Instrutor instrutor) {
         this.nome = nome;
@@ -83,5 +83,15 @@ public class Aula {
 
     public void setInstrutor(Instrutor instrutor) {
         this.instrutor = instrutor;
+    }
+
+    @Override
+    public String toString() {
+        return "Nome: " + nome +
+                " | Descrição: " + descricao +
+                " | Capacidade Máxima: " + capacidadeMaxima +
+                " | Horário: " + horario +
+                " | Duração: " + duracao +
+                " | Instrutor: " + instrutor ;
     }
 }

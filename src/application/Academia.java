@@ -24,18 +24,21 @@ public class Academia {
         Menu instrutorMenu = new InstrutorMenu(instrutorService);
         Menu planoMenu = new PlanoMenu();
         Menu aulaMenu = new AulaMenu();
-       // Menu frequenciaMenu = new FrequenciaMenu();
+        Menu frequenciaMenu = new FrequenciaMenu();
 
         boolean executando = true;
         while (executando) {
 
-            System.out.println("\n==== SISTEMA ACADEMIA ====");
+            System.out.println("\n======= SISTEMA ACADEMIA ========");
             System.out.println("1- Alunos");
             System.out.println("2- Instrutores");
             System.out.println("3- Planos");
             System.out.println("4- Aulas");
             System.out.println("5- Registro de frequência");
             System.out.println("0- Encerrar programa");
+            System.out.println("=================================");
+
+            System.out.println("Escolha uma opção:");
 
             int opcao = Util.lerInteiro(sc);
 
@@ -55,8 +58,7 @@ public class Academia {
                     menu = aulaMenu;
                     break;
                 case 5:
-                    System.out.println("Funcionalidade de registro de frequência ainda não implementada.");
-                    //menu = frequenciaMenu;
+                    menu = frequenciaMenu;
                     break;
                 case 0:
                     System.out.println("Encerrando programa...");

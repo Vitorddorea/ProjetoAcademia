@@ -62,12 +62,10 @@ public class Plano {
     }
     @Override
     public String toString() {
-        return "\n--- PLANO ---" +
-                "\nNome: " + nome +
-                "\nDescrição: " + descricao +
-                "\nValor: R$" + valorMensal +
-                "\nDuração: " + duracaoMeses + " meses" +
-                "\nBenefícios: " + beneficios +
-                "\n-------------------";
+        return "Nome: " + nome +
+                " | Descrição: " + descricao +
+                " | Valor: R$" + valorMensal +
+                " | Duração: " + duracaoMeses + " meses" +
+                " | Benefícios: " + beneficios;
     }
 }

@@ -9,18 +9,6 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class PlanoMenu implements Menu{
-  public ArrayList<Plano> listaPlanos = new ArrayList<>();
-
-    public PlanoMenu()
-    {
-    	Locale.setDefault(Locale.US);
-    	
-        Plano plano1 = new Plano("plano A","correr em circulos", 1000.0f,2,"nao tem");
-        Plano plano2 = new Plano("plano b","pular plantando bananeira", 2.4f,1,"fortalece os braços" );
-
-        listaPlanos.add(plano1);
-        listaPlanos.add(plano2);
-    }
     
     @Override
     public void exibir(Scanner sc) {
@@ -42,20 +30,19 @@ public class PlanoMenu implements Menu{
             switch (opcao) {
                 case 1:
                 	System.out.println("==== Cadastrar Plano ====");
-                    Plano plano = PlanoService.cadastrarPlano(sc);
-                    listaPlanos.add(plano);
+                    PlanoService.cadastrarPlano(sc);
                     break;
                 case 2:
                 	System.out.println("==== Listar Planos ====");
-                    PlanoService.listarPlanos(sc,listaPlanos);
+                    PlanoService.listarPlanos();
                     break;
                 case 3:
                     System.out.println("==== Atualizar plano ====");
-				PlanoService.atualizarPlano(sc, listaPlanos);
+				PlanoService.atualizarPlano(sc);
                     break;
                 case 4:
                     System.out.println("==== Excluir plano ====");
-                    PlanoService.excluirPlano(sc, listaPlanos);
+                    PlanoService.excluirPlano(sc);
                     break;
                 case 0:
                     return;

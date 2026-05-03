@@ -2,12 +2,12 @@ package entities;
 
 public class Pessoa {
 
-    String nome;
-    String cpf;
-    String telefone;
+    private String nome;
+    private String cpf;
+    private String telefone;
 
     public Pessoa(String nome, String cpf, String telefone) {
-        setNome(nome);
+        this.nome = nome;
         this.cpf = cpf;
         this.telefone = telefone;
     }
@@ -17,10 +17,9 @@ public class Pessoa {
     }
 
     public void setNome(String nome) {
-        if (nome == null || nome.trim().isEmpty()){
-            throw new IllegalArgumentException("Nome inválido!");
+        if (nome != null && !nome.trim().isEmpty()) {
+            this.nome = nome;
         }
-        this.nome = nome;
     }
 
     public String getCpf() {
@@ -28,7 +27,9 @@ public class Pessoa {
     }
 
     public void setCpf(String cpf) {
-        this.cpf = cpf;
+        if (cpf != null && !cpf.trim().isEmpty()) {
+            this.cpf = cpf;
+        }
     }
 
     public String getTelefone() {
@@ -36,6 +37,15 @@ public class Pessoa {
     }
 
     public void setTelefone(String telefone) {
-        this.telefone = telefone;
+        if (telefone != null && !telefone.trim().isEmpty()) {
+            this.telefone = telefone;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Nome: " + nome +
+                " | CPF: " + cpf +
+                " | Telefone: " + telefone;
     }
 }

@@ -9,13 +9,18 @@ public class Util {
 
         while (true){
             try {
-                int opcao = sc.nextInt();
+                int valor = sc.nextInt();
                 sc.nextLine();
 
-                return opcao;
+                if (valor < 0) {
+                    System.out.println("Digite um valor maior ou igual a 0");
+                    continue;
+                }
+
+                return valor;
 
             } catch (Exception e) {
-                System.out.println("Digite um número inteiro!");
+                System.out.println("Digite um número válido!");
                 sc.nextLine();
             }
         }
@@ -26,13 +31,18 @@ public class Util {
 
         while (true){
             try {
-                double real = sc.nextDouble();
+                double valor = sc.nextDouble();
                 sc.nextLine();
 
-                return real;
+                if (valor < 0) {
+                    System.out.println("Digite um valor maior ou igual a 0");
+                    continue;
+                }
+
+                return valor;
 
             } catch (Exception e) {
-                System.out.println("Digite um número real!");
+                System.out.println("Digite um número válido!");
                 sc.nextLine();
             }
         }

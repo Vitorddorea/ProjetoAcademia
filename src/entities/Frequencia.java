@@ -48,9 +48,9 @@ public class Frequencia {
 
     @Override
     public String toString() {
-        return "Aluno = '" + aluno + '\'' +
-                "| Data e Hora = " + dataHora +
-                "| Presente = " + presente +
+        return "Aluno: " + aluno + '\"' +
+                "| Data e Hora: " + dataHora +
+                "| Presente: " + presente +
                 '|';
     }
 }

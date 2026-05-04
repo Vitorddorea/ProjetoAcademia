@@ -66,13 +66,14 @@ public class PlanoService {
 	}
 
 	public static void listarPlanos(){
-		if (listaPlanos.isEmpty()){
+		if (listaPlanos.isEmpty()) {
 			System.out.println("A academia não possui nenhum plano!");
 			return;
-		}else {
-			for(Plano p: listaPlanos) {
-				System.out.println(p);
-			}
+		}
+
+		for(Plano p: listaPlanos) {
+			System.out.println(p);
+			System.out.println("-------------------------");
 		}
 	}
 

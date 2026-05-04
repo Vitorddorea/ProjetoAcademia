@@ -16,15 +16,13 @@ public class Academia {
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
 
-        //instanciando o InstrutorService
-
-        InstrutorService instrutorService = new InstrutorService();  
-
         Menu alunoMenu = new AlunoMenu();
-        Menu instrutorMenu = new InstrutorMenu(instrutorService);
+        Menu instrutorMenu = new InstrutorMenu();
         Menu planoMenu = new PlanoMenu();
         Menu aulaMenu = new AulaMenu();
+        Menu inscricaoMenu = new InscricaoMenu();
         Menu frequenciaMenu = new FrequenciaMenu();
+        Menu relatorioMenu = new RelatorioMenu();
 
         boolean executando = true;
         while (executando) {
@@ -34,7 +32,9 @@ public class Academia {
             System.out.println("2- Instrutores");
             System.out.println("3- Planos");
             System.out.println("4- Aulas");
-            System.out.println("5- Registro de frequência");
+            System.out.println("5- Inscrições");
+            System.out.println("6- Frequências");
+            System.out.println("7- Relatórios");
             System.out.println("0- Encerrar programa");
             System.out.println("=================================");
 
@@ -58,7 +58,13 @@ public class Academia {
                     menu = aulaMenu;
                     break;
                 case 5:
+                    menu = inscricaoMenu;
+                    break;
+                case 6:
                     menu = frequenciaMenu;
+                    break;
+                case 7:
+                    menu = relatorioMenu;
                     break;
                 case 0:
                     System.out.println("Encerrando programa...");

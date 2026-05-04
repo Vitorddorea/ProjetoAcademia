@@ -8,17 +8,8 @@ import java.util.Scanner;
 
 public class InstrutorMenu implements Menu {
 
-    //criando uma depencia do service.
-    private InstrutorService service;
-
-    //injeções de dependencias
-    public InstrutorMenu(InstrutorService service) {
-        this.service = service;
-    }
-
     @Override
     public void exibir(Scanner sc) {
-        Locale.setDefault(Locale.US);
 
         while (true){
             System.out.println("\n====== GERENCIAR INSTRUTOR ======");
@@ -35,19 +26,19 @@ public class InstrutorMenu implements Menu {
             switch (opcao) {
                 case 1:
                     System.out.println(" ==== Cadastrar Instrutor ====");
-                    boolean result = service.cadastrarInstrutor(sc);
+                    InstrutorService.cadastrarInstrutor(sc);
                     break;
                 case 2:
                     System.out.println(" ==== Lista de Instrutores ====");
-                    boolean result2= service.listarInstrutores();
+                    InstrutorService.listarInstrutores();
                     break;
                 case 3:
-                    System.out.println(" ==== Atualizar aluno ====");
-                    boolean result3 = service.atualizarInstrutor(sc);
+                    System.out.println(" ==== Atualizar instrutor ====");
+                    InstrutorService.atualizarInstrutor(sc);
                     break;
                 case 4:
-                    System.out.println(" ==== Excluir aluno ====");
-                	boolean result4 = service.excluirInstrutor(sc);
+                    System.out.println(" ==== Excluir instrutor ====");
+                	InstrutorService.excluirInstrutor(sc);
                     break;
                 case 0:
                     return;

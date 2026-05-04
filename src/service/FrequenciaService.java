@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class FrequenciaService {
 
-    public static ArrayList<Frequencia> listaFrequencias = new ArrayList<>();
+    private static ArrayList<Frequencia> listaFrequencias = new ArrayList<>();
 
     public static Frequencia registrarFrequencia(Scanner sc) {
 
@@ -34,6 +34,28 @@ public class FrequenciaService {
             return null;
         }
 
+        boolean inscrito = InscricaoService.getListaInscricoes().stream()
+                .anyMatch(i ->
+                        i.getAluno().getCpf().equals(cpf)
+                                && i.getAula().getNome().equalsIgnoreCase(nomeAula)
+                );
+
+        if (!inscrito) {
+            System.out.println("Aluno não está inscrito nessa aula.");
+            return null;
+        }
+
+        boolean frequenciaExiste = listaFrequencias.stream()
+                .anyMatch(f ->
+                        f.getAluno().getCpf().equals(cpf)
+                                && f.getAula().getNome().equalsIgnoreCase(nomeAula)
+                );
+
+        if (frequenciaExiste) {
+            System.out.println("Frequência já registrada para este aluno nesta aula.");
+            return null;
+        }
+
         Frequencia frequencia = new Frequencia(aluno, aula);
 
         while (true) {
@@ -48,7 +70,7 @@ public class FrequenciaService {
                 } else if (entrada.equalsIgnoreCase("N")) {
                     presente = false;
                 } else {
-                    throw new IllegalArgumentException("Digite apenas S ou N");
+                    throw new IllegalArgumentException("Digite apenas S ou N.");
                 }
 
                 frequencia.registrarPresenca(presente);
@@ -72,10 +94,15 @@ public class FrequenciaService {
             return;
         }
 
-        System.out.println("LISTA DE PRESENÇAS");
+        System.out.println("===== LISTA DE PRESENÇAS =====");
 
         for (Frequencia frequencia : listaFrequencias) {
             System.out.println(frequencia);
+            System.out.println("-------------------------");
         }
+    }
+
+    public static ArrayList<Frequencia> getListaFrequencias() {
+        return listaFrequencias;
     }
 }

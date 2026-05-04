@@ -17,6 +17,9 @@ public class Instrutor extends Pessoa {
     }
 
     public void setEspecialidade(String especialidade) {
+        if (especialidade == null || especialidade.trim().isEmpty()) {
+            throw new IllegalArgumentException("Especialidade inválida!");
+        }
         this.especialidade = especialidade;
     }
 

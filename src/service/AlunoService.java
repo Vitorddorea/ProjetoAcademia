@@ -10,16 +10,6 @@ import java.util.Scanner;
 public class AlunoService {
     private static final ArrayList<Aluno> listaAlunos = new ArrayList<> ();
 
-    //public AlunoMenu(){
-
-        // foi feita a criação apenas para testar as funções aluno Menu!
-       // Aluno aluno1 = new Aluno("Joana","345543334554", "01032020","11911324567","joana@gmail.com", "sim" );
-       // Aluno aluno2 = new Aluno("Maria","34455334554", "27042012","1191455665467","mariass@gmail.com", "sim" );
-
-        //listaAlunos.add(aluno1);
-      //  listaAlunos.add(aluno2);
-    //}
-
     public static Aluno cadastrarAluno(Scanner sc) {
 
         System.out.println("Nome do Aluno:");
@@ -53,7 +43,7 @@ public class AlunoService {
 
         listaAlunos.add(aluno);
 
-        System.out.println("---------------------------------");
+        System.out.println("--------------------------------");
         System.out.println(aluno);
         System.out.println("--------------------------------");
         System.out.println("Aluno(a) cadastrado com sucesso!");
@@ -160,7 +150,7 @@ public class AlunoService {
 
             case 6:
                 System.out.print("Novo plano ativo: ");
-               // alunoEncontrado.setPlanoAtivo(Util.lerTexto(sc));
+                //alunoEncontrado.setPlanoAtivo(Util.lerTexto(sc));
                 break;
 
             case 7:

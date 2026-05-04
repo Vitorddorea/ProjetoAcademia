@@ -3,28 +3,33 @@ package service;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-
 import entities.Aula;
 import entities.Instrutor;
-
 import util.Util;
 
 public class AulaService {
-    private static  ArrayList<Aula> listaAulas = new ArrayList<>();
+
+    private static ArrayList<Aula> listaAulas = new ArrayList<>();
+
+    public static ArrayList<Aula> getLista() {
+        return listaAulas;
+    }
 
     public static Aula cadastrarAula(Scanner sc) {
 
-        System.out.println("Nome da aula: ");
+        System.out.println("Nome da aula:");
         String nome = sc.nextLine();
 
-        System.out.println("Horário (ex: 07:30): ");
+        System.out.println("Horário (ex: 07:30):");
         String horario = sc.nextLine();
 
-        System.out.println("Duração (em minutos): ");
+        System.out.println("Duração (em minutos):");
         int duracao = Util.lerInteiro(sc);
+        sc.nextLine();
 
-        System.out.println("Capacidade máxima de alunos: ");
+        System.out.println("Capacidade máxima de alunos:");
         int capacidade = Util.lerInteiro(sc);
+        sc.nextLine();
 
         ArrayList<Instrutor> lista = InstrutorService.getLista();
 
@@ -38,7 +43,7 @@ public class AulaService {
             System.out.println((i + 1) + " - " + lista.get(i).getNome());
         }
 
-        int opcao = sc.nextInt();
+        int opcao = Util.lerInteiro(sc);
         sc.nextLine();
 
         if (opcao < 1 || opcao > lista.size()) {
@@ -49,14 +54,13 @@ public class AulaService {
         Instrutor instrutor = lista.get(opcao - 1);
 
         Aula aula = new Aula(nome, horario, duracao, capacidade, instrutor);
-
         listaAulas.add(aula);
 
         System.out.println("---------------------------------");
         System.out.println(aula);
-        System.out.println("--------------------------------");
-        System.out.println("Aula cadastrado com sucesso!");
-        System.out.println("--------------------------------");
+        System.out.println("---------------------------------");
+        System.out.println("Aula cadastrada com sucesso!");
+        System.out.println("---------------------------------");
 
         return aula;
     }
@@ -84,11 +88,12 @@ public class AulaService {
         }
 
         System.out.println("\nEscolha a aula para atualizar:");
+
         for (int i = 0; i < listaAulas.size(); i++) {
             System.out.println((i + 1) + " - " + listaAulas.get(i).getNome());
         }
 
-        int opcao = sc.nextInt();
+        int opcao = Util.lerInteiro(sc);
         sc.nextLine();
 
         if (opcao < 1 || opcao > listaAulas.size()) {
@@ -98,20 +103,26 @@ public class AulaService {
 
         Aula aula = listaAulas.get(opcao - 1);
 
-        System.out.print("Novo nome: ");
-        aula.setNome(sc.nextLine());
+        try {
+            System.out.print("Novo nome: ");
+            aula.setNome(sc.nextLine());
 
-        System.out.print("Novo horario: ");
-        aula.setHorario(sc.nextLine());
+            System.out.print("Novo horário: ");
+            aula.setHorario(sc.nextLine());
 
-        System.out.print("Nova duracao: ");
-        aula.setDuracao(sc.nextInt());
+            System.out.print("Nova duração: ");
+            aula.setDuracao(Util.lerInteiro(sc));
+            sc.nextLine();
 
-        System.out.print("Nova capacidade: ");
-        aula.setCapacidadeMaxima(sc.nextInt());
-        sc.nextLine();
+            System.out.print("Nova capacidade: ");
+            aula.setCapacidadeMaxima(Util.lerInteiro(sc));
+            sc.nextLine();
 
-        System.out.println("Aula atualizada com sucesso!");
+            System.out.println("Aula atualizada com sucesso!");
+
+        } catch (Exception e) {
+            System.out.println("Erro ao atualizar aula: " + e.getMessage());
+        }
     }
 
     public static void excluirAula(Scanner sc) {
@@ -124,13 +135,13 @@ public class AulaService {
         listarAulas();
 
         System.out.println("\nEscolha a aula para excluir:");
-        
 
         for (int i = 0; i < listaAulas.size(); i++) {
             System.out.println((i + 1) + " - " + listaAulas.get(i).getNome());
         }
 
         int opcao = Util.lerInteiro(sc);
+        sc.nextLine();
 
         if (opcao < 1 || opcao > listaAulas.size()) {
             System.out.println("Opção inválida!");

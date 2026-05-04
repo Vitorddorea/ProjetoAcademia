@@ -14,7 +14,7 @@ public class FrequenciaMenu implements Menu {
         Locale.setDefault(Locale.US);
 
         while (true) {
-            System.out.println("\n====== REGISTRAR PRESENÇA =======");
+            System.out.println("\n====== REGISTRAR FREQUÊNCIA =====");
             System.out.println("1- Registrar presença");
             System.out.println("2- Listar presentes");
             System.out.println("0- Voltar ao menu principal");

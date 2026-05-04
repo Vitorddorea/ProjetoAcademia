@@ -9,11 +9,11 @@ public class Plano {
     private String beneficios;
 
     public Plano(String nome, String descricao, double valorMensal, int duracaoMeses, String beneficios) {
-        this.nome = nome;
-        this.descricao = descricao;
-        this.valorMensal = valorMensal;
+        setNome(nome);
+        setDescricao(descricao);
+        setValorMensal(valorMensal);
         setDuracaoMeses(duracaoMeses);
-        this.beneficios = beneficios;
+        setBeneficios(beneficios);
     }
 
     public String getNome() {
@@ -21,6 +21,9 @@ public class Plano {
     }
 
     public void setNome(String nome) {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome inválido!");
+        }
         this.nome = nome;
     }
 
@@ -29,6 +32,9 @@ public class Plano {
     }
 
     public void setDescricao(String descricao) {
+        if (descricao == null || descricao.trim().isEmpty()) {
+            throw new IllegalArgumentException("Descrição inválida!");
+        }
         this.descricao = descricao;
     }
 
@@ -37,6 +43,9 @@ public class Plano {
     }
 
     public void setValorMensal(double valorMensal) {
+        if (valorMensal < 0) {
+            throw new IllegalArgumentException("Valor inválido!");
+        }
         this.valorMensal = valorMensal;
     }
 

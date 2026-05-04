@@ -4,27 +4,31 @@ public class Aula {
 
     private String nome;
     private String descricao;
+    private int alunosInscritos;
     private int capacidadeMaxima;
     private String horario;  // conferir
     private int duracao;  // se for em minutos
 
-    private Instrutor instrutor; // mudar para o tipo instrutor
+    private Instrutor instrutor;
 
-      public Aula(String nome, String descricao, int capacidadeMaxima, String horario, int duracao, Instrutor instrutor) {
+    public Aula(String nome, String descricao, int capacidadeMaxima, String horario, int duracao, Instrutor instrutor) {
 
-        this.nome = nome;
-        this.descricao = descricao;
+        setNome(nome);
+        setDescricao(descricao);
+        alunosInscritos = 0;
         setCapacidadeMaxima(capacidadeMaxima);
         this.horario = horario;
         setDuracao(duracao);
         this.instrutor = instrutor;
-      }
+
+    }
 
     public Aula(String nome, String horario, int duracao, int capacidadeMaxima, Instrutor instrutor) {
-        this.nome = nome;
+        setNome(nome);
         this.horario = horario;
-        this.duracao = duracao;
-        this.capacidadeMaxima = capacidadeMaxima;
+        setDuracao(duracao);
+        setCapacidadeMaxima(capacidadeMaxima);
+        this.alunosInscritos = 0;
         this.instrutor = instrutor;
     }
 
@@ -33,6 +37,9 @@ public class Aula {
     }
 
     public void setNome(String nome) {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome inválido!");
+        }
         this.nome = nome;
     }
 
@@ -41,7 +48,14 @@ public class Aula {
     }
 
     public void setDescricao(String descricao) {
+        if (descricao == null || descricao.trim().isEmpty()) {
+            throw new IllegalArgumentException("Descrição inválida!");
+        }
         this.descricao = descricao;
+    }
+
+    public int getAlunosInscritos() {
+        return alunosInscritos;
     }
 
     public int getCapacidadeMaxima() {
@@ -49,11 +63,10 @@ public class Aula {
     }
 
     public void setCapacidadeMaxima(int capacidadeMaxima) {
-        if (capacidadeMaxima < 0 ) {
-            throw new IllegalArgumentException("Valor inválido!");
-        }
-        if (capacidadeMaxima < 1  || capacidadeMaxima > 30) {
-            throw new IllegalArgumentException("Capacidade inválida!");
+        if (capacidadeMaxima < 1 || capacidadeMaxima > 30) {
+            throw new IllegalArgumentException(
+                    "Capacidade deve estar entre 1 e 30."
+            );
         }
         this.capacidadeMaxima = capacidadeMaxima;
     }
@@ -85,13 +98,28 @@ public class Aula {
         this.instrutor = instrutor;
     }
 
+    public void adicionarAluno() {
+        if (alunosInscritos >= capacidadeMaxima) {
+            throw new IllegalStateException("Capacidade máxima atingida.");
+        }
+        alunosInscritos++;
+    }
+
+    public void removerAluno() {
+        if (alunosInscritos <= 0) {
+            throw new IllegalStateException("Nenhum aluno inscrito.");
+        }
+        alunosInscritos--;
+    }
+
+
     @Override
     public String toString() {
         return "Nome: " + nome +
-                " | Descrição: " + descricao +
-                " | Capacidade Máxima: " + capacidadeMaxima +
+                " | Descrição: " + (descricao != null ? descricao : "Sem descrição") +
+                " | Alunos: " + alunosInscritos + "/" + capacidadeMaxima +
                 " | Horário: " + horario +
                 " | Duração: " + duracao +
-                " | Instrutor: " + instrutor ;
+                " min | Instrutor: " + instrutor;
     }
 }

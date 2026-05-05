@@ -3,8 +3,6 @@ package application;
 import menus.*;
 import util.Util;
 
-import service.InstrutorService;
-
 import java.util.Locale;
 import java.util.Scanner;
 

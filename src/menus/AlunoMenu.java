@@ -1,12 +1,21 @@
 package menus;
 
-import service.AlunoService;
+ import service.AlunoService;
 import util.Util;
 
 import java.util.Locale;
 import java.util.Scanner;
 
+import entities.Usuario;
+
 public class AlunoMenu implements Menu{
+    
+    private Usuario usuario;
+
+    //construtor para receber o usuário logado
+    public AlunoMenu(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
     @Override
     public void exibir(Scanner sc){
@@ -27,20 +36,32 @@ public class AlunoMenu implements Menu{
 
             switch (opcao) {
                 case 1:
-                    System.out.println(" ==== Cadastrar Aluno ====");
-                    AlunoService.cadastrarAluno(sc);
+                    if (usuario.getTipo().equalsIgnoreCase("GERENTE")|| usuario.getTipo().equalsIgnoreCase("RECEPCIONISTA")) {
+                        System.out.println("==== Cadastrar Aluno ====");
+                        AlunoService.cadastrarAluno(sc, usuario);
+                    } else {
+                        System.out.println("Acesso negado!");
+                    }
                     break;
                 case 2:
                     System.out.println(" ==== Lista de alunos ==== ");
                 	AlunoService.listarAlunos();
                 	break;
                 case 3:
-                	System.out.println(" ==== Atualizar aluno ====");
-                    AlunoService.atualizarAluno(sc);
+                     if (usuario.getTipo().equalsIgnoreCase("GERENTE")|| usuario.getTipo().equalsIgnoreCase("RECEPCIONISTA")) {
+                        System.out.println(" ==== Atualizar aluno ====");
+                        AlunoService.atualizarAluno(sc);
+                    } else {
+                        System.out.println("Acesso negado!");
+                    }
                     break;
                 case 4:
-                	System.out.println(" ==== Excluir aluno ====");
-                    AlunoService.excluirAluno(sc);
+                     if (usuario.getTipo().equalsIgnoreCase("GERENTE")|| usuario.getTipo().equalsIgnoreCase("RECEPCIONISTA")) {
+                        System.out.println(" ==== Excluir aluno ====");
+                        AlunoService.excluirAluno(sc);
+                    } else {
+                        System.out.println("Acesso negado!");
+                    }
                     break;
                 case 0:
                     return;

@@ -3,6 +3,7 @@ package application;
 import menus.*;
 import util.Util;
 
+import entities.Usuario;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -14,7 +15,33 @@ public class Academia {
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
 
-        Menu alunoMenu = new AlunoMenu();
+        Usuario usuario = new Usuario("Patricia","Gerente", 345);
+        Usuario usuario2 = new Usuario("Marcio","Recepcionista", 678    );
+
+        Usuario usuarioLogado = null;
+
+        System.out.println(" ");
+        System.out.println("    ****  VERIFICAÇÃO DE USUÁRIO  ***   ");
+        System.out.print("Digite o código do usuário: ");
+
+        String codigo = sc.nextLine();
+
+        if(codigo.equals(String.valueOf(usuario.getCodigo()))) {
+
+            usuarioLogado = usuario;
+
+        } else if(codigo.equals(String.valueOf(usuario2.getCodigo()))) {
+
+            usuarioLogado = usuario2;
+
+        } else {
+
+            System.out.println("Usuário não encontrado.");
+            sc.close();
+            return;
+        }
+
+        Menu alunoMenu = new AlunoMenu(usuarioLogado);
         Menu instrutorMenu = new InstrutorMenu();
         Menu planoMenu = new PlanoMenu();
         Menu aulaMenu = new AulaMenu();
@@ -25,18 +52,13 @@ public class Academia {
         boolean executando = true;
         while (executando) {
 
-            System.out.println("\n======= SISTEMA ACADEMIA ========");
-            System.out.println("1- Alunos");
-            System.out.println("2- Instrutores");
-            System.out.println("3- Planos");
-            System.out.println("4- Aulas");
-            System.out.println("5- Inscrições");
-            System.out.println("6- Frequências");
-            System.out.println("7- Relatórios");
-            System.out.println("0- Encerrar programa");
-            System.out.println("=================================");
+            System.out.println("\n - SISTEMA ACADEMIA        ");
+            System.out.println(" ");
+            System.out.println("1- Alunos |2- Instrutores |3- Planos |4- Aulas |5- Inscrições |6- Frequências |7- Relatórios |0- Encerrar Programa");
+            System.out.println(" ");
 
-            System.out.println("Escolha uma opção:");
+            System.out.println("O que você deseja gerenciar hoje? ");
+            System.out.print("Escolha uma opção: ");
 
             int opcao = Util.lerInteiro(sc);
 

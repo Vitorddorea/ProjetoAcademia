@@ -1,5 +1,6 @@
 package service;
 
+import entities.Usuario;
 import entities.Aluno;
 import entities.Plano;
 import util.Util;
@@ -10,8 +11,17 @@ import java.util.Scanner;
 public class AlunoService {
     private static final ArrayList<Aluno> listaAlunos = new ArrayList<> ();
 
-    public static Aluno cadastrarAluno(Scanner sc) {
+    public static Aluno cadastrarAluno(Scanner sc, Usuario usuario) {
 
+         if(usuario.getTipo().equals("GERENTE") ||
+           usuario.getTipo().equals("RECEPCIONISTA")) {
+
+            System.out.println("Aluno cadastrado com sucesso!");
+        } else 
+        {
+            System.out.println("Acesso negado.");
+        }
+        
         System.out.println("Nome do Aluno:");
         String nome = Util.lerTexto(sc);
 

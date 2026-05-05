@@ -9,22 +9,37 @@ import java.util.Scanner;
 
 public class PlanoService {
 
-	public static ArrayList<Plano> listaPlanos = new ArrayList<>();
+    public static ArrayList<Plano> listaPlanos = new ArrayList<>();
+	
+    static {
 
-	public PlanoService()
-	{
-		Locale.setDefault(Locale.US);
+        Locale.setDefault(Locale.US);
 
-		Plano plano1 = new Plano("plano A","correr em circulos", 1000.0f,2,"nao tem");
-		Plano plano2 = new Plano("plano b","pular plantando bananeira", 2.4f,1,"fortalece os braços" );
+        listaPlanos.add(
+            new Plano(
+                "Plano Mensal",
+                "Você pagará a cada mês",
+                100.0f,
+                1,
+                "Aula de Zumba às terças-feiras gratuitas"
+            )
+        );
 
-		listaPlanos.add(plano1);
-		listaPlanos.add(plano2);
-	}
+        listaPlanos.add(
+            new Plano(
+                "Plano Anual",
+                "Você pagará apenas no ano seguinte",
+                2000.0f,
+                12,
+                "Poderá participar de todas as aulas adicionais"
+            )
+        );
+    }
 
     public static Plano cadastrarPlano(Scanner sc) {
 
         Locale.setDefault(Locale.US);
+
 
         System.out.println("Nome do plano:");
         String nome = Util.lerTexto(sc);
@@ -61,7 +76,7 @@ public class PlanoService {
         System.out.println("Plano cadastrado com sucesso!");
 		System.out.println("-----------------------------");
 
-
+	
         return plano;
 	}
 

@@ -13,8 +13,8 @@ public class AlunoService {
 
     public static Aluno cadastrarAluno(Scanner sc, Usuario usuario) {
 
-         if(usuario.getTipo().equals("GERENTE") ||
-           usuario.getTipo().equals("RECEPCIONISTA")) {
+         if(usuario.getTipo().equalsIgnoreCase("GERENTE") ||
+           usuario.getTipo().equalsIgnoreCase("RECEPCIONISTA")) {
 
             System.out.println("Aluno cadastrado com sucesso!");
         } else 
@@ -37,9 +37,12 @@ public class AlunoService {
         System.out.println("E-mail:");
         String email = Util.lerTexto(sc);
 
-        System.out.println("Escolha um plano:");
+        System.out.println(" ");
+        System.out.println("Nossos Planos:");
         PlanoService.listarPlanos();
+        System.out.println(" ");
 
+        System.out.print("Escolha um plano:");
         String nomePlano = Util.lerTexto(sc);
 
         Plano planoEscolhido = PlanoService.buscarPlanoPorNome(nomePlano);

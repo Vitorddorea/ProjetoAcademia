@@ -21,7 +21,10 @@ public class Academia {
         Usuario usuarioLogado = null;
 
         System.out.println(" ");
-        System.out.println("    ****  VERIFICAÇÃO DE USUÁRIO  ***   ");
+        System.out.println("   *********** Bem vindo(a) Sistema de Gerenciamento de Academia ***********   ");
+        System.out.println(" ");
+
+        System.out.println("****  VERIFICAÇÃO DE USUÁRIO  ***");
         System.out.print("Digite o código do usuário: ");
 
         String codigo = sc.nextLine();
@@ -29,14 +32,22 @@ public class Academia {
         if(codigo.equals(String.valueOf(usuario.getCodigo()))) {
 
             usuarioLogado = usuario;
+            System.out.println("*********************************************************** ");
+            System.out.println("      Bem vindo(a) "+usuario.getTipo()+ " " + usuario.getNome()+"!");
+            System.out.println("*********************************************************** ");
 
         } else if(codigo.equals(String.valueOf(usuario2.getCodigo()))) {
 
             usuarioLogado = usuario2;
+            System.out.println("*********************************************************** ");
+            System.out.println("      Bem vindo(a) "+usuario2.getTipo()+ " " + usuario2.getNome()+" !");
+            System.out.println("*********************************************************** ");
 
         } else {
+            System.out.println(" ");
+            System.out.println("Acesso negado!");
+            System.out.println(" ");
 
-            System.out.println("Usuário não encontrado.");
             sc.close();
             return;
         }

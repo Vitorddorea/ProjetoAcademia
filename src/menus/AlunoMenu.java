@@ -45,12 +45,12 @@ public class AlunoMenu implements Menu{
                     break;
                 case 2:
                     System.out.println(" ==== Lista de alunos ==== ");
-                	AlunoService.listarAlunos();
+                	AlunoService.listarAlunos( usuario);
                 	break;
                 case 3:
                      if (usuario.getTipo().equalsIgnoreCase("GERENTE")|| usuario.getTipo().equalsIgnoreCase("RECEPCIONISTA")) {
                         System.out.println(" ==== Atualizar aluno ====");
-                        AlunoService.atualizarAluno(sc);
+                        AlunoService.atualizarAluno(sc, usuario);
                     } else {
                         System.out.println("Acesso negado!");
                     }
@@ -58,7 +58,7 @@ public class AlunoMenu implements Menu{
                 case 4:
                      if (usuario.getTipo().equalsIgnoreCase("GERENTE")|| usuario.getTipo().equalsIgnoreCase("RECEPCIONISTA")) {
                         System.out.println(" ==== Excluir aluno ====");
-                        AlunoService.excluirAluno(sc);
+                        AlunoService.excluirAluno(sc, usuario);
                     } else {
                         System.out.println("Acesso negado!");
                     }

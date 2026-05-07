@@ -4,12 +4,13 @@ import java.time.LocalDate;
 
 public class Aluno extends Pessoa {
 
-    private String dataNascimento; // confirmar
+    private LocalDate dataNascimento;
     private String email;
     private LocalDate dataMatricula;
     private Plano planoAtivo;
 
-    public Aluno(String nome, String cpf, String dataNascimento, String telefone, String email, Plano planoAtivo) {
+    public Aluno(String nome, String cpf, LocalDate dataNascimento,
+                 String telefone, String email, Plano planoAtivo) {
         super(nome, cpf, telefone);
         this.dataNascimento = dataNascimento;
         this.email = email;
@@ -33,11 +34,11 @@ public class Aluno extends Pessoa {
         this.email = email;
     }
 
-    public String getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
@@ -45,16 +46,14 @@ public class Aluno extends Pessoa {
         return dataMatricula;
     }
 
-    public void setDataMatricula(LocalDate dataMatricula) {
-        this.dataMatricula = dataMatricula;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() +
-                " | Email: " + email +
-                " | Plano: " + (planoAtivo != null ? planoAtivo.getNome() : "Sem plano") +
-                " | Data Nascimento: " + dataNascimento +
-                " | Data Matricula: " + dataMatricula;
-    }
+   @Override
+public String toString() {
+    return "Nome: " + nome +
+            " | CPF: " + cpf +
+            " | Email: " + email +
+            " | Telefone: " + telefone +
+            " | Plano: " + (planoAtivo != null ? planoAtivo.getNome() : "Sem plano") +
+            " | Nascimento: " + dataNascimento +
+            " | Data de Matrícula: " + dataMatricula;
+}
 }

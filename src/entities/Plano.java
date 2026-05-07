@@ -8,12 +8,17 @@ public class Plano {
     private int duracaoMeses;
     private String beneficios;
 
-    public Plano(String nome, String descricao, double valorMensal, int duracaoMeses, String beneficios) {
-        setNome(nome);
-        setDescricao(descricao);
-        setValorMensal(valorMensal);
-        setDuracaoMeses(duracaoMeses);
-        setBeneficios(beneficios);
+    public Plano(String nome,
+        String descricao,
+        double valorMensal,
+        int duracaoMeses,
+        String beneficios) {
+
+        this.nome = nome;
+        this.descricao = descricao;
+        this.valorMensal = valorMensal;
+        this.duracaoMeses = duracaoMeses;
+        this.beneficios = beneficios;
     }
 
     public String getNome() {
@@ -21,9 +26,6 @@ public class Plano {
     }
 
     public void setNome(String nome) {
-        if (nome == null || nome.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nome inválido!");
-        }
         this.nome = nome;
     }
 
@@ -32,9 +34,6 @@ public class Plano {
     }
 
     public void setDescricao(String descricao) {
-        if (descricao == null || descricao.trim().isEmpty()) {
-            throw new IllegalArgumentException("Descrição inválida!");
-        }
         this.descricao = descricao;
     }
 
@@ -43,9 +42,6 @@ public class Plano {
     }
 
     public void setValorMensal(double valorMensal) {
-        if (valorMensal < 0) {
-            throw new IllegalArgumentException("Valor inválido!");
-        }
         this.valorMensal = valorMensal;
     }
 
@@ -54,12 +50,7 @@ public class Plano {
     }
 
     public void setDuracaoMeses(int duracaoMeses) {
-        if (duracaoMeses < 1 || duracaoMeses > 12) {
-            throw new IllegalArgumentException("Duração deve ser entre 1 e 12 meses");
-        }else {
-            this.duracaoMeses = duracaoMeses;
-        }
-
+        this.duracaoMeses = duracaoMeses;
     }
 
     public String getBeneficios() {
@@ -68,13 +59,5 @@ public class Plano {
 
     public void setBeneficios(String beneficios) {
         this.beneficios = beneficios;
-    }
-    @Override
-    public String toString() {
-        return "Nome: " + nome +
-                " | Descrição: " + descricao +
-                " | Valor: R$" + valorMensal +
-                " | Duração: " + duracaoMeses + " meses" +
-                " | Benefícios: " + beneficios;
     }
 }

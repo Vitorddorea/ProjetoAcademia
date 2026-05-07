@@ -1,53 +1,130 @@
 package menus;
 
+import entities.Plano;
 import service.PlanoService;
 import util.Util;
 
-import java.util.Locale;
 import java.util.Scanner;
 
-public class PlanoMenu implements Menu{
-    
+public class PlanoMenu implements Menu {
+
+    private final PlanoService service;
+
+    public PlanoMenu(PlanoService service) {
+        this.service = service;
+    }
+
     @Override
     public void exibir(Scanner sc) {
 
-        Locale.setDefault(Locale.US);
-
-        while (true){
-
+        while (true) {
             System.out.println("\n======== GERENCIAR PLANO ========");
             System.out.println("1- Cadastrar novo plano");
             System.out.println("2- Listar planos");
             System.out.println("3- Atualizar plano");
             System.out.println("4- Excluir plano");
-            System.out.println("0- Voltar para o menu principal");
-            System.out.println("=================================");
+            System.out.println("0- Voltar");
 
-            System.out.println("Escolha uma opção: ");
             int opcao = Util.lerInteiro(sc);
 
             switch (opcao) {
+
                 case 1:
-                	System.out.println("==== Cadastrar Plano ====");
-                    PlanoService.cadastrarPlano(sc);
+                    cadastrarPlano(sc);
                     break;
+
                 case 2:
-                	System.out.println("==== Listar Planos ====");
-                    PlanoService.listarPlanos();
+                    listarPlanos();
                     break;
+
                 case 3:
-                    System.out.println("==== Atualizar plano ====");
-				PlanoService.atualizarPlano(sc);
+                    atualizarPlano(sc);
                     break;
+
                 case 4:
-                    System.out.println("==== Excluir plano ====");
-                    PlanoService.excluirPlano(sc);
+                    excluirPlano(sc);
                     break;
+
                 case 0:
                     return;
+
                 default:
                     System.out.println("Opção inválida!");
             }
+        }
+    }
+    private void cadastrarPlano(Scanner sc) {
+
+        System.out.println("\n=== CADASTRAR PLANO ===");
+
+        System.out.print("Nome: ");
+        String nome = Util.lerTexto(sc);
+
+        System.out.print("Descrição: ");
+        String descricao = Util.lerTexto(sc);
+
+        System.out.print("Valor mensal: ");
+        double valorMensal = Util.lerReal(sc);
+
+        System.out.print("Duração (meses): ");
+        int duracao = Util.lerInteiro(sc);
+
+        System.out.print("Benefícios: ");
+        String beneficios = Util.lerTexto(sc);
+
+        Plano plano = new Plano(nome, descricao, valorMensal, duracao, beneficios);
+
+        if (service.cadastrarPlano(plano)) {
+            System.out.println("Plano cadastrado com sucesso!");
+        } else {
+            System.out.println("Já existe um plano com esse nome!");
+        }
+    }
+
+    private void listarPlanos() {
+        System.out.println("\n=== LISTA DE PLANOS ===");
+        service.listarPlanos().forEach(System.out::println);
+    }
+
+    private void atualizarPlano(Scanner sc) {
+
+        System.out.println("\n=== ATUALIZAR PLANO ===");
+
+        System.out.print("Nome do plano: ");
+        String nome = Util.lerTexto(sc);
+
+        System.out.print("Nova descrição: ");
+        String descricao = Util.lerTexto(sc);
+
+        System.out.print("Novo valor mensal: ");
+        double valor = Util.lerReal(sc);
+
+        System.out.print("Nova duração (meses): ");
+        int duracao = Util.lerInteiro(sc);
+
+        System.out.print("Novos benefícios: ");
+        String beneficios = Util.lerTexto(sc);
+
+        Plano planoAtualizado = new Plano(nome, descricao, valor, duracao, beneficios);
+
+        if (service.atualizarPlano(planoAtualizado)) {
+            System.out.println("Plano atualizado com sucesso!");
+        } else {
+            System.out.println("Plano não encontrado!");
+        }
+    }
+
+    private void excluirPlano(Scanner sc) {
+
+        System.out.println("\n=== EXCLUIR PLANO ===");
+
+        System.out.print("Nome: ");
+        String nome = Util.lerTexto(sc);
+
+        if (service.excluirPlano(nome)) {
+            System.out.println("Plano removido com sucesso!");
+        } else {
+            System.out.println("Plano não encontrado!");
         }
     }
 }

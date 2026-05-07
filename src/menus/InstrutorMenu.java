@@ -1,50 +1,105 @@
 package menus;
 
+import entities.Instrutor;
+import entities.Usuario;
 import service.InstrutorService;
 import util.Util;
 
-import java.util.Locale;
 import java.util.Scanner;
 
 public class InstrutorMenu implements Menu {
 
+    private Usuario usuario;
+    private InstrutorService service;
+
+    public InstrutorMenu(Usuario usuario, InstrutorService service) {
+        this.usuario = usuario;
+        this.service = service;
+    }
+
     @Override
     public void exibir(Scanner sc) {
 
-        while (true){
-            System.out.println("\n====== GERENCIAR INSTRUTOR ======");
-            System.out.println("1- Cadastrar Instrutor");
-            System.out.println("2- Listar instrutores");
-            System.out.println("3- Atualizar instrutor");
-            System.out.println("4- Excluir instrutor");
-            System.out.println("0- Voltar para o menu principal");
-            System.out.println("=================================");
+        while (true) {
+            System.out.println("\n==== GERENCIAR INSTRUTORES ====");
+            System.out.println("1- Cadastrar");
+            System.out.println("2- Listar");
+            System.out.println("3- Atualizar");
+            System.out.println("4- Excluir");
+            System.out.println("0- Voltar");
 
-            System.out.println("Escolha uma opção: ");
-            int opcao = Util.lerInteiro(sc);
+            int op = Util.lerInteiro(sc);
 
-            switch (opcao) {
-                case 1:
-                    System.out.println(" ==== Cadastrar Instrutor ====");
-                    InstrutorService.cadastrarInstrutor(sc);
-                    break;
-                case 2:
-                    System.out.println(" ==== Lista de Instrutores ====");
-                    InstrutorService.listarInstrutores();
-                    break;
-                case 3:
-                    System.out.println(" ==== Atualizar instrutor ====");
-                    InstrutorService.atualizarInstrutor(sc);
-                    break;
-                case 4:
-                    System.out.println(" ==== Excluir instrutor ====");
-                	InstrutorService.excluirInstrutor(sc);
-                    break;
-                case 0:
-                    return;
-                default:
-                    System.out.println("Opção inválida!");
+            switch (op) {
+                case 1: cadastrar(sc); break;
+                case 2: listar(); break;
+                case 3: atualizar(sc); break;
+                case 4: excluir(sc); break;
+                case 0: return;
+                default: System.out.println("Opção inválida!");
             }
         }
+    }
+
+    private void cadastrar(Scanner sc) {
+        System.out.print("Nome: ");
+        String nome = Util.lerTexto(sc);
+
+        System.out.print("CPF: ");
+        String cpf = Util.lerTexto(sc);
+
+        System.out.print("Telefone: ");
+        String tel = Util.lerTexto(sc);
+
+        System.out.print("Especialidade: ");
+        String esp = Util.lerTexto(sc);
+
+        System.out.print("Horário: ");
+        String hor = Util.lerTexto(sc);
+
+        Instrutor i = new Instrutor(nome, cpf, tel, esp, hor);
+
+        if (service.cadastrar(i))
+            System.out.println("Cadastrado!");
+        else
+            System.out.println("Já existe!");
+    }
+
+    private void listar() {
+        service.listar().forEach(System.out::println);
+    }
+
+    private void excluir(Scanner sc) {
+        System.out.print("CPF: ");
+        String cpf = Util.lerTexto(sc);
+
+        if (service.excluir(cpf))
+            System.out.println("Removido!");
+        else
+            System.out.println("Não encontrado!");
+    }
+
+    private void atualizar(Scanner sc) {
+        System.out.print("CPF: ");
+        String cpf = Util.lerTexto(sc);
+
+        System.out.print("Nome: ");
+        String nome = Util.lerTexto(sc);
+
+        System.out.print("Telefone: ");
+        String tel = Util.lerTexto(sc);
+
+        System.out.print("Especialidade: ");
+        String esp = Util.lerTexto(sc);
+
+        System.out.print("Horário: ");
+        String hor = Util.lerTexto(sc);
+
+        Instrutor i = new Instrutor(nome, cpf, tel, esp, hor);
+
+        if (service.atualizar(i))
+            System.out.println("Atualizado!");
+        else
+            System.out.println("Não encontrado!");
     }
 }

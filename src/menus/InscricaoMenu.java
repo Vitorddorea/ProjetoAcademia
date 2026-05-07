@@ -1,40 +1,50 @@
 package menus;
 
-import entities.Inscricao;
+import entities.Usuario;
 import service.InscricaoService;
 import util.Util;
 
 import java.util.Scanner;
 
-public class InscricaoMenu implements Menu{
+public class InscricaoMenu implements Menu {
+
+    private Usuario usuario;
+    private InscricaoService service;
+
+    public InscricaoMenu(Usuario usuario, InscricaoService service) {
+        this.usuario = usuario;
+        this.service = service;
+    }
+
     @Override
     public void exibir(Scanner sc) {
 
         while (true) {
-            System.out.println("\n===== GERENCIAR INSCRIÇÕES ======");
-            System.out.println("1- Nova inscrição");
-            System.out.println("2- Cancelar inscrição");
-            System.out.println("3- Listar inscrições");
-            System.out.println("0- Voltar para o menu principal");
-            System.out.println("=================================");
+            System.out.println("\n==== INSCRIÇÕES ====");
+            System.out.println("1- Inscrever aluno");
+            System.out.println("2- Listar inscrições");
+            System.out.println("0- Voltar");
 
-            System.out.println("Escolha uma opção:");
-            int opcao = Util.lerInteiro(sc);
+            int op = Util.lerInteiro(sc);
 
-            switch (opcao) {
+            switch (op) {
                 case 1:
-                    System.out.println(" ==== Realizar inscrição ====");
-                    InscricaoService.realizarInscricao(sc);
+                    System.out.print("CPF do aluno: ");
+                    String cpf = Util.lerTexto(sc);
+
+                    System.out.print("Nome da aula: ");
+                    String aula = Util.lerTexto(sc);
+
+                    service.inscrever(cpf, aula);
                     break;
+
                 case 2:
-                    System.out.println(" ==== Cancelar inscrição ====");
-                    InscricaoService.cancelarInscricao(sc);
+                    service.listar().forEach(System.out::println);
                     break;
-                case 3:
-                    System.out.println(" ==== Lista de inscrições");
-                    InscricaoService.listarInscricoes();
+
                 case 0:
                     return;
+
                 default:
                     System.out.println("Opção inválida!");
             }

@@ -3,106 +3,71 @@ package service;
 import entities.Aluno;
 import entities.Aula;
 import entities.Frequencia;
-import util.Util;
+import repositories.FrequenciaRepository;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
 
 public class FrequenciaService {
 
-    private static ArrayList<Frequencia> listaFrequencias = new ArrayList<>();
+    private final AlunoService alunoService;
+    private final AulaService aulaService;
+    private final InscricaoService inscricaoService;
+    private final FrequenciaRepository repository;
 
-    public static Frequencia registrarFrequencia(Scanner sc) {
+    public FrequenciaService(AlunoService alunoService,
+                             AulaService aulaService,
+                             InscricaoService inscricaoService,
+                             FrequenciaRepository repository) {
 
-        System.out.print("Digite CPF do aluno: ");
-        String cpf = Util.lerTexto(sc);
+        this.alunoService = alunoService;
+        this.aulaService = aulaService;
+        this.inscricaoService = inscricaoService;
+        this.repository = repository;
+    }
 
-        Aluno aluno = AlunoService.buscarPorCpf(cpf);
+    public boolean registrar(String cpf, String nomeAula, boolean presente) {
 
+        Aluno aluno = alunoService.buscarPorCpf(cpf);
         if (aluno == null) {
             System.out.println("Aluno não encontrado.");
-            return null;
+            return false;
         }
 
-        System.out.print("Digite nome da aula: ");
-        String nomeAula = Util.lerTexto(sc);
-
-        Aula aula = AulaService.buscarPorNome(nomeAula);
-
+        Aula aula = aulaService.buscarPorNome(nomeAula);
         if (aula == null) {
             System.out.println("Aula não encontrada.");
-            return null;
+            return false;
         }
 
-        boolean inscrito = InscricaoService.getListaInscricoes().stream()
-                .anyMatch(i ->
-                        i.getAluno().getCpf().equals(cpf)
-                                && i.getAula().getNome().equalsIgnoreCase(nomeAula)
-                );
-
-        if (!inscrito) {
+        if (!estaInscrito(cpf, nomeAula)) {
             System.out.println("Aluno não está inscrito nessa aula.");
-            return null;
+            return false;
         }
 
-        boolean frequenciaExiste = listaFrequencias.stream()
-                .anyMatch(f ->
-                        f.getAluno().getCpf().equals(cpf)
-                                && f.getAula().getNome().equalsIgnoreCase(nomeAula)
-                );
-
-        if (frequenciaExiste) {
-            System.out.println("Frequência já registrada para este aluno nesta aula.");
-            return null;
+        if (repository.buscar(cpf, nomeAula) != null) {
+            System.out.println("Frequência já registrada.");
+            return false;
         }
 
         Frequencia frequencia = new Frequencia(aluno, aula);
+        frequencia.registrarPresenca(presente);
 
-        while (true) {
-            try {
-                System.out.print("Aluno presente? [S/N]: ");
-                String entrada = Util.lerTexto(sc);
+        repository.salvar(frequencia);
 
-                boolean presente;
-
-                if (entrada.equalsIgnoreCase("S")) {
-                    presente = true;
-                } else if (entrada.equalsIgnoreCase("N")) {
-                    presente = false;
-                } else {
-                    throw new IllegalArgumentException("Digite apenas S ou N.");
-                }
-
-                frequencia.registrarPresenca(presente);
-                listaFrequencias.add(frequencia);
-
-                System.out.println("Presença registrada com sucesso.");
-                break;
-
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-
-        return frequencia;
+        System.out.println("Presença registrada com sucesso.");
+        return true;
     }
 
-    public static void mostrarFrequencias() {
-
-        if (listaFrequencias.isEmpty()) {
-            System.out.println("Nenhuma frequência registrada.");
-            return;
-        }
-
-        System.out.println("===== LISTA DE PRESENÇAS =====");
-
-        for (Frequencia frequencia : listaFrequencias) {
-            System.out.println(frequencia);
-            System.out.println("-------------------------");
-        }
+    public List<Frequencia> listar() {
+        return repository.listar();
     }
 
-    public static ArrayList<Frequencia> getListaFrequencias() {
-        return listaFrequencias;
+
+    private boolean estaInscrito(String cpf, String nomeAula) {
+        return inscricaoService.listar().stream()
+                .anyMatch(i ->
+                        i.getAluno().getCpf().equals(cpf) &&
+                        i.getAula().getNome().equalsIgnoreCase(nomeAula)
+                );
     }
 }

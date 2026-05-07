@@ -1,12 +1,30 @@
 package application;
 
 import menus.*;
-import util.Util;
+
+import repositories.AlunoRepository;
+import repositories.AulaRepository;
+import repositories.InstrutorRepository;
+import repositories.PlanoRepository;
+import repositories.InscricaoRepository;
+import repositories.FrequenciaRepository;
+
+
+
+import service.AlunoService;
+import service.AulaService;
+import service.FrequenciaService;
+import service.InstrutorService;
+import service.PlanoService;
+import service.InscricaoService;
+
+
 
 import entities.Usuario;
+import util.Util;
+
 import java.util.Locale;
 import java.util.Scanner;
-
 
 public class Academia {
 
@@ -15,102 +33,100 @@ public class Academia {
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
 
-        Usuario usuario = new Usuario("Patricia","Gerente", 345);
-        Usuario usuario2 = new Usuario("Marcio","Recepcionista", 678    );
+        //  REPOSITORIES
+        AlunoRepository alunoRepository = new AlunoRepository();
+        AulaRepository aulaRepository = new AulaRepository();
+        InstrutorRepository instrutorRepository = new InstrutorRepository();
+        InscricaoRepository inscricaoRepository = new InscricaoRepository();
+        FrequenciaRepository frequenciaRepository = new FrequenciaRepository();
+        PlanoRepository planoRepository = new PlanoRepository();
+        //  SERVICES
+        AlunoService alunoService = new AlunoService(alunoRepository);
+        AulaService aulaService = new AulaService(aulaRepository);
+        InstrutorService instrutorService = new InstrutorService(instrutorRepository);
+        PlanoService planoService = new PlanoService(planoRepository);
 
-        Usuario usuarioLogado = null;
+    InscricaoService inscricaoService = new InscricaoService(inscricaoRepository, alunoService, aulaService);        FrequenciaService frequenciaService = new FrequenciaService(alunoService, aulaService, inscricaoService, frequenciaRepository);         
+        //USUÁRIOS 
+        Usuario usuario1 = new Usuario("Patricia", "GERENTE", 345);
+        Usuario usuario2 = new Usuario("Marcio", "RECEPCIONISTA", 678);
 
-        System.out.println(" ");
-        System.out.println("   *********** Bem vindo(a) Sistema de Gerenciamento de Academia ***********   ");
-        System.out.println(" ");
+        Usuario usuarioLogado = autenticarUsuario(sc, usuario1, usuario2);
 
-        System.out.println("****  VERIFICAÇÃO DE USUÁRIO  ***");
-        System.out.print("Digite o código do usuário: ");
-
-        String codigo = sc.nextLine();
-
-        if(codigo.equals(String.valueOf(usuario.getCodigo()))) {
-
-            usuarioLogado = usuario;
-            System.out.println("*********************************************************** ");
-            System.out.println("      Bem vindo(a) "+usuario.getTipo()+ " " + usuario.getNome()+"!");
-            System.out.println("*********************************************************** ");
-
-        } else if(codigo.equals(String.valueOf(usuario2.getCodigo()))) {
-
-            usuarioLogado = usuario2;
-            System.out.println("*********************************************************** ");
-            System.out.println("      Bem vindo(a) "+usuario2.getTipo()+ " " + usuario2.getNome()+" !");
-            System.out.println("*********************************************************** ");
-
-        } else {
-            System.out.println(" ");
+        if (usuarioLogado == null) {
             System.out.println("Acesso negado!");
-            System.out.println(" ");
-
             sc.close();
             return;
         }
 
-        Menu alunoMenu = new AlunoMenu(usuarioLogado);
-        Menu instrutorMenu = new InstrutorMenu();
-        Menu planoMenu = new PlanoMenu();
-        Menu aulaMenu = new AulaMenu();
-        Menu inscricaoMenu = new InscricaoMenu();
-        Menu frequenciaMenu = new FrequenciaMenu();
-        Menu relatorioMenu = new RelatorioMenu();
+        //  MENUS 
+        Menu alunoMenu = new AlunoMenu(usuarioLogado, alunoService, planoService);
+        Menu aulaMenu = new AulaMenu(usuarioLogado, aulaService, instrutorService);
+        Menu instrutorMenu = new InstrutorMenu(usuarioLogado, instrutorService);
+
+        // menus ainda simples (sem service)
+        Menu planoMenu = new PlanoMenu(planoService);
+        Menu inscricaoMenu = new InscricaoMenu(usuarioLogado, inscricaoService);
+        Menu frequenciaMenu = new FrequenciaMenu(usuarioLogado, frequenciaService);
+        // Menu relatorioMenu = new RelatorioMenu();
 
         boolean executando = true;
+
         while (executando) {
 
-            System.out.println("\n - SISTEMA ACADEMIA        ");
-            System.out.println(" ");
-            System.out.println("1- Alunos |2- Instrutores |3- Planos |4- Aulas |5- Inscrições |6- Frequências |7- Relatórios |0- Encerrar Programa");
-            System.out.println(" ");
-
-            System.out.println("O que você deseja gerenciar hoje? ");
-            System.out.print("Escolha uma opção: ");
+            System.out.println("\n=== SISTEMA ACADEMIA ===");
+            System.out.println("1- Alunos");
+            System.out.println("2- Instrutores");
+            System.out.println("3- Planos");
+            System.out.println("4- Aulas");
+            System.out.println("5- Inscrições");
+            System.out.println("6- Frequências");
+            System.out.println("7- Relatórios");
+            System.out.println("0- Sair");
 
             int opcao = Util.lerInteiro(sc);
+            Menu menuSelecionado = null;
 
-            Menu menu = null;
-
-            switch (opcao){
-                case 1:
-                    menu = alunoMenu;
-                    break;
-                case 2:
-                    menu = instrutorMenu;
-                    break;
-                case 3:
-                    menu = planoMenu;
-                    break;
-                case 4:
-                    menu = aulaMenu;
-                    break;
-                case 5:
-                    menu = inscricaoMenu;
-                    break;
-                case 6:
-                    menu = frequenciaMenu;
-                    break;
-                case 7:
-                    menu = relatorioMenu;
-                    break;
+            switch (opcao) {
+                case 1: menuSelecionado = alunoMenu; break;
+                case 2: menuSelecionado = instrutorMenu; break;
+                case 3: menuSelecionado = planoMenu; break;
+                case 4: menuSelecionado = aulaMenu; break;
+                case 5: menuSelecionado = inscricaoMenu; break;
+                case 6: menuSelecionado = frequenciaMenu; break;
+               // case 7: menuSelecionado = relatorioMenu; break;
                 case 0:
-                    System.out.println("Encerrando programa...");
+                    System.out.println("Encerrando sistema...");
                     executando = false;
                     break;
                 default:
-                    System.out.println("Opção invalída!");
+                    System.out.println("Opção inválida!");
             }
 
-            if (menu != null) {
-                menu.exibir(sc);
+            if (menuSelecionado != null) {
+                menuSelecionado.exibir(sc);
             }
-
         }
+
         sc.close();
     }
 
+    private static Usuario autenticarUsuario(Scanner sc, Usuario u1, Usuario u2) {
+
+        System.out.println("\n*** LOGIN ***");
+        System.out.print("Digite o código: ");
+        String codigo = sc.nextLine();
+
+        if (codigo.equals(String.valueOf(u1.getCodigo()))) {
+            System.out.println("Bem-vindo(a) " + u1.getTipo() + " " + u1.getNome());
+            return u1;
+        }
+
+        if (codigo.equals(String.valueOf(u2.getCodigo()))) {
+            System.out.println("Bem-vindo(a) " + u2.getTipo() + " " + u2.getNome());
+            return u2;
+        }
+
+        return null;
+    }
 }

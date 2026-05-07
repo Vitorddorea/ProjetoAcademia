@@ -12,19 +12,11 @@ public class Instrutor extends Pessoa {
         this.horarioTrabalho = horarioTrabalho;
     }
 
-    public String getEspecialidade() {
-        return especialidade;
-    }
+    public String getEspecialidade() { return especialidade; }
+    public String getHorarioTrabalho() { return horarioTrabalho; }
 
     public void setEspecialidade(String especialidade) {
-        if (especialidade == null || especialidade.trim().isEmpty()) {
-            throw new IllegalArgumentException("Especialidade inválida!");
-        }
         this.especialidade = especialidade;
-    }
-
-    public String getHorarioTrabalho() {
-        return horarioTrabalho;
     }
 
     public void setHorarioTrabalho(String horarioTrabalho) {
@@ -33,8 +25,6 @@ public class Instrutor extends Pessoa {
 
     @Override
     public String toString() {
-        return super.toString()
-                + " | Especialidade: " + especialidade
-                + " | Horário de trabalho: " + horarioTrabalho;
+        return getNome() + " | " + especialidade;
     }
 }

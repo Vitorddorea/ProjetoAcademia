@@ -2,9 +2,9 @@ package entities;
 
 public class Pessoa {
 
-    private String nome;
-    private String cpf;
-    private String telefone;
+    protected String nome;
+    protected String cpf;
+    protected String telefone;
 
     public Pessoa(String nome, String cpf, String telefone) {
         this.nome = nome;
@@ -12,40 +12,11 @@ public class Pessoa {
         this.telefone = telefone;
     }
 
-    public String getNome() {
-        return nome;
-    }
+    public String getNome() { return nome; }
+    public String getCpf() { return cpf; }
+    public String getTelefone() { return telefone; }
 
-    public void setNome(String nome) {
-        if (nome != null && !nome.trim().isEmpty()) {
-            this.nome = nome;
-        }
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        if (cpf != null && !cpf.trim().isEmpty()) {
-            this.cpf = cpf;
-        }
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        if (telefone != null && !telefone.trim().isEmpty()) {
-            this.telefone = telefone;
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "Nome: " + nome +
-                " | CPF: " + cpf +
-                " | Telefone: " + telefone;
-    }
+    public void setNome(String nome) { this.nome = nome; }
+    public void setCpf(String cpf) { this.cpf = cpf; }
+    public void setTelefone(String telefone) { this.telefone = telefone; }
 }

@@ -1,164 +1,52 @@
 package service;
 
-import java.util.Scanner;
-import java.util.ArrayList;
-
 import entities.Aula;
-import entities.Instrutor;
-import util.Util;
+import repositories.AulaRepository;
+
+import java.util.List;
 
 public class AulaService {
 
-    private static ArrayList<Aula> listaAulas = new ArrayList<>();
+    private final AulaRepository repository;
 
-    public static ArrayList<Aula> getLista() {
-        return listaAulas;
+    public AulaService(AulaRepository repository) {
+        this.repository = repository;
     }
 
-    public static Aula cadastrarAula(Scanner sc) {
-
-        System.out.println("Nome da aula:");
-        String nome = sc.nextLine();
-
-        System.out.println("Horário (ex: 07:30):");
-        String horario = sc.nextLine();
-
-        System.out.println("Duração (em minutos):");
-        int duracao = Util.lerInteiro(sc);
-        sc.nextLine();
-
-        System.out.println("Capacidade máxima de alunos:");
-        int capacidade = Util.lerInteiro(sc);
-        sc.nextLine();
-
-        ArrayList<Instrutor> lista = InstrutorService.getLista();
-
-        if (lista.isEmpty()) {
-            System.out.println("Nenhum instrutor cadastrado!");
-            return null;
+    public boolean cadastrar(Aula aula) {
+        if (repository.buscarPorNome(aula.getNome()) != null) {
+            return false;
         }
-
-        System.out.println("\nEscolha um instrutor:");
-        for (int i = 0; i < lista.size(); i++) {
-            System.out.println((i + 1) + " - " + lista.get(i).getNome());
-        }
-
-        int opcao = Util.lerInteiro(sc);
-        sc.nextLine();
-
-        if (opcao < 1 || opcao > lista.size()) {
-            System.out.println("Opção inválida!");
-            return null;
-        }
-
-        Instrutor instrutor = lista.get(opcao - 1);
-
-        Aula aula = new Aula(nome, horario, duracao, capacidade, instrutor);
-        listaAulas.add(aula);
-
-        System.out.println("---------------------------------");
-        System.out.println(aula);
-        System.out.println("---------------------------------");
-        System.out.println("Aula cadastrada com sucesso!");
-        System.out.println("---------------------------------");
-
-        return aula;
+        repository.salvar(aula);
+        return true;
     }
 
-    public static void listarAulas() {
-
-        if (listaAulas.isEmpty()) {
-            System.out.println("Nenhuma aula cadastrada.");
-            return;
-        }
-
-        System.out.println("\n==== LISTA DE AULAS ====");
-
-        for (Aula aula : listaAulas) {
-            System.out.println(aula);
-            System.out.println("-------------------------");
-        }
+    public List<Aula> listar() {
+        return repository.listar();
     }
 
-    public static void atualizarAula(Scanner sc) {
+    public boolean excluir(String nome) {
+        Aula aula = repository.buscarPorNome(nome);
+        if (aula == null) return false;
 
-        if (listaAulas.isEmpty()) {
-            System.out.println("Nenhuma aula cadastrada.");
-            return;
-        }
-
-        System.out.println("\nEscolha a aula para atualizar:");
-
-        for (int i = 0; i < listaAulas.size(); i++) {
-            System.out.println((i + 1) + " - " + listaAulas.get(i).getNome());
-        }
-
-        int opcao = Util.lerInteiro(sc);
-        sc.nextLine();
-
-        if (opcao < 1 || opcao > listaAulas.size()) {
-            System.out.println("Opção inválida!");
-            return;
-        }
-
-        Aula aula = listaAulas.get(opcao - 1);
-
-        try {
-            System.out.print("Novo nome: ");
-            aula.setNome(sc.nextLine());
-
-            System.out.print("Novo horário: ");
-            aula.setHorario(sc.nextLine());
-
-            System.out.print("Nova duração: ");
-            aula.setDuracao(Util.lerInteiro(sc));
-            sc.nextLine();
-
-            System.out.print("Nova capacidade: ");
-            aula.setCapacidadeMaxima(Util.lerInteiro(sc));
-            sc.nextLine();
-
-            System.out.println("Aula atualizada com sucesso!");
-
-        } catch (Exception e) {
-            System.out.println("Erro ao atualizar aula: " + e.getMessage());
-        }
+        repository.remover(aula);
+        return true;
     }
 
-    public static void excluirAula(Scanner sc) {
+    public boolean atualizar(Aula nova) {
+        Aula existente = repository.buscarPorNome(nova.getNome());
 
-        if (listaAulas.isEmpty()) {
-            System.out.println("Nenhuma aula cadastrada.");
-            return;
-        }
+        if (existente == null) return false;
 
-        listarAulas();
+        existente.setHorario(nova.getHorario());
+        existente.setDuracao(nova.getDuracao());
+        existente.setCapacidadeMaxima(nova.getCapacidadeMaxima());
+        existente.setInstrutor(nova.getInstrutor());
 
-        System.out.println("\nEscolha a aula para excluir:");
-
-        for (int i = 0; i < listaAulas.size(); i++) {
-            System.out.println((i + 1) + " - " + listaAulas.get(i).getNome());
-        }
-
-        int opcao = Util.lerInteiro(sc);
-        sc.nextLine();
-
-        if (opcao < 1 || opcao > listaAulas.size()) {
-            System.out.println("Opção inválida!");
-            return;
-        }
-
-        listaAulas.remove(opcao - 1);
-
-        System.out.println("Aula excluída com sucesso!");
+        return true;
     }
 
-    public static Aula buscarPorNome(String nome) {
-        for (Aula aula : listaAulas) {
-            if (aula.getNome().equalsIgnoreCase(nome)) {
-                return aula;
-            }
-        }
-        return null;
+    public Aula buscarPorNome(String nome) {
+        return repository.buscarPorNome(nome);
     }
 }

@@ -13,7 +13,7 @@ public class InstrutorRepository {
         lista.add(instrutor);
     }
 
-    public List<Instrutor> listar() {
+    public List<Instrutor> listar() {        
         return new ArrayList<>(lista);
     }
 

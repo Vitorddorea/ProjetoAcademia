@@ -13,6 +13,10 @@ public class AlunoService {
     }
 
     public java.util.List<Aluno> listarAlunos() {
+        if (repository.listarAlunos().isEmpty()) {
+            System.out.println("Nenhum aluno cadastrado.");
+          
+        }
         return repository.listarAlunos();
     }
 
@@ -23,7 +27,7 @@ public class AlunoService {
         }   
 
     repository.adicionarAluno(aluno);
-    
+
     return true;
 
 }

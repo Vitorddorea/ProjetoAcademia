@@ -56,7 +56,8 @@ public class PlanoService {
     System.out.println("\nPLANOS DISPONÍVEIS:");
 
     for (Plano p : listarPlanos()) {
-        System.out.println("- " + p.getNome());
+        System.out.println(" - " + p.getNome()+" - "+ p.getDescricao()+ " - R$" + p.getValorMensal()+ " " + " por mês, duração: "+ " " + p.getDuracaoMeses()+ " " + " meses, benefícios: " + p.getBeneficios());
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
     System.out.print("Escolha um plano: ");

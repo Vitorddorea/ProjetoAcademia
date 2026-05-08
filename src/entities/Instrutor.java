@@ -25,6 +25,6 @@ public class Instrutor extends Pessoa {
 
     @Override
     public String toString() {
-        return getNome() + " | " + especialidade;
+        return "\nNome: " + getNome() + " | " + "Especialidade: " + especialidade + " | " + "Horário de Trabalho: " + horarioTrabalho;
     }
 }

@@ -7,6 +7,7 @@ import service.AulaService;
 import service.InstrutorService;
 import util.Util;
 
+import java.time.LocalTime;
 import java.util.Scanner;
 
 public class AulaMenu implements Menu {
@@ -67,17 +68,39 @@ public class AulaMenu implements Menu {
 
         Instrutor instrutor = instrutorService.buscarPorCpf(cpf);
 
+       if (instrutor != null) {
+
+        LocalTime horarioNovo = LocalTime.parse(horario);
+        LocalTime fimNovo = horarioNovo.plusMinutes(duracao);
+
+        boolean conflito = service.listar().stream()
+
+        .filter(a -> a.getInstrutor().getCpf().equals(cpf))
+        .anyMatch(a -> {
+
+            LocalTime horarioAula = LocalTime.parse(a.getHorario());
+
+            LocalTime fimAula = horarioAula.plusMinutes(a.getDuracao()).plusMinutes(10);
+            return horarioNovo.isBefore(fimAula) && fimNovo.isAfter(horarioAula);
+        });
+        if (conflito) {
+        System.out.println("\nO Instrutor já possui uma aula muito próxima desse horário!\n O instrutor precisa de 10 minutos entre as aulas!");
+        return;
+        }
+    }
         if (instrutor == null) {
-            System.out.println("Instrutor não encontrado!");
+            System.out.println("\nInstrutor não encontrado!");
             return;
         }
 
         Aula aula = new Aula(nome, horario, duracao, capacidade, instrutor);
 
-        if (service.cadastrar(aula))
-            System.out.println("Cadastrada!");
-        else
-            System.out.println("Já existe!");
+        if (service.cadastrar(aula)){
+        System.out.println("\n Aula Cadastrada com sucesso!");
+        }
+        else{
+        System.out.println("\n Aula já Existente!");
+        }
     }
 
     private void listar() {
@@ -113,15 +136,15 @@ public class AulaMenu implements Menu {
         Instrutor instrutor = instrutorService.buscarPorCpf(cpf);
 
         if (instrutor == null) {
-            System.out.println("Instrutor não encontrado!");
+            System.out.println("\nInstrutor não encontrado!");
             return;
         }
 
         Aula aula = new Aula(nome, horario, duracao, capacidade, instrutor);
 
         if (service.atualizar(aula))
-            System.out.println("Atualizada!");
+            System.out.println("\nAula atualizada!");
         else
-            System.out.println("Não encontrada!");
+            System.out.println("\nAula não encontrada!");
     }
 }

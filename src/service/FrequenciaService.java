@@ -15,9 +15,9 @@ public class FrequenciaService {
     private final FrequenciaRepository repository;
 
     public FrequenciaService(AlunoService alunoService,
-                             AulaService aulaService,
-                             InscricaoService inscricaoService,
-                             FrequenciaRepository repository) {
+        AulaService aulaService,
+        InscricaoService inscricaoService,
+        FrequenciaRepository repository) {
 
         this.alunoService = alunoService;
         this.aulaService = aulaService;
@@ -38,17 +38,14 @@ public class FrequenciaService {
             System.out.println("Aula não encontrada.");
             return false;
         }
-
         if (!estaInscrito(cpf, nomeAula)) {
             System.out.println("Aluno não está inscrito nessa aula.");
             return false;
         }
-
         if (repository.buscar(cpf, nomeAula) != null) {
             System.out.println("Frequência já registrada.");
             return false;
         }
-
         Frequencia frequencia = new Frequencia(aluno, aula);
         frequencia.registrarPresenca(presente);
 
@@ -57,17 +54,14 @@ public class FrequenciaService {
         System.out.println("Presença registrada com sucesso.");
         return true;
     }
-
     public List<Frequencia> listar() {
         return repository.listar();
     }
-
-
     private boolean estaInscrito(String cpf, String nomeAula) {
         return inscricaoService.listar().stream()
-                .anyMatch(i ->
-                        i.getAluno().getCpf().equals(cpf) &&
-                        i.getAula().getNome().equalsIgnoreCase(nomeAula)
-                );
+            .anyMatch(i ->
+            i.getAluno().getCpf().equals(cpf) &&
+            i.getAula().getNome().equalsIgnoreCase(nomeAula)
+        );
     }
 }

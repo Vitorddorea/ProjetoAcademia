@@ -96,6 +96,18 @@ public class AlunoMenu implements Menu {
             return;
         }
     }
+    public void mostrarDadosAlunoEspecifico()
+    {
+        System.out.println(" ");
+        System.out.print("Digite o CPF do aluno para exibir seus dados: ");
+        String cpf = Util.lerTexto(new Scanner(System.in));
+        Aluno aluno = service.buscarPorCpf(cpf);
+        if (aluno != null) {
+            System.out.println("Aluno: " + aluno+" | Plano: " + (aluno.getPlanoAtivo() != null ? aluno.getPlanoAtivo()+" Plano ativo" : "Sem plano ou Inativo"));
+        } else {
+            System.out.println("Aluno não encontrado.");
+        }
+    }
 
     private void excluir(Scanner sc) {
         if (!temPermissao()) return;

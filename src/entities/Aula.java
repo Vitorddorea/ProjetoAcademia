@@ -2,12 +2,23 @@ package entities;
 
 public class Aula {
 
+    private Long id;
     private String nome;
     private String horario;
     private int duracao;
     private int capacidadeMaxima;
     private int alunosInscritos;
     private Instrutor instrutor;
+
+    public Aula(Long id, String nome, String horario, int duracao, int capacidadeMaxima, int alunosInscritos, Instrutor instrutor) {
+        this.id = id;
+        this.nome = nome;
+        this.horario = horario;
+        this.duracao = duracao;
+        this.capacidadeMaxima = capacidadeMaxima;
+        this.alunosInscritos = 0;
+        this.instrutor = instrutor;
+    }
 
     public Aula(String nome, String horario, int duracao, int capacidadeMaxima, Instrutor instrutor) {
         this.nome = nome;
@@ -18,6 +29,7 @@ public class Aula {
         this.instrutor = instrutor;
     }
 
+    public Long getId() { return id; }
     public String getNome() { return nome; }
     public String getHorario() { return horario; }
     public int getDuracao() { return duracao; }

@@ -2,17 +2,27 @@ package entities;
 
 public class Plano {
 
+    private Long id;
     private String nome;
     private String descricao;
     private double valorMensal;
     private int duracaoMeses;
     private String beneficios;
 
+    public Plano(Long id, String nome, String descricao, double valorMensal, int duracaoMeses, String beneficios) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.valorMensal = valorMensal;
+        this.duracaoMeses = duracaoMeses;
+        this.beneficios = beneficios;
+    }
+
     public Plano(String nome,
-        String descricao,
-        double valorMensal,
-        int duracaoMeses,
-        String beneficios) {
+                 String descricao,
+                 double valorMensal,
+                 int duracaoMeses,
+                 String beneficios) {
 
         this.nome = nome;
         this.descricao = descricao;

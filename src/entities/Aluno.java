@@ -9,6 +9,14 @@ public class Aluno extends Pessoa {
     private LocalDate dataMatricula;
     private Plano planoAtivo;
 
+    public Aluno(Long id, String nome, String cpf, String telefone, LocalDate dataNascimento, String email, LocalDate dataMatricula, Plano planoAtivo) {
+        super(id, nome, cpf, telefone);
+        this.dataNascimento = dataNascimento;
+        this.email = email;
+        this.dataMatricula = LocalDate.now();
+        this.planoAtivo = planoAtivo;
+    }
+
     public Aluno(String nome, String cpf, LocalDate dataNascimento,
                  String telefone, String email, Plano planoAtivo) {
         super(nome, cpf, telefone);

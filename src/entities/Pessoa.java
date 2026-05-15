@@ -2,6 +2,7 @@ package entities;
 
 public class Pessoa {
 
+    private Long id;
     protected String nome;
     protected String cpf;
     protected String telefone;
@@ -12,6 +13,14 @@ public class Pessoa {
         this.telefone = telefone;
     }
 
+    public Pessoa(Long id, String nome, String cpf, String telefone) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.telefone = telefone;
+    }
+
+    public Long getId() { return id; }
     public String getNome() { return nome; }
     public String getCpf() { return cpf; }
     public String getTelefone() { return telefone; }

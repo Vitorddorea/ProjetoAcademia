@@ -4,10 +4,19 @@ import java.time.LocalDateTime;
 
 public class Frequencia {
 
+    private Long id;
     private Aluno aluno;
     private Aula aula;
     private LocalDateTime dataHora;
     private boolean presente;
+
+    public Frequencia(Long id, Aluno aluno, Aula aula, LocalDateTime dataHora, boolean presente) {
+        this.id = id;
+        this.aluno = aluno;
+        this.aula = aula;
+        this.dataHora = LocalDateTime.now();
+        this.presente = false;
+    }
 
     public Frequencia(Aluno aluno, Aula aula) {
         this.aluno = aluno;
@@ -15,6 +24,8 @@ public class Frequencia {
         this.dataHora = LocalDateTime.now();
         this.presente = false;
     }
+
+    public Long getId() { return id; }
 
     public Aluno getAluno() {
         return aluno;

@@ -9,16 +9,12 @@ import repositories.PlanoRepository;
 import repositories.InscricaoRepository;
 import repositories.FrequenciaRepository;
 
-
-
 import service.AlunoService;
 import service.AulaService;
 import service.FrequenciaService;
 import service.InstrutorService;
 import service.PlanoService;
 import service.InscricaoService;
-
-
 
 import entities.Usuario;
 import util.Util;
@@ -62,7 +58,7 @@ public class Academia {
 
         //  MENUS 
         Menu alunoMenu = new AlunoMenu(usuarioLogado, alunoService, planoService);
-        Menu aulaMenu = new AulaMenu(usuarioLogado, aulaService, instrutorService);
+        AulaMenu aulaMenu = new AulaMenu(usuarioLogado, aulaService, instrutorService, alunoService);
         Menu instrutorMenu = new InstrutorMenu(usuarioLogado, instrutorService);
 
         // menus ainda simples (sem service)
@@ -111,7 +107,6 @@ public class Academia {
 
         sc.close();
     }
-
     private static Usuario autenticarUsuario(Scanner sc, Usuario u1, Usuario u2) {
 
         System.out.println("\n*** LOGIN ***");

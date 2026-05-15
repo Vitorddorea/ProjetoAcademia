@@ -1,5 +1,8 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Aula {
 
     private Long id;
@@ -19,6 +22,7 @@ public class Aula {
         this.alunosInscritos = 0;
         this.instrutor = instrutor;
     }
+    private List<Aluno> alunos = new ArrayList<>();
 
     public Aula(String nome, String horario, int duracao, int capacidadeMaxima, Instrutor instrutor) {
         this.nome = nome;
@@ -54,10 +58,29 @@ public class Aula {
             alunosInscritos--;
         }
     }
+    public List<Aluno> getAlunos() {
+    return alunos;
+   }
+   public void setAlunos(List<Aluno> alunos) {
+    this.alunos = alunos;
+    }
+     public void adicionarAluno(
+            Aluno aluno) {
+
+        if (!alunos.contains(aluno)) {
+            alunos.add(aluno);
+        }
+    }
+
+    public void removerAluno(
+            Aluno aluno) {
+
+        alunos.remove(aluno);
+    }
 
     @Override
     public String toString() {
-        return "Aula: " + nome +
+        return "\n Aula: " + nome +
                 " | Horário: " + horario +
                 " | Instrutor: " + instrutor.getNome();
     }

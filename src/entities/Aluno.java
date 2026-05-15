@@ -1,5 +1,8 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import java.time.LocalDate;
 
 public class Aluno extends Pessoa {
@@ -16,6 +19,7 @@ public class Aluno extends Pessoa {
         this.dataMatricula = LocalDate.now();
         this.planoAtivo = planoAtivo;
     }
+    private List<Aula> aulas = new ArrayList<>();
 
     public Aluno(String nome, String cpf, LocalDate dataNascimento,
         String telefone, String email, Plano planoAtivo) {
@@ -52,6 +56,24 @@ public class Aluno extends Pessoa {
 
     public LocalDate getDataMatricula() {
         return dataMatricula;
+    }
+    public List<Aula> getAulas() {
+        return aulas;
+    }
+
+    public void setAulas(List<Aula> aulas) {
+        this.aulas = aulas;
+    }
+
+    public void adicionarAula(Aula aula) {
+
+        if (!aulas.contains(aula)) {
+            aulas.add(aula);
+        }
+    }
+
+    public void removerAula(Aula aula) {
+        aulas.remove(aula);
     }
 
    @Override

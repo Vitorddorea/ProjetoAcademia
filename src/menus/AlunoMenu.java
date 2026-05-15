@@ -1,14 +1,13 @@
 package menus;
 
 import entities.Aluno;
+import entities.Aula;
 import entities.Plano;
 import entities.Usuario;
 import service.AlunoService;
 
 import service.PlanoService;
 import util.Util;
-
-
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -24,10 +23,7 @@ public class AlunoMenu implements Menu {
     this.service = service;
     this.planoService = planoService;
 }
-    public AlunoMenu(Usuario usuario, AlunoService service) {
-        this.usuario = usuario;
-        this.service = service;
-    }
+    
 
     @Override
     public void exibir(Scanner sc) {
@@ -89,26 +85,85 @@ public class AlunoMenu implements Menu {
         }
     }
 
-    private void listar() {
-        System.out.println(" ");
-        for (Aluno a : service.listarAlunos()) {
-            System.out.println(a);
-            return;
-        }
+   private void listar() {
+
+    System.out.println(
+        "\n===== LISTA DE ALUNOS ====="
+    );
+
+    if (service.listarAlunos().isEmpty()) {
+
+        System.out.println(
+            "Nenhum aluno cadastrado."
+        );
+
+        return;
     }
-    public void mostrarDadosAlunoEspecifico()
-    {
-        System.out.println(" ");
-        System.out.print("Digite o CPF do aluno para exibir seus dados: ");
-        String cpf = Util.lerTexto(new Scanner(System.in));
-        Aluno aluno = service.buscarPorCpf(cpf);
-        if (aluno != null) {
-            System.out.println("Aluno: " + aluno+" | Plano: " + (aluno.getPlanoAtivo() != null ? aluno.getPlanoAtivo()+" Plano ativo" : "Sem plano ou Inativo"));
+
+    for (Aluno aluno : service.listarAlunos()) {
+
+        System.out.println(aluno);
+    }
+}
+    public void listarAulasAluno(Scanner sc){
+        String cpfAluno = Util.lerTexto(sc);
+        Aluno alunoEspecifico = service.buscarPorCpf(cpfAluno);
+
+         if (alunoEspecifico != null) {
         } else {
             System.out.println("Aluno não encontrado.");
         }
+
+            System.out.println("Suas Aulas: "+" ");
+    }
+    
+    public void mostrarDadosAlunoEspecifico(Scanner sc) {
+
+    System.out.println("\n===== RELATÓRIO DO ALUNO =====");
+
+    System.out.print("Digite o CPF do aluno: ");
+    String cpf = Util.lerTexto(sc);
+
+    Aluno aluno = service.buscarPorCpf(cpf);
+
+    if (aluno == null) {
+        System.out.println("Aluno não encontrado.");
+        return;
     }
 
+    System.out.println("\nNome: " + aluno.getNome());
+    System.out.println("CPF: " + aluno.getCpf());
+    System.out.println("Telefone: " + aluno.getTelefone());
+    System.out.println("Email: " + aluno.getEmail());
+    System.out.println("Data Nascimento: " + aluno.getDataNascimento());
+
+    if (aluno.getPlanoAtivo() != null) {
+
+        System.out.println(
+            "Plano: " +
+            aluno.getPlanoAtivo().getNome()
+        );
+
+    } else {
+        System.out.println("Sem plano ativo.");
+    }
+
+    System.out.println("\n===== AULAS MATRICULADAS =====");
+
+    if (aluno.getAulas().isEmpty()) {
+
+        System.out.println("Nenhuma aula cadastrada.");
+
+    } else {
+
+        for (Aula aula : aluno.getAulas()) {
+
+            System.out.println(
+                "- " + aula.getNome()
+            );
+        }
+      }
+    }
     private void excluir(Scanner sc) {
         if (!temPermissao()) return;
 

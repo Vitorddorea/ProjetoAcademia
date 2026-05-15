@@ -5,6 +5,7 @@ import entities.Aula;
 import entities.Inscricao;
 import repositories.InscricaoRepository;
 
+
 import java.util.List;
 
 public class InscricaoService {

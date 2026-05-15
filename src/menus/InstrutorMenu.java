@@ -36,12 +36,14 @@ public class InstrutorMenu implements Menu {
                 case 3: atualizar(sc); break;
                 case 4: excluir(sc); break;
                 case 0: return;
-                default: System.out.println("Opção inválida!");
+                default: System.out.println("\nOpção inválida!");
             }
         }
     }
 
     private void cadastrar(Scanner sc) {
+        System.out.print("Cadastrar novo instrutor\n");
+
         System.out.print("Nome: ");
         String nome = Util.lerTexto(sc);
 
@@ -60,12 +62,13 @@ public class InstrutorMenu implements Menu {
         Instrutor i = new Instrutor(nome, cpf, tel, esp, hor);
 
         if (service.cadastrar(i))
-            System.out.println("Cadastrado!");
+            System.out.println("\nInstrutor Cadastrado!");
         else
-            System.out.println("Já existe!");
+            System.out.println("\nJá existe!");
     }
 
     private void listar() {
+        System.out.println("Lista de instrutores:");
         service.listar().forEach(System.out::println);
     }
 
@@ -73,33 +76,98 @@ public class InstrutorMenu implements Menu {
         System.out.print("CPF: ");
         String cpf = Util.lerTexto(sc);
 
-        if (service.excluir(cpf))
-            System.out.println("Removido!");
-        else
-            System.out.println("Não encontrado!");
+        Instrutor instrutor = service.buscarPorCpf(cpf);
+        if (instrutor == null) {
+            System.out.println("\nInstrutor não encontrado!");
+            return;
+        }
+
+        System.out.print("Deseja realmente excluir o instrutor: " + instrutor.getNome() + "? (S/N):");
+        String confirmacao = Util.lerTexto(sc);
+        if (confirmacao.equalsIgnoreCase("N") || confirmacao.equalsIgnoreCase("nao")) {
+            System.out.println("\nExclusão cancelada.");
+            return;
+        }
+        service.excluir(cpf);
+        System.out.println("\nInstrutor Removido com sucesso!");
     }
 
     private void atualizar(Scanner sc) {
+        System.out.println("Atualizar instrutor\n");
+
+        System.out.println("Digite o CPF do instrutor a ser atualizado:");
         System.out.print("CPF: ");
         String cpf = Util.lerTexto(sc);
 
-        System.out.print("Nome: ");
-        String nome = Util.lerTexto(sc);
+        Instrutor instrutorExistente = service.buscarPorCpf(cpf);
 
-        System.out.print("Telefone: ");
-        String tel = Util.lerTexto(sc);
+        if (instrutorExistente == null) {
+            System.out.println("\nInstrutor não encontrado!");
+            return;
+        }
 
-        System.out.print("Especialidade: ");
-        String esp = Util.lerTexto(sc);
+        System.out.print("\nDados atuais do instrutor: "+ instrutorExistente);
+       
+        System.out.println("\n1- Nome");
+        System.out.println("2- Telefone");
+        System.out.println("3- Especialidade");
+        System.out.println("4- Horário");
+        System.out.println("5- Todos os dados");
+        System.out.println("0- Cancelar");
 
-        System.out.print("Horário: ");
-        String hor = Util.lerTexto(sc);
+        System.out.print("Escolha o campo a atualizar: ");
+        int opcao = Util.lerInteiro(sc);
 
-        Instrutor i = new Instrutor(nome, cpf, tel, esp, hor);
 
-        if (service.atualizar(i))
-            System.out.println("Atualizado!");
-        else
-            System.out.println("Não encontrado!");
+        switch (opcao) {
+            case 1:
+                System.out.print(" Novo Nome: ");
+                String nome = Util.lerTexto(sc);
+                    instrutorExistente.setNome(nome);
+                    System.out.println("\nNome atualizado!");
+                break;
+            case 2:
+                System.out.print(" NovoTelefone: ");
+                String tel = Util.lerTexto(sc);
+                instrutorExistente.setTelefone(tel);
+                System.out.println("\nTelefone atualizado!");
+                break;
+            case 3:
+                System.out.print("Nova Especialidade: ");
+                String esp = Util.lerTexto(sc);
+                instrutorExistente.setEspecialidade(esp);
+                System.out.println("\nEspecialidade atualizada!");
+                break;
+            case 4:
+                System.out.print("Novo Horário: ");
+                String hor = Util.lerTexto(sc);
+                instrutorExistente.setHorarioTrabalho(hor);
+                System.out.println("\nHorário atualizado!");
+                break;
+            case 5:
+                System.out.print(" Novo Nome: ");
+                String nome2 = Util.lerTexto(sc);
+
+                System.out.print(" Novo Telefone: ");
+                String tel2 = Util.lerTexto(sc);
+
+                System.out.print("Nova Especialidade: ");
+                String esp2 = Util.lerTexto(sc);
+
+                System.out.print("Novo Horário: ");
+                String hor2 = Util.lerTexto(sc);
+
+                instrutorExistente.setNome(nome2);
+                instrutorExistente.setTelefone(tel2);
+                instrutorExistente.setEspecialidade(esp2);
+                instrutorExistente.setHorarioTrabalho(hor2);   
+                break;                
+            case 0:
+                System.out.println("\nAtualização cancelada.");
+                return;
+            default:
+                System.out.println("\nOpção inválida!");
+                break;
+        }
     }
 }

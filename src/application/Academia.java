@@ -46,7 +46,8 @@ public class Academia {
         InstrutorService instrutorService = new InstrutorService(instrutorRepository);
         PlanoService planoService = new PlanoService(planoRepository);
 
-    InscricaoService inscricaoService = new InscricaoService(inscricaoRepository, alunoService, aulaService);        FrequenciaService frequenciaService = new FrequenciaService(alunoService, aulaService, inscricaoService, frequenciaRepository);         
+        InscricaoService inscricaoService = new InscricaoService(inscricaoRepository, alunoService, aulaService);
+        FrequenciaService frequenciaService = new FrequenciaService(alunoService, aulaService, inscricaoService, frequenciaRepository);         
         //USUÁRIOS 
         Usuario usuario1 = new Usuario("Patricia", "GERENTE", 345);
         Usuario usuario2 = new Usuario("Marcio", "RECEPCIONISTA", 678);

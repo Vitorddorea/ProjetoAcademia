@@ -81,15 +81,31 @@ public class AlunoMenu implements Menu {
         plano
     );
         if (service.cadastrarAluno(aluno)) {
-            System.out.println("Aluno cadastrado!");
+            System.out.println(" ");
+            System.out.println("Aluno cadastrado com Sucesso!");
         } else {
-            System.out.println("CPF já existe!");
+            System.out.println("CPF já existe! tente novamente!");
+            return;
         }
     }
 
     private void listar() {
+        System.out.println(" ");
         for (Aluno a : service.listarAlunos()) {
             System.out.println(a);
+            return;
+        }
+    }
+    public void mostrarDadosAlunoEspecifico()
+    {
+        System.out.println(" ");
+        System.out.print("Digite o CPF do aluno para exibir seus dados: ");
+        String cpf = Util.lerTexto(new Scanner(System.in));
+        Aluno aluno = service.buscarPorCpf(cpf);
+        if (aluno != null) {
+            System.out.println("Aluno: " + aluno+" | Plano: " + (aluno.getPlanoAtivo() != null ? aluno.getPlanoAtivo()+" Plano ativo" : "Sem plano ou Inativo"));
+        } else {
+            System.out.println("Aluno não encontrado.");
         }
     }
 
@@ -100,41 +116,103 @@ public class AlunoMenu implements Menu {
         String cpf = Util.lerTexto(sc);
 
         if (service.excluirAluno(cpf)) {
-            System.out.println("Removido!");
+            System.out.print("Tem certeza que deseja excluir o aluno? (S/N): ");
+            String confirmacao = Util.lerTexto(sc);
+            if (confirmacao.equalsIgnoreCase("S") || confirmacao.equalsIgnoreCase("SIM")) {
+                System.out.println(" ");
+                System.out.println("Aluno Removido com sucesso!");
+            } else {
+                System.out.println(" ");
+                System.out.println("Operação cancelada.");
+                return;
+            }
         } else {
             System.out.println("Aluno não encontrado");
         }
     }
 
     private void atualizar(Scanner sc) {
-        if (!temPermissao()) return;
+    if (!temPermissao()) return;
 
-        System.out.print("CPF do aluno: ");
-        String cpf = Util.lerTexto(sc);
+    System.out.print("CPF do aluno: ");
+    String cpf = Util.lerTexto(sc);
 
-        System.out.print("Novo nome: ");
-        String nome = Util.lerTexto(sc);
+    Aluno alunoExistente = service.buscarPorCpf(cpf);
 
-        System.out.print("Telefone: ");
-        String telefone = Util.lerTexto(sc);
-
-        System.out.print("Email: ");
-        String email = Util.lerTexto(sc);
-
-        System.out.print("Data nascimento (yyyy-MM-dd): ");
-        LocalDate dataNascimento = LocalDate.parse(Util.lerTexto(sc));
-
-        Plano plano = planoService.escolherPlano(sc);
-
-        Aluno aluno = new Aluno(nome, cpf, dataNascimento, telefone, email, plano);
-
-        if (service.atualizarAluno(aluno)) {
-            System.out.println("Atualizado!");
-        } else {
-            System.out.println("Aluno não encontrado");
-        }
+    if (alunoExistente == null) {
+        System.out.println("Aluno não encontrado.");
+        return;
     }
 
+    System.out.println("\nO que você deseja atualizar?");
+    System.out.println("1- Nome");
+    System.out.println("2- Telefone");
+    System.out.println("3- Email");
+    System.out.println("4- Data de nascimento");
+    System.out.println("5- Plano");
+    System.out.println("6- Atualizar tudo");
+    System.out.println("0- Voltar ao menu");
+
+    int opcao = Util.lerInteiro(sc);
+
+    switch (opcao) {
+
+        case 1:
+            System.out.print("Novo nome: ");
+            alunoExistente.setNome(Util.lerTexto(sc));
+            break;
+        case 2:
+            System.out.print("Novo telefone: ");
+            alunoExistente.setTelefone(Util.lerTexto(sc));
+            break;
+        case 3:
+            System.out.print("Novo email: ");
+            alunoExistente.setEmail(Util.lerTexto(sc));
+            break;
+        case 4:
+            System.out.print("Nova data de nascimento (yyyy-MM-dd): ");
+            alunoExistente.setDataNascimento(
+                LocalDate.parse(Util.lerTexto(sc))
+            );
+            break;
+        case 5:
+            planoService.listarPlanos();
+
+            System.out.print("Escolha um novo plano: ");
+            Plano plano = planoService.escolherPlano(sc);
+
+            alunoExistente.setPlanoAtivo(plano);
+            break;
+        case 6:
+            System.out.print("Novo nome: ");
+            alunoExistente.setNome(Util.lerTexto(sc));
+
+            System.out.print("Novo telefone: ");
+            alunoExistente.setTelefone(Util.lerTexto(sc));
+
+            System.out.print("Novo email: ");
+            alunoExistente.setEmail(Util.lerTexto(sc));
+
+            System.out.print("Nova data de nascimento (yyyy-MM-dd): ");
+            alunoExistente.setDataNascimento(
+                LocalDate.parse(Util.lerTexto(sc))
+            );
+
+            planoService.listarPlanos();
+
+            System.out.print("Escolha um novo plano: ");
+            Plano novoPlano = planoService.escolherPlano(sc);
+
+            alunoExistente.setPlanoAtivo(novoPlano);
+            break;
+        case 0:
+            return;
+        default:
+            System.out.println("Opção inválida.");
+            return;
+    }
+    System.out.println("\nAluno atualizado com sucesso!");
+}
     private boolean temPermissao() {
         if (usuario.getTipo().equalsIgnoreCase("GERENTE") ||
             usuario.getTipo().equalsIgnoreCase("RECEPCIONISTA")) {

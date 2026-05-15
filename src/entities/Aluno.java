@@ -18,7 +18,7 @@ public class Aluno extends Pessoa {
     }
 
     public Aluno(String nome, String cpf, LocalDate dataNascimento,
-                 String telefone, String email, Plano planoAtivo) {
+        String telefone, String email, Plano planoAtivo) {
         super(nome, cpf, telefone);
         this.dataNascimento = dataNascimento;
         this.email = email;
@@ -60,7 +60,7 @@ public String toString() {
             " | CPF: " + cpf +
             " | Email: " + email +
             " | Telefone: " + telefone +
-            " | Plano: " + (planoAtivo != null ? planoAtivo.getNome() : "Sem plano") +
+            " | Plano: " + (planoAtivo != null ? planoAtivo.getNome() : "Sem plano ou Inativo") +
             " | Nascimento: " + dataNascimento +
             " | Data de Matrícula: " + dataMatricula;
 }

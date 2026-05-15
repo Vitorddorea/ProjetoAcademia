@@ -22,6 +22,7 @@ public class InscricaoService {
         this.aulaService = aulaService;
     }
 
+
     public boolean inscrever(String cpf, String nomeAula) {
 
         Aluno aluno = alunoService.buscarPorCpf(cpf);

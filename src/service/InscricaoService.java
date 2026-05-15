@@ -9,6 +9,7 @@ import java.util.List;
 
 public class InscricaoService {
 
+
     private InscricaoRepository repository;
     private AlunoService alunoService;
     private AulaService aulaService;

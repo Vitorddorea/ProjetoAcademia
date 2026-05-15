@@ -5,6 +5,12 @@ public class Instrutor extends Pessoa {
     private String especialidade;
     private String horarioTrabalho;
 
+    public Instrutor(Long id, String nome, String cpf, String telefone, String especialidade, String horarioTrabalho) {
+        super(id, nome, cpf, telefone);
+        this.especialidade = especialidade;
+        this.horarioTrabalho = horarioTrabalho;
+    }
+
     public Instrutor(String nome, String cpf, String telefone,
                      String especialidade, String horarioTrabalho) {
         super(nome, cpf, telefone);

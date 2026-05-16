@@ -82,6 +82,14 @@ CREATE TABLE frequencia (
                             CONSTRAINT fk_frequencia_aula FOREIGN KEY (id_aula) REFERENCES aula(id)
 );
 
+
+CREATE TABLE usuario (
+    id BIGSERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL UNIQUE,
+    senha VARCHAR(100) NOT NULL,
+    tipo VARCHAR(20) NOT NULL
+);
+
 /* =========================================================
 OBSERVAÇÕES
 ========================================================= */
@@ -92,11 +100,13 @@ OBSERVAÇÕES
 -- 3. Executar 02_create_tables.sql
 
 -- Ordem recomendada de execução das tabelas:
+
 -- 1. plano
 -- 2. aluno
 -- 3. instrutor
 -- 4. aula
 -- 5. inscricao
 -- 6. frequencia
+-- 7. usuario
 
 -- Executar após criação do banco academiaDB

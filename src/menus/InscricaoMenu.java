@@ -20,10 +20,12 @@ public class InscricaoMenu implements Menu {
     public void exibir(Scanner sc) {
 
         while (true) {
-            System.out.println("\n==== INSCRIÇÕES ====");
+            System.out.println("\n======== GERENCIAR INSCRIÇÕES =========");
             System.out.println("1- Inscrever aluno");
             System.out.println("2- Listar inscrições");
             System.out.println("0- Voltar");
+            System.out.println("=======================================");
+            System.out.println("Escolha uma opção:");
 
             int op = EntradaException.lerInteiro(sc);
 

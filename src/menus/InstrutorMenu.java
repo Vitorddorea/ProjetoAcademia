@@ -21,12 +21,14 @@ public class InstrutorMenu implements Menu {
     public void exibir(Scanner sc) {
 
         while (true) {
-            System.out.println("\n==== GERENCIAR INSTRUTORES ====");
+            System.out.println("\n======== GERENCIAR INSTRUTORES ========");
             System.out.println("1- Cadastrar");
             System.out.println("2- Listar");
             System.out.println("3- Atualizar");
             System.out.println("4- Excluir");
             System.out.println("0- Voltar");
+            System.out.println("=======================================");
+            System.out.println("Escolha uma opção:");
 
             int op = EntradaException.lerInteiro(sc);
 

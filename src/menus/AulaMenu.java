@@ -40,8 +40,16 @@ public class AulaMenu implements Menu {
         int opcao;
 
         do {
-
-            exibirOpcoes();
+            System.out.println("\n========== GERENCIAR AULAS ============");
+            System.out.println("1 - Cadastrar aula");
+            System.out.println("2 - Listar aulas");
+            System.out.println("3 - Atualizar aula");
+            System.out.println("4 - Excluir aula");
+            System.out.println("5 - Matricular aluno");
+            System.out.println("6 - Relatório de ocupação");
+            System.out.println("0 - Voltar");
+            System.out.println("=======================================");
+            System.out.println("Escolha uma opção: ");
 
             opcao = EntradaException.lerInteiro(sc);
 
@@ -50,48 +58,29 @@ public class AulaMenu implements Menu {
                 case 1:
                     cadastrar(sc);
                     break;
-
                 case 2:
                     listar();
                     break;
-
                 case 3:
                     atualizar(sc);
                     break;
-
                 case 4:
                     excluir(sc);
                     break;
-
                 case 5:
                     matricularAluno(sc);
                     break;
-
                 case 6:
                     relatorioOcupacao();
                     break;
-
                 case 0:
                     System.out.println("\nVoltando...");
                     break;
-
                 default:
                     System.out.println("\nOpção inválida.");
             }
 
         } while (opcao != 0);
-    }
-
-    private void exibirOpcoes() {
-
-        System.out.println("\n==== GERENCIAR AULAS ====");
-        System.out.println("1 - Cadastrar aula");
-        System.out.println("2 - Listar aulas");
-        System.out.println("3 - Atualizar aula");
-        System.out.println("4 - Excluir aula");
-        System.out.println("5 - Matricular aluno");
-        System.out.println("6 - Relatório de ocupação");
-        System.out.println("0 - Voltar");
     }
 
     private void cadastrar(Scanner sc) {
@@ -125,11 +114,7 @@ public class AulaMenu implements Menu {
             return;
         }
 
-        if (possuiConflitoHorario(
-                cpf,
-                horario,
-                duracao
-        )) {
+        if (possuiConflitoHorario(cpf, horario, duracao)) {
 
             System.out.println(
                     "\nO instrutor possui " +
@@ -144,41 +129,21 @@ public class AulaMenu implements Menu {
             return;
         }
 
-        Aula aula = new Aula(
-                nome,
-                horario,
-                duracao,
-                capacidade,
-                instrutor
-        );
+        Aula aula = new Aula(nome, horario, duracao, capacidade, instrutor);
 
-        boolean cadastrada =
-                service.cadastrar(aula);
+        boolean cadastrada = service.cadastrar(aula);
 
         if (cadastrada) {
-
-            System.out.println(
-                    "\nAula cadastrada com sucesso!"
-            );
-
+            System.out.println("\nAula cadastrada com sucesso!");
         } else {
-
-            System.out.println(
-                    "\nAula já cadastrada!"
-            );
+            System.out.println("\nAula já cadastrada!");
         }
     }
 
-    private boolean possuiConflitoHorario(
-            String cpfInstrutor,
-            String horario,
-            int duracao) {
+    private boolean possuiConflitoHorario(String cpfInstrutor, String horario, int duracao) {
+        LocalTime inicioNovo = LocalTime.parse(horario);
 
-        LocalTime inicioNovo =
-                LocalTime.parse(horario);
-
-        LocalTime fimNovo =
-                inicioNovo.plusMinutes(duracao);
+        LocalTime fimNovo = inicioNovo.plusMinutes(duracao);
 
         return service.listar()
                 .stream()

@@ -20,16 +20,18 @@ public class FrequenciaMenu implements Menu {
     public void exibir(Scanner sc) {
 
         while (true) {
-            System.out.println("\n==== FREQUÊNCIA ====");
+            System.out.println("\n============= FREQUÊNCIA ==============");
             System.out.println("1- Registrar presença");
             System.out.println("2- Listar frequências");
             System.out.println("0- Voltar");
+            System.out.println("=======================================");
+            System.out.println("Escolha uma opção: ");
 
             int op = EntradaException.lerInteiro(sc);
 
             switch (op) {
                 case 1:
-                    System.out.print("CPF: ");
+                    System.out.print("CPF do aluno: ");
                     String cpf = EntradaException.lerTexto(sc);
 
                     System.out.print("Aula: ");

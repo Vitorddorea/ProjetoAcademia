@@ -18,12 +18,14 @@ public class PlanoMenu implements Menu {
     public void exibir(Scanner sc) {
 
         while (true) {
-            System.out.println("\n======== GERENCIAR PLANO ========");
+            System.out.println("\n========== GERENCIAR PLANO ============");
             System.out.println("1- Cadastrar novo plano");
             System.out.println("2- Listar planos");
             System.out.println("3- Atualizar plano");
             System.out.println("4- Excluir plano");
             System.out.println("0- Voltar");
+            System.out.println("=======================================");
+            System.out.println("Escolha uma opção");
 
             int opcao = EntradaException.lerInteiro(sc);
 

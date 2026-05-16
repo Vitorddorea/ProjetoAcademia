@@ -1,9 +1,6 @@
 package menus;
 
-import entities.Aluno;
-import entities.Aula;
-import entities.Plano;
-import entities.Usuario;
+import entities.*;
 import service.AlunoService;
 
 import service.PlanoService;
@@ -29,12 +26,14 @@ public class AlunoMenu implements Menu {
     public void exibir(Scanner sc) {
 
         while (true) {
-            System.out.println("\n======== GERENCIAR ALUNO ========");
+            System.out.println("\n========== GERENCIAR ALUNO ============");
             System.out.println("1- Cadastrar aluno");
             System.out.println("2- Listar alunos");
             System.out.println("3- Atualizar aluno");
             System.out.println("4- Excluir aluno");
             System.out.println("0- Voltar");
+            System.out.println("=======================================");
+            System.out.println("Escolha uma opção: ");
 
             int opcao = EntradaException.lerInteiro(sc);
 
@@ -270,8 +269,8 @@ public class AlunoMenu implements Menu {
     System.out.println("\nAluno atualizado com sucesso!");
 }
     private boolean temPermissao() {
-        if (usuario.getTipo().equalsIgnoreCase("GERENTE") ||
-            usuario.getTipo().equalsIgnoreCase("RECEPCIONISTA")) {
+        if (usuario.getTipo() == TipoUsuario.ADMINISTRADOR ||
+                usuario.getTipo() == TipoUsuario.FUNCIONARIO) {
             return true;
         }
 

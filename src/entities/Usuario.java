@@ -2,37 +2,42 @@ package entities;
 
 public class Usuario {
 
+    private Long id;
     private String nome;
-    private String tipo; // gerente || recepcionista
-    private int codigo;
+    private String senha;
+    private TipoUsuario tipo;
 
-    public Usuario(String nome, String tipo, int codigo) {
+    public Usuario(Long id, String nome, String senha, TipoUsuario tipo) {
+        this.id = id;
         this.nome = nome;
+        this.senha = senha;
         this.tipo = tipo;
-        this.codigo = codigo;
+    }
+
+    public Usuario(String nome, String senha, TipoUsuario tipo) {
+        this.nome = nome;
+        this.senha = senha;
+        this.tipo = tipo;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public String getTipo() {
+    public String getSenha() {
+        return senha;
+    }
+
+    public TipoUsuario getTipo() {
         return tipo;
     }
 
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
+    @Override
+    public String toString() {
+        return nome + " - " + tipo;
     }
 }

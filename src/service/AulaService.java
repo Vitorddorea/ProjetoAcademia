@@ -2,15 +2,15 @@ package service;
 import entities.Aluno;
 
 import entities.Aula;
-import repositories.AulaRepository;
+import repositories.AulaDAO;
 
 import java.util.List;
 
 public class AulaService {
 
-    private final AulaRepository repository;
+    private final AulaDAO repository;
 
-    public AulaService(AulaRepository repository) {
+    public AulaService(AulaDAO repository) {
         this.repository = repository;
     }
 
@@ -18,8 +18,7 @@ public class AulaService {
         if (repository.buscarPorNome(aula.getNome()) != null) {
             return false;
         }
-        repository.salvar(aula);
-        return true;
+        return repository.salvar(aula);
     }
 
     public List<Aula> listar() {
@@ -27,25 +26,13 @@ public class AulaService {
     }
 
     public boolean excluir(String nome) {
-        Aula aula = repository.buscarPorNome(nome);
-        if (aula == null) return false;
-
-        repository.remover(aula);
-        return true;
+        return repository.remover(nome);
     }
 
     public boolean atualizar(Aula nova) {
-        Aula existente = repository.buscarPorNome(nova.getNome());
-
-        if (existente == null) return false;
-
-        existente.setHorario(nova.getHorario());
-        existente.setDuracao(nova.getDuracao());
-        existente.setCapacidadeMaxima(nova.getCapacidadeMaxima());
-        existente.setInstrutor(nova.getInstrutor());
-
-        return true;
+        return repository.atualizar(nova);
     }
+
     public boolean matricularAluno(
         String nomeAula,
         Aluno aluno) {

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class ConexaoBanco {
 
     private static final String URL_POSTGRES =
-            "jdbc:postgresql://localhost:5432/academia_db";
+            "jdbc:postgresql://localhost:5432/academiaDB";
     private static final String USUARIO = "postgres";
     private static final String SENHA = "root";
 

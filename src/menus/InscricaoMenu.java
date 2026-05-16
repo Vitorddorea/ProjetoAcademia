@@ -2,7 +2,7 @@ package menus;
 
 import entities.Usuario;
 import service.InscricaoService;
-import util.Util;
+import exceptions.EntradaException;
 
 import java.util.Scanner;
 
@@ -25,15 +25,15 @@ public class InscricaoMenu implements Menu {
             System.out.println("2- Listar inscrições");
             System.out.println("0- Voltar");
 
-            int op = Util.lerInteiro(sc);
+            int op = EntradaException.lerInteiro(sc);
 
             switch (op) {
                 case 1:
                     System.out.print("CPF do aluno: ");
-                    String cpf = Util.lerTexto(sc);
+                    String cpf = EntradaException.lerTexto(sc);
 
                     System.out.print("Nome da aula: ");
-                    String aula = Util.lerTexto(sc);
+                    String aula = EntradaException.lerTexto(sc);
 
                     service.inscrever(cpf, aula);
                     break;

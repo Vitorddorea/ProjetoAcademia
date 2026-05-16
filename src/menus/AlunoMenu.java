@@ -7,7 +7,7 @@ import entities.Usuario;
 import service.AlunoService;
 
 import service.PlanoService;
-import util.Util;
+import exceptions.EntradaException;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -36,7 +36,7 @@ public class AlunoMenu implements Menu {
             System.out.println("4- Excluir aluno");
             System.out.println("0- Voltar");
 
-            int opcao = Util.lerInteiro(sc);
+            int opcao = EntradaException.lerInteiro(sc);
 
             switch (opcao) {
                 case 1: cadastrar(sc, null); break;
@@ -53,19 +53,19 @@ public class AlunoMenu implements Menu {
         if (!temPermissao()) return;
 
         System.out.print("Nome: ");
-        String nome = Util.lerTexto(sc);
+        String nome = EntradaException.lerTexto(sc);
 
         System.out.print("CPF: ");
-        String cpf = Util.lerTexto(sc);
+        String cpf = EntradaException.lerTexto(sc);
 
         System.out.print("Telefone: ");
-        String telefone = Util.lerTexto(sc);
+        String telefone = EntradaException.lerTexto(sc);
 
         System.out.print("Email: ");
-        String email = Util.lerTexto(sc);
+        String email = EntradaException.lerTexto(sc);
 
         System.out.print("Data Nascimento (yyyy-MM-dd): ");
-        LocalDate dataNascimento = LocalDate.parse(Util.lerTexto(sc));
+        LocalDate dataNascimento = LocalDate.parse(EntradaException.lerTexto(sc));
 
         Plano plano = planoService.escolherPlano(sc);
         Aluno aluno = new Aluno(
@@ -106,7 +106,7 @@ public class AlunoMenu implements Menu {
     }
 }
     public void listarAulasAluno(Scanner sc){
-        String cpfAluno = Util.lerTexto(sc);
+        String cpfAluno = EntradaException.lerTexto(sc);
         Aluno alunoEspecifico = service.buscarPorCpf(cpfAluno);
 
          if (alunoEspecifico != null) {
@@ -122,7 +122,7 @@ public class AlunoMenu implements Menu {
     System.out.println("\n===== RELATÓRIO DO ALUNO =====");
 
     System.out.print("Digite o CPF do aluno: ");
-    String cpf = Util.lerTexto(sc);
+    String cpf = EntradaException.lerTexto(sc);
 
     Aluno aluno = service.buscarPorCpf(cpf);
 
@@ -168,11 +168,11 @@ public class AlunoMenu implements Menu {
         if (!temPermissao()) return;
 
         System.out.print("CPF: ");
-        String cpf = Util.lerTexto(sc);
+        String cpf = EntradaException.lerTexto(sc);
 
         if (service.excluirAluno(cpf)) {
             System.out.print("Tem certeza que deseja excluir o aluno? (S/N): ");
-            String confirmacao = Util.lerTexto(sc);
+            String confirmacao = EntradaException.lerTexto(sc);
             if (confirmacao.equalsIgnoreCase("S") || confirmacao.equalsIgnoreCase("SIM")) {
                 System.out.println(" ");
                 System.out.println("Aluno Removido com sucesso!");
@@ -190,7 +190,7 @@ public class AlunoMenu implements Menu {
     if (!temPermissao()) return;
 
     System.out.print("CPF do aluno: ");
-    String cpf = Util.lerTexto(sc);
+    String cpf = EntradaException.lerTexto(sc);
 
     Aluno alunoExistente = service.buscarPorCpf(cpf);
 
@@ -208,26 +208,26 @@ public class AlunoMenu implements Menu {
     System.out.println("6- Atualizar tudo");
     System.out.println("0- Voltar ao menu");
 
-    int opcao = Util.lerInteiro(sc);
+    int opcao = EntradaException.lerInteiro(sc);
 
     switch (opcao) {
 
         case 1:
             System.out.print("Novo nome: ");
-            alunoExistente.setNome(Util.lerTexto(sc));
+            alunoExistente.setNome(EntradaException.lerTexto(sc));
             break;
         case 2:
             System.out.print("Novo telefone: ");
-            alunoExistente.setTelefone(Util.lerTexto(sc));
+            alunoExistente.setTelefone(EntradaException.lerTexto(sc));
             break;
         case 3:
             System.out.print("Novo email: ");
-            alunoExistente.setEmail(Util.lerTexto(sc));
+            alunoExistente.setEmail(EntradaException.lerTexto(sc));
             break;
         case 4:
             System.out.print("Nova data de nascimento (yyyy-MM-dd): ");
             alunoExistente.setDataNascimento(
-                LocalDate.parse(Util.lerTexto(sc))
+                LocalDate.parse(EntradaException.lerTexto(sc))
             );
             break;
         case 5:
@@ -240,17 +240,17 @@ public class AlunoMenu implements Menu {
             break;
         case 6:
             System.out.print("Novo nome: ");
-            alunoExistente.setNome(Util.lerTexto(sc));
+            alunoExistente.setNome(EntradaException.lerTexto(sc));
 
             System.out.print("Novo telefone: ");
-            alunoExistente.setTelefone(Util.lerTexto(sc));
+            alunoExistente.setTelefone(EntradaException.lerTexto(sc));
 
             System.out.print("Novo email: ");
-            alunoExistente.setEmail(Util.lerTexto(sc));
+            alunoExistente.setEmail(EntradaException.lerTexto(sc));
 
             System.out.print("Nova data de nascimento (yyyy-MM-dd): ");
             alunoExistente.setDataNascimento(
-                LocalDate.parse(Util.lerTexto(sc))
+                LocalDate.parse(EntradaException.lerTexto(sc))
             );
 
             planoService.listarPlanos();
@@ -266,6 +266,7 @@ public class AlunoMenu implements Menu {
             System.out.println("Opção inválida.");
             return;
     }
+        service.atualizarAluno(alunoExistente);
     System.out.println("\nAluno atualizado com sucesso!");
 }
     private boolean temPermissao() {

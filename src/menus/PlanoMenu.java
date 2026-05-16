@@ -2,7 +2,7 @@ package menus;
 
 import entities.Plano;
 import service.PlanoService;
-import util.Util;
+import exceptions.EntradaException;
 
 import java.util.Scanner;
 
@@ -25,7 +25,7 @@ public class PlanoMenu implements Menu {
             System.out.println("4- Excluir plano");
             System.out.println("0- Voltar");
 
-            int opcao = Util.lerInteiro(sc);
+            int opcao = EntradaException.lerInteiro(sc);
 
             switch (opcao) {
 
@@ -58,19 +58,19 @@ public class PlanoMenu implements Menu {
         System.out.println("\n=== CADASTRAR PLANO ===");
 
         System.out.print("Nome: ");
-        String nome = Util.lerTexto(sc);
+        String nome = EntradaException.lerTexto(sc);
 
         System.out.print("Descrição: ");
-        String descricao = Util.lerTexto(sc);
+        String descricao = EntradaException.lerTexto(sc);
 
         System.out.print("Valor mensal: ");
-        double valorMensal = Util.lerReal(sc);
+        double valorMensal = EntradaException.lerReal(sc);
 
         System.out.print("Duração (meses): ");
-        int duracao = Util.lerInteiro(sc);
+        int duracao = EntradaException.lerInteiro(sc);
 
         System.out.print("Benefícios: ");
-        String beneficios = Util.lerTexto(sc);
+        String beneficios = EntradaException.lerTexto(sc);
 
         Plano plano = new Plano(nome, descricao, valorMensal, duracao, beneficios);
 
@@ -91,19 +91,19 @@ public class PlanoMenu implements Menu {
         System.out.println("\n=== ATUALIZAR PLANO ===");
 
         System.out.print("Nome do plano: ");
-        String nome = Util.lerTexto(sc);
+        String nome = EntradaException.lerTexto(sc);
 
         System.out.print("Nova descrição: ");
-        String descricao = Util.lerTexto(sc);
+        String descricao = EntradaException.lerTexto(sc);
 
         System.out.print("Novo valor mensal: ");
-        double valor = Util.lerReal(sc);
+        double valor = EntradaException.lerReal(sc);
 
         System.out.print("Nova duração (meses): ");
-        int duracao = Util.lerInteiro(sc);
+        int duracao = EntradaException.lerInteiro(sc);
 
         System.out.print("Novos benefícios: ");
-        String beneficios = Util.lerTexto(sc);
+        String beneficios = EntradaException.lerTexto(sc);
 
         Plano planoAtualizado = new Plano(nome, descricao, valor, duracao, beneficios);
 
@@ -119,7 +119,7 @@ public class PlanoMenu implements Menu {
         System.out.println("\n=== EXCLUIR PLANO ===");
 
         System.out.print("Nome: ");
-        String nome = Util.lerTexto(sc);
+        String nome = EntradaException.lerTexto(sc);
 
         if (service.excluirPlano(nome)) {
             System.out.println("Plano removido com sucesso!");

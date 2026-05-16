@@ -3,7 +3,7 @@ package service;
 import entities.Aluno;
 import entities.Aula;
 import entities.Frequencia;
-import repositories.FrequenciaRepository;
+import repositories.FrequenciaDAO;
 
 import java.util.List;
 
@@ -12,12 +12,12 @@ public class FrequenciaService {
     private final AlunoService alunoService;
     private final AulaService aulaService;
     private final InscricaoService inscricaoService;
-    private final FrequenciaRepository repository;
+    private final FrequenciaDAO repository;
 
     public FrequenciaService(AlunoService alunoService,
         AulaService aulaService,
         InscricaoService inscricaoService,
-        FrequenciaRepository repository) {
+        FrequenciaDAO repository) {
 
         this.alunoService = alunoService;
         this.aulaService = aulaService;

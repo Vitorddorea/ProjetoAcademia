@@ -1,17 +1,17 @@
 package service;
 
 import entities.Plano;
-import repositories.PlanoRepository;
+import repositories.PlanoDAO;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class PlanoService {
 
-    private final PlanoRepository repository;
+    private final PlanoDAO repository;
     
 
-    public PlanoService(PlanoRepository repository) {
+    public PlanoService(PlanoDAO repository) {
         this.repository = repository;
     }
 
@@ -19,8 +19,7 @@ public class PlanoService {
         if (repository.buscarPorNome(plano.getNome()) != null) {
             return false;
         }
-        repository.salvar(plano);
-        return true;
+        return repository.salvar(plano);
     }
 
     public List<Plano> listarPlanos() {
@@ -28,23 +27,11 @@ public class PlanoService {
     }
 
     public boolean excluirPlano(String nome) {
-        Plano plano = repository.buscarPorNome(nome);
-        if (plano == null) return false;
-
-        repository.remover(plano);
-        return true;
+        return repository.remover(nome);
     }
 
     public boolean atualizarPlano(Plano novo) {
-        Plano existente = repository.buscarPorNome(novo.getNome());
-        if (existente == null) return false;
-
-        existente.setDescricao(novo.getDescricao());
-        existente.setValorMensal(novo.getValorMensal());
-        existente.setDuracaoMeses(novo.getDuracaoMeses());
-        existente.setBeneficios(novo.getBeneficios());
-
-        return true;
+        return repository.atualizar(novo);
     }
 
     public Plano buscarPorNome(String nome) {

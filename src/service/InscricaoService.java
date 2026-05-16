@@ -3,19 +3,17 @@ package service;
 import entities.Aluno;
 import entities.Aula;
 import entities.Inscricao;
-import repositories.InscricaoRepository;
-
+import repositories.InscricaoDAO;
 
 import java.util.List;
 
 public class InscricaoService {
 
-
-    private InscricaoRepository repository;
+    private InscricaoDAO repository;
     private AlunoService alunoService;
     private AulaService aulaService;
 
-    public InscricaoService(InscricaoRepository repository,
+    public InscricaoService(InscricaoDAO repository,
                             AlunoService alunoService,
                             AulaService aulaService) {
 
@@ -56,9 +54,13 @@ public class InscricaoService {
             return false;
         }
 
-        repository.salvar(new Inscricao(aluno, aula));
-        System.out.println("Inscrição realizada!");
-        return true;
+        boolean sucesso = repository.salvar(new Inscricao(aluno, aula));
+
+        if (sucesso) {
+            System.out.println("Inscrição realizada!");
+        }
+
+        return sucesso;
     }
 
     public List<Inscricao> listar() {
@@ -67,23 +69,14 @@ public class InscricaoService {
 
     public boolean cancelar(String cpf, String nomeAula) {
 
-        Inscricao encontrada = repository.listar().stream()
-                .filter(i ->
-                        i.getAluno().getCpf().equals(cpf) &&
-                        i.getAula().getNome().equalsIgnoreCase(nomeAula)
-                )
-                .findFirst()
-                .orElse(null);
+        boolean removido = repository.remover(cpf, nomeAula);
 
-        if (encontrada == null) {
+        if (removido) {
+            System.out.println("Inscrição cancelada!");
+        } else {
             System.out.println("Inscrição não encontrada.");
-            return false;
         }
 
-        encontrada.getAula().removerAluno();
-        repository.remover(encontrada);
-
-        System.out.println("Inscrição cancelada!");
-        return true;
+        return removido;
     }
 }

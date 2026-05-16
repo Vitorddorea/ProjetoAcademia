@@ -2,12 +2,8 @@ package application;
 
 import menus.*;
 
-import repositories.AlunoRepository;
-import repositories.AulaRepository;
-import repositories.InstrutorRepository;
-import repositories.PlanoRepository;
-import repositories.InscricaoRepository;
-import repositories.FrequenciaRepository;
+import repositories.*;
+import repositories.PlanoDAO;
 
 import service.AlunoService;
 import service.AulaService;
@@ -17,7 +13,7 @@ import service.PlanoService;
 import service.InscricaoService;
 
 import entities.Usuario;
-import util.Util;
+import exceptions.EntradaException;
 
 import java.util.Locale;
 import java.util.Scanner;
@@ -30,20 +26,26 @@ public class Academia {
         Scanner sc = new Scanner(System.in);
 
         //  REPOSITORIES
-        AlunoRepository alunoRepository = new AlunoRepository();
-        AulaRepository aulaRepository = new AulaRepository();
-        InstrutorRepository instrutorRepository = new InstrutorRepository();
-        InscricaoRepository inscricaoRepository = new InscricaoRepository();
-        FrequenciaRepository frequenciaRepository = new FrequenciaRepository();
-        PlanoRepository planoRepository = new PlanoRepository();
-        //  SERVICES
-        AlunoService alunoService = new AlunoService(alunoRepository);
-        AulaService aulaService = new AulaService(aulaRepository);
-        InstrutorService instrutorService = new InstrutorService(instrutorRepository);
-        PlanoService planoService = new PlanoService(planoRepository);
+        AlunoDAO alunoDAO = new AlunoDAO();
+        AulaDAO aulaDAO = new AulaDAO();
+        InstrutorDAO instrutorDAO = new InstrutorDAO();
+        InscricaoDAO inscricaoDAO = new InscricaoDAO();
+        FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
+        PlanoDAO planoDAO = new PlanoDAO();
 
-        InscricaoService inscricaoService = new InscricaoService(inscricaoRepository, alunoService, aulaService);
-        FrequenciaService frequenciaService = new FrequenciaService(alunoService, aulaService, inscricaoService, frequenciaRepository);         
+        //  SERVICES
+        AlunoService alunoService = new AlunoService(alunoDAO);
+
+        AulaService aulaService = new AulaService(aulaDAO);
+
+        InstrutorService instrutorService = new InstrutorService(instrutorDAO);
+
+        PlanoService planoService = new PlanoService(planoDAO);
+
+        InscricaoService inscricaoService = new InscricaoService(inscricaoDAO, alunoService, aulaService);
+
+        FrequenciaService frequenciaService = new FrequenciaService(alunoService, aulaService, inscricaoService, frequenciaDAO);
+
         //USUÁRIOS 
         Usuario usuario1 = new Usuario("Patricia", "GERENTE", 345);
         Usuario usuario2 = new Usuario("Marcio", "RECEPCIONISTA", 678);
@@ -81,7 +83,7 @@ public class Academia {
             System.out.println("7- Relatórios");
             System.out.println("0- Sair");
 
-            int opcao = Util.lerInteiro(sc);
+            int opcao = EntradaException.lerInteiro(sc);
             Menu menuSelecionado = null;
 
             switch (opcao) {

@@ -2,7 +2,7 @@ package menus;
 
 import entities.Usuario;
 import service.FrequenciaService;
-import util.Util;
+import exceptions.EntradaException;
 
 import java.util.Scanner;
 
@@ -25,18 +25,18 @@ public class FrequenciaMenu implements Menu {
             System.out.println("2- Listar frequências");
             System.out.println("0- Voltar");
 
-            int op = Util.lerInteiro(sc);
+            int op = EntradaException.lerInteiro(sc);
 
             switch (op) {
                 case 1:
                     System.out.print("CPF: ");
-                    String cpf = Util.lerTexto(sc);
+                    String cpf = EntradaException.lerTexto(sc);
 
                     System.out.print("Aula: ");
-                    String aula = Util.lerTexto(sc);
+                    String aula = EntradaException.lerTexto(sc);
 
                     System.out.print("Presente (S/N): ");
-                    String resp = Util.lerTexto(sc);
+                    String resp = EntradaException.lerTexto(sc);
 
                     boolean presente = resp.equalsIgnoreCase("S");
 

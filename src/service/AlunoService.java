@@ -1,14 +1,14 @@
 package service;
 
 import entities.Aluno;
-import repositories.AlunoRepository;
+import repositories.AlunoDAO;
 
 public class AlunoService {
     // criando depencia aluno repository
-    private AlunoRepository repository; 
+    private AlunoDAO repository;
 
     // construtor para receber a dependência do repositório
-    public AlunoService(AlunoRepository repository) {
+    public AlunoService(AlunoDAO repository) {
         this.repository = repository;
     }
 
@@ -23,40 +23,20 @@ public class AlunoService {
     public boolean cadastrarAluno(Aluno aluno) {
 
         if (repository.buscarAlunoPorCpf(aluno.getCpf()) != null) {
-            return false; 
-        }   
+            return false;
+        }
 
-    repository.adicionarAluno(aluno);
-
-    return true;
-
-}
+        return repository.adicionarAluno(aluno);
+    }
 
     public boolean excluirAluno(String cpf) {
-        Aluno aluno = repository.buscarAlunoPorCpf(cpf);
-
-        if (aluno == null) {
-            return false;
-        }
-
-        repository.removerAluno(aluno);
-        return true;
+        return repository.removerAluno(cpf);
     }
+
     public boolean atualizarAluno(Aluno alunoAtualizado) {
-        Aluno existente = repository.buscarAlunoPorCpf(alunoAtualizado.getCpf());
-
-        if (existente == null) {
-            return false;
-        }
-
-        existente.setNome(alunoAtualizado.getNome());
-        existente.setTelefone(alunoAtualizado.getTelefone());
-        existente.setEmail(alunoAtualizado.getEmail());
-        existente.setDataNascimento(alunoAtualizado.getDataNascimento());
-        existente.setPlanoAtivo(alunoAtualizado.getPlanoAtivo());
-
-        return true;
+        return repository.atualizarAluno(alunoAtualizado);
     }
+
     public Aluno buscarPorCpf(String cpf) {
     return repository.buscarAlunoPorCpf(cpf);
 }

@@ -82,6 +82,6 @@ public class Aula {
     public String toString() {
         return "\n Aula: " + nome +
                 " | Horário: " + horario +
-                " | Instrutor: " + instrutor.getNome();
+                " | Instrutor: " + instrutor.getNome() + " | Capacidade: " + alunosInscritos + "/" + capacidadeMaxima;
     }
 }

@@ -9,7 +9,7 @@ import service.AlunoService;
 import service.AulaService;
 import service.InstrutorService;
 
-import util.Util;
+import exceptions.EntradaException;
 
 import java.time.LocalTime;
 import java.util.Scanner;
@@ -43,7 +43,7 @@ public class AulaMenu implements Menu {
 
             exibirOpcoes();
 
-            opcao = Util.lerInteiro(sc);
+            opcao = EntradaException.lerInteiro(sc);
 
             switch (opcao) {
 
@@ -99,19 +99,19 @@ public class AulaMenu implements Menu {
         System.out.println("\n===== CADASTRO DE AULA =====");
 
         System.out.print("Nome: ");
-        String nome = Util.lerTexto(sc);
+        String nome = EntradaException.lerTexto(sc);
 
         System.out.print("Horário (HH:mm): ");
-        String horario = Util.lerTexto(sc);
+        String horario = EntradaException.lerTexto(sc);
 
         System.out.print("Duração (minutos): ");
-        int duracao = Util.lerInteiro(sc);
+        int duracao = EntradaException.lerInteiro(sc);
 
         System.out.print("Capacidade máxima: ");
-        int capacidade = Util.lerInteiro(sc);
+        int capacidade = EntradaException.lerInteiro(sc);
 
         System.out.print("CPF do instrutor: ");
-        String cpf = Util.lerTexto(sc);
+        String cpf = EntradaException.lerTexto(sc);
 
         Instrutor instrutor =
                 instrutorService.buscarPorCpf(cpf);
@@ -241,7 +241,7 @@ public class AulaMenu implements Menu {
         );
 
         System.out.print("Nome da aula: ");
-        String nome = Util.lerTexto(sc);
+        String nome = EntradaException.lerTexto(sc);
 
         boolean removida =
                 service.excluir(nome);
@@ -267,19 +267,19 @@ public class AulaMenu implements Menu {
         );
 
         System.out.print("Nome da aula: ");
-        String nome = Util.lerTexto(sc);
+        String nome = EntradaException.lerTexto(sc);
 
         System.out.print("Novo horário: ");
-        String horario = Util.lerTexto(sc);
+        String horario = EntradaException.lerTexto(sc);
 
         System.out.print("Nova duração: ");
-        int duracao = Util.lerInteiro(sc);
+        int duracao = EntradaException.lerInteiro(sc);
 
         System.out.print("Nova capacidade: ");
-        int capacidade = Util.lerInteiro(sc);
+        int capacidade = EntradaException.lerInteiro(sc);
 
         System.out.print("CPF do instrutor: ");
-        String cpf = Util.lerTexto(sc);
+        String cpf = EntradaException.lerTexto(sc);
 
         Instrutor instrutor =
                 instrutorService.buscarPorCpf(cpf);
@@ -326,11 +326,11 @@ public class AulaMenu implements Menu {
 
         System.out.print("Nome da aula: ");
         String nomeAula =
-                Util.lerTexto(sc);
+                EntradaException.lerTexto(sc);
 
         System.out.print("CPF do aluno: ");
         String cpfAluno =
-                Util.lerTexto(sc);
+                EntradaException.lerTexto(sc);
 
         Aluno aluno =
                 alunoService.buscarPorCpf(cpfAluno);

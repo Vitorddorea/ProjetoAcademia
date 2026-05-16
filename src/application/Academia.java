@@ -20,6 +20,7 @@ import java.util.Scanner;
 
 public class Academia {
 
+
     public static void main(String[] args) {
 
         Locale.setDefault(Locale.US);

@@ -1,11 +1,28 @@
 package application;
 
 import menus.*;
-import repositories.*;
-import service.*;
-import entities.TipoUsuario;
+
+import repositories.AlunoRepository;
+import repositories.AulaRepository;
+import repositories.InstrutorRepository;
+import repositories.PlanoRepository;
+import repositories.InscricaoRepository;
+import repositories.FrequenciaRepository;
+
+
+import service.AlunoService;
+import service.AulaService;
+import service.FrequenciaService;
+import service.InstrutorService;
+import service.PlanoService;
+import service.RelatorioService;
+import service.InscricaoService;
+
+import entities.Aula;
+import entities.Instrutor;
 import entities.Usuario;
-import exceptions.EntradaException;
+
+import util.Util;
 
 import java.util.Locale;
 import java.util.Scanner;
@@ -17,122 +34,208 @@ public class Academia {
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
 
-        // DAO / REPOSITORIES
-        AlunoDAO alunoDAO = new AlunoDAO();
-        AulaDAO aulaDAO = new AulaDAO();
-        InstrutorDAO instrutorDAO = new InstrutorDAO();
-        InscricaoDAO inscricaoDAO = new InscricaoDAO();
-        FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
-        PlanoDAO planoDAO = new PlanoDAO();
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        // REPOSITORIES
+        AlunoRepository alunoRepository = new AlunoRepository();
+        AulaRepository aulaRepository = new AulaRepository();
+        InstrutorRepository instrutorRepository = new InstrutorRepository();
+        InscricaoRepository inscricaoRepository = new InscricaoRepository();
+        FrequenciaRepository frequenciaRepository = new FrequenciaRepository();
+        PlanoRepository planoRepository = new PlanoRepository();
 
         // SERVICES
-        AlunoService alunoService = new AlunoService(alunoDAO);
-        AulaService aulaService = new AulaService(aulaDAO);
-        InstrutorService instrutorService = new InstrutorService(instrutorDAO);
-        PlanoService planoService = new PlanoService(planoDAO);
-        InscricaoService inscricaoService = new InscricaoService(inscricaoDAO, alunoService, aulaService);
-        FrequenciaService frequenciaService = new FrequenciaService(alunoService, aulaService, inscricaoService, frequenciaDAO);
-        UsuarioService usuarioService = new UsuarioService(usuarioDAO);
+        AlunoService alunoService = new AlunoService(alunoRepository);
+        AulaService aulaService = new AulaService(aulaRepository);
+        InstrutorService instrutorService = new InstrutorService(instrutorRepository);
+        PlanoService planoService = new PlanoService(planoRepository);
 
-        // LOGIN
-        Usuario usuarioLogado = null;
+        InscricaoService inscricaoService =
+                new InscricaoService(inscricaoRepository, alunoService, aulaService);
 
-        while (usuarioLogado == null) {
-            usuarioLogado = autenticarUsuario(sc, usuarioService);
+        FrequenciaService frequenciaService =
+                new FrequenciaService(
+                        alunoService,
+                        aulaService,
+                        inscricaoService,
+                        frequenciaRepository
+                );
 
-            if (usuarioLogado == null) {
-                System.out.println("Usuário ou senha inválidos. Tente novamente.\n");
-            }
+        // USUÁRIOS
+        Usuario usuario1 = new Usuario("Patricia", "GERENTE", 345);
+        Usuario usuario2 = new Usuario("Marcio", "RECEPCIONISTA", 678);
+
+        Usuario usuarioLogado =
+                autenticarUsuario(sc, usuario1, usuario2);
+
+        if (usuarioLogado == null) {
+            System.out.println("Acesso negado!");
+            sc.close();
+            return;
         }
 
-        // MENUS
-        Menu alunoMenu = new AlunoMenu(usuarioLogado, alunoService, planoService, inscricaoService);
-        Menu aulaMenu = new AulaMenu(usuarioLogado, aulaService, instrutorService, alunoService, inscricaoService);
-        Menu instrutorMenu = new InstrutorMenu(usuarioLogado, instrutorService);
-        Menu planoMenu = new PlanoMenu(planoService);
-        Menu inscricaoMenu = new InscricaoMenu(usuarioLogado, inscricaoService);
-        Menu frequenciaMenu = new FrequenciaMenu(usuarioLogado, frequenciaService);
-        Menu relatorioMenu = new RelatorioMenu(alunoService, aulaService);
-        Menu usuarioMenu = new UsuarioMenu(usuarioService);
+        // INSTRUTORES PRÉ-CADASTRADOS
+        Instrutor i1 = new Instrutor(
+                "Carlos Silva",
+                "11111111111",
+                "11999999999",
+                "Musculação",
+                "18:00 às 22:00"
+        );
 
+        Instrutor i2 = new Instrutor(
+                "Fernanda Lima",
+                "22222222222",
+                "11988888888",
+                "Yoga",
+                "07:00 às 11:00"
+        );
+
+        instrutorService.cadastrar(i1);
+        instrutorService.cadastrar(i2);
+
+        // AULAS PRÉ-CADASTRADAS
+        Aula a1 = new Aula(
+                "Musculação Funcional",
+                "19:00",
+                60,
+                20,
+                i1
+        );
+
+        Aula a2 = new Aula(
+                "Yoga",
+                "08:00",
+                50,
+                15,
+                i2
+        );
+        RelatorioService relatorioService =
+        new RelatorioService(
+                aulaService,
+                frequenciaService
+        );
+
+        aulaService.cadastrar(a1);
+        aulaService.cadastrar(a2);
+
+        // MENUS
+        Menu alunoMenu =
+                new AlunoMenu(usuarioLogado, alunoService, planoService);
+
+        Menu aulaMenu =
+            new AulaMenu(usuarioLogado,aulaService,instrutorService,alunoService);
+
+        Menu instrutorMenu =
+            new InstrutorMenu(usuarioLogado, instrutorService);
+
+        Menu planoMenu =
+            new PlanoMenu(planoService);
+
+        Menu inscricaoMenu =
+            new InscricaoMenu(usuarioLogado, inscricaoService);
+
+        Menu frequenciaMenu =
+            new FrequenciaMenu(usuarioLogado, frequenciaService);
+        Menu relatorioMenu =
+        new RelatorioMenu(relatorioService);
         boolean executando = true;
 
         while (executando) {
-            System.out.println("\n========== SISTEMA ACADEMIA ===========");
 
-            if (usuarioLogado.getTipo() == TipoUsuario.ADMINISTRADOR) {
-                System.out.println("1 - Alunos");
-                System.out.println("2 - Instrutores");
-                System.out.println("3 - Planos");
-                System.out.println("4 - Aulas");
-                System.out.println("5 - Inscrições");
-                System.out.println("6 - Frequências");
-                System.out.println("7 - Relatórios");
-                System.out.println("8 - Usuários");
-                System.out.println("0 - Sair");
-            } else {
-                System.out.println("1 - Alunos");
-                System.out.println("2 - Aulas");
-                System.out.println("3 - Inscrições");
-                System.out.println("4 - Frequências");
-                System.out.println("5 - Relatórios");
-                System.out.println("0 - Sair");
-            }
+            System.out.println("\n=== SISTEMA ACADEMIA ===");
+            System.out.println("1- Alunos");
+            System.out.println("2- Instrutores");
+            System.out.println("3- Planos");
+            System.out.println("4- Aulas");
+            System.out.println("5- Inscrições");
+            System.out.println("6- Frequências");
+            System.out.println("7- Relatórios");
+            System.out.println("0- Sair");
 
-            System.out.println("=======================================");
-            System.out.println("Escolha uma opção: ");
+            int opcao = Util.lerInteiro(sc);
 
-            int opcao = EntradaException.lerInteiro(sc);
             Menu menuSelecionado = null;
 
-            if (usuarioLogado.getTipo() == TipoUsuario.ADMINISTRADOR) {
-                switch (opcao) {
-                    case 1 -> menuSelecionado = alunoMenu;
-                    case 2 -> menuSelecionado = instrutorMenu;
-                    case 3 -> menuSelecionado = planoMenu;
-                    case 4 -> menuSelecionado = aulaMenu;
-                    case 5 -> menuSelecionado = inscricaoMenu;
-                    case 6 -> menuSelecionado = frequenciaMenu;
-                    case 7 -> menuSelecionado = relatorioMenu;
-                    case 8 -> menuSelecionado = usuarioMenu;
-                    case 0 -> {
-                        executando = false;
-                        System.out.println("Encerrando sistema...");
-                    }
-                    default -> System.out.println("Opção inválida!");
-                }
-            } else {
-                switch (opcao) {
-                    case 1 -> menuSelecionado = alunoMenu;
-                    case 2 -> menuSelecionado = aulaMenu;
-                    case 3 -> menuSelecionado = inscricaoMenu;
-                    case 4 -> menuSelecionado = frequenciaMenu;
-                    case 5 -> menuSelecionado = relatorioMenu;
-                    case 0 -> {
-                        executando = false;
-                        System.out.println("Encerrando sistema...");
-                    }
-                    default -> System.out.println("Opção inválida!");
-                }
+            switch (opcao) {
+
+                case 1:
+                    menuSelecionado = alunoMenu;
+                    break;
+
+                case 2:
+                    menuSelecionado = instrutorMenu;
+                    break;
+
+                case 3:
+                    menuSelecionado = planoMenu;
+                    break;
+
+                case 4:
+                    menuSelecionado = aulaMenu;
+                    break;
+
+                case 5:
+                    menuSelecionado = inscricaoMenu;
+                    break;
+
+                case 6:
+                    menuSelecionado = frequenciaMenu;
+                    break;
+                    case 7:
+                    menuSelecionado = relatorioMenu;
+                    break;
+                case 0:
+
+                    System.out.println("Encerrando sistema...");
+                    executando = false;
+                    break;
+
+                default:
+                    System.out.println("Opção inválida!");
             }
 
             if (menuSelecionado != null) {
                 menuSelecionado.exibir(sc);
             }
         }
+
+        sc.close();
     }
 
-    // Método de login usando UsuarioService
-    private static Usuario autenticarUsuario(Scanner sc, UsuarioService usuarioService) {
-        System.out.println("\n========= LOGIN =========");
+    private static Usuario autenticarUsuario(
+            Scanner sc,
+            Usuario u1,
+            Usuario u2
+    ) {
 
-        System.out.print("Usuário: ");
-        String nome = EntradaException.lerTexto(sc);
+        System.out.println("\n*** LOGIN ***");
+        System.out.print("Digite o código: ");
 
-        System.out.print("Senha: ");
-        String senha = EntradaException.lerTexto(sc);
+        String codigo = sc.nextLine();
 
-        return usuarioService.login(nome, senha);
+        if (codigo.equals(String.valueOf(u1.getCodigo()))) {
+
+            System.out.println(
+                    "Bem-vindo(a) "
+                    + u1.getTipo()
+                    + " "
+                    + u1.getNome()
+            );
+
+            return u1;
+        }
+
+        if (codigo.equals(String.valueOf(u2.getCodigo()))) {
+
+            System.out.println(
+                    "Bem-vindo(a) "
+                    + u2.getTipo()
+                    + " "
+                    + u2.getNome()
+            );
+
+            return u2;
+        }
+
+        return null;
     }
 }

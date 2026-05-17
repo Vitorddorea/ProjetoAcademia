@@ -1,15 +1,14 @@
 package service;
 
 import entities.Aluno;
-import repositories.AlunoDAO;
-import service.InscricaoService;
+import repositories.AlunoRepository;
 
 public class AlunoService {
     // criando depencia aluno repository
-    private AlunoDAO repository;
+    private AlunoRepository repository; 
 
     // construtor para receber a dependência do repositório
-    public AlunoService(AlunoDAO repository) {
+    public AlunoService(AlunoRepository repository) {
         this.repository = repository;
     }
 
@@ -24,92 +23,41 @@ public class AlunoService {
     public boolean cadastrarAluno(Aluno aluno) {
 
         if (repository.buscarAlunoPorCpf(aluno.getCpf()) != null) {
-            return false;
-        }
+            return false; 
+        }   
 
-        return repository.adicionarAluno(aluno);
-    }
+    repository.adicionarAluno(aluno);
 
-    public boolean excluirAluno(String cpf) {
-        return repository.removerAluno(cpf);
-    }
+    return true;
 
-    public boolean atualizarAluno(Aluno alunoAtualizado) {
-        return repository.atualizarAluno(alunoAtualizado);
-    }
-
-    public Aluno buscarPorCpf(String cpf) {
-    return repository.buscarAlunoPorCpf(cpf);
 }
 
-    public boolean planoAtivo(Aluno aluno) {
-
-        if (aluno == null || aluno.getPlanoAtivo() == null) {
-            return false;
-        }
-
-        return !java.time.LocalDate.now().isAfter(
-                dataVencimento(aluno)
-        );
-    }
-
-    public java.time.LocalDate dataVencimento(Aluno aluno) {
-
-        if (aluno == null || aluno.getPlanoAtivo() == null) {
-            return null;
-        }
-
-        return aluno.getDataMatricula()
-                .plusMonths(
-                        aluno.getPlanoAtivo()
-                                .getDuracaoMeses()
-                );
-    }
-
-    public void exibirDetalhesAluno(String cpf, InscricaoService inscricaoService) {
-
+    public boolean excluirAluno(String cpf) {
         Aluno aluno = repository.buscarAlunoPorCpf(cpf);
 
         if (aluno == null) {
-            System.out.println("Aluno não encontrado.");
-            return;
+            return false;
         }
 
-        System.out.println("\n===== DETALHES DO ALUNO =====");
-        System.out.println("Nome: " + aluno.getNome());
-        System.out.println("CPF: " + aluno.getCpf());
-        System.out.println("Telefone: " + aluno.getTelefone());
-        System.out.println("Email: " + aluno.getEmail());
-        System.out.println("Nascimento: " + aluno.getDataNascimento());
-        System.out.println("Data matrícula: " + aluno.getDataMatricula());
-        System.out.println();
+        repository.removerAluno(aluno);
+        return true;
+    }
+    public boolean atualizarAluno(Aluno alunoAtualizado) {
+        Aluno existente = repository.buscarAlunoPorCpf(alunoAtualizado.getCpf());
 
-        if (aluno.getPlanoAtivo() != null) {
-            System.out.println("Plano: " + aluno.getPlanoAtivo().getNome());
-            System.out.println("Status plano: " +
-                    (planoAtivo(aluno) ? "ATIVO" : "VENCIDO"));
-            System.out.println("Vencimento: " + dataVencimento(aluno));
-        } else {
-            System.out.println("Plano: Sem plano");
+        if (existente == null) {
+            return false;
         }
 
-        System.out.println("\nAulas inscritas:");
+        existente.setNome(alunoAtualizado.getNome());
+        existente.setTelefone(alunoAtualizado.getTelefone());
+        existente.setEmail(alunoAtualizado.getEmail());
+        existente.setDataNascimento(alunoAtualizado.getDataNascimento());
+        existente.setPlanoAtivo(alunoAtualizado.getPlanoAtivo());
 
-        boolean encontrou = false;
-
-        for (var inscricao : inscricaoService.listar()) {
-            if (inscricao.getAluno().getCpf().equals(cpf)) {
-                System.out.println(
-                        "- " + inscricao.getAula().getNome()
-                                + " | "
-                                + inscricao.getAula().getHorario()
-                );
-                encontrou = true;
-            }
-        }
-
-        if (!encontrou) {
-            System.out.println("Nenhuma aula inscrita.");
-        }
+        return true;
+    }
+    public Aluno buscarPorCpf(String cpf) {
+    return repository.buscarAlunoPorCpf(cpf);
     }
 }

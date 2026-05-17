@@ -7,10 +7,9 @@ import entities.Usuario;
 
 import service.AlunoService;
 import service.AulaService;
-import service.InscricaoService;
 import service.InstrutorService;
 
-import exceptions.EntradaException;
+import util.Util;
 
 import java.time.LocalTime;
 import java.util.Scanner;
@@ -18,22 +17,21 @@ import java.util.Scanner;
 public class AulaMenu implements Menu {
 
     private final Usuario usuario;
+
     private final AulaService service;
     private final InstrutorService instrutorService;
     private final AlunoService alunoService;
-    private final InscricaoService inscricaoService;
 
     public AulaMenu(
             Usuario usuario,
             AulaService service,
             InstrutorService instrutorService,
-            AlunoService alunoService, InscricaoService inscricaoService) {
+            AlunoService alunoService) {
 
         this.usuario = usuario;
         this.service = service;
         this.instrutorService = instrutorService;
         this.alunoService = alunoService;
-        this.inscricaoService = inscricaoService;
     }
 
     @Override
@@ -42,71 +40,86 @@ public class AulaMenu implements Menu {
         int opcao;
 
         do {
-            System.out.println("\n========== GERENCIAR AULAS ============");
-            System.out.println("1 - Cadastrar aula");
-            System.out.println("2 - Listar aulas");
-            System.out.println("3 - Atualizar aula");
-            System.out.println("4 - Excluir aula");
-            System.out.println("5 - Matricular aluno");
-            System.out.println("6 - Relatório de ocupação");
-            System.out.println("7 - Detalhes da aula");
-            System.out.println("0 - Voltar");
-            System.out.println("=======================================");
-            System.out.println("Escolha uma opção: ");
 
-            opcao = EntradaException.lerInteiro(sc);
+            exibirOpcoes();
+
+            opcao = Util.lerInteiro(sc);
 
             switch (opcao) {
 
                 case 1:
                     cadastrar(sc);
                     break;
+
                 case 2:
                     listar();
                     break;
+
                 case 3:
                     atualizar(sc);
                     break;
+
                 case 4:
                     excluir(sc);
                     break;
+
                 case 5:
                     matricularAluno(sc);
                     break;
+
                 case 6:
                     relatorioOcupacao();
                     break;
-                case 7:
-                    detalharAula(sc);
-                    break;
+
                 case 0:
                     System.out.println("\nVoltando...");
                     break;
+
                 default:
-                    System.out.println("\nOpção inválida.");
+                    System.out.println("\nOpção inválida!");
             }
 
         } while (opcao != 0);
     }
 
+    private void exibirOpcoes() {
+
+        System.out.println("\n===== GERENCIAR AULAS =====");
+        System.out.println("1 - Cadastrar aula");
+        System.out.println("2 - Listar aulas");
+        System.out.println("3 - Atualizar aula");
+        System.out.println("4 - Excluir aula");
+        System.out.println("5 - Matricular aluno");
+        System.out.println("6 - Relatório de ocupação");
+        System.out.println("0 - Voltar");
+
+        System.out.print("Escolha uma opção: ");
+    }
+
     private void cadastrar(Scanner sc) {
 
-        System.out.println("\n===== CADASTRO DE AULA =====");
+        if (!temPermissao()) {
+            return;
+        }
+
+        System.out.println(
+                "\n===== CADASTRO DE AULA ====="
+        );
 
         System.out.print("Nome: ");
-        String nome = EntradaException.lerTexto(sc);
+        String nome = Util.lerTexto(sc);
 
         System.out.print("Horário (HH:mm): ");
-        String horario = EntradaException.lerTexto(sc);
+        String horario = Util.lerTexto(sc);
 
         System.out.print("Duração (minutos): ");
-        int duracao = EntradaException.lerInteiro(sc);
+        int duracao = Util.lerInteiro(sc);
 
         System.out.print("Capacidade máxima: ");
-        int capacidade = EntradaException.lerInteiro(sc);
+        int capacidade = Util.lerInteiro(sc);
 
         System.out.print("CPF do instrutor: ");
-        String cpf = EntradaException.lerTexto(sc);
+        String cpf = Util.lerTexto(sc);
 
         Instrutor instrutor =
                 instrutorService.buscarPorCpf(cpf);
@@ -120,44 +133,66 @@ public class AulaMenu implements Menu {
             return;
         }
 
-        if (possuiConflitoHorario(cpf, horario, duracao)) {
+        if (possuiConflitoHorario(
+                cpf,
+                horario,
+                duracao
+        )) {
 
             System.out.println(
-                    "\nO instrutor possui " +
-                    "conflito de horário."
+                    "\nO instrutor possui conflito de horário."
             );
 
             System.out.println(
-                    "É necessário intervalo " +
-                    "mínimo de 10 minutos."
+                    "É necessário intervalo mínimo de 10 minutos."
             );
 
             return;
         }
 
-        Aula aula = new Aula(nome, horario, duracao, capacidade, instrutor);
+        Aula aula = new Aula(
+                nome,
+                horario,
+                duracao,
+                capacidade,
+                instrutor
+        );
 
-        boolean cadastrada = service.cadastrar(aula);
+        boolean cadastrada =
+                service.cadastrar(aula);
 
         if (cadastrada) {
-            System.out.println("\nAula cadastrada com sucesso!");
+
+            System.out.println(
+                    "\nAula cadastrada com sucesso!"
+            );
+
         } else {
-            System.out.println("\nAula já cadastrada!");
+
+            System.out.println(
+                    "\nJá existe uma aula com esse nome!"
+            );
         }
     }
 
-    private boolean possuiConflitoHorario(String cpfInstrutor, String horario, int duracao) {
-        LocalTime inicioNovo = LocalTime.parse(horario);
+    private boolean possuiConflitoHorario(
+            String cpfInstrutor,
+            String horario,
+            int duracao) {
 
-        LocalTime fimNovo = inicioNovo.plusMinutes(duracao);
+        LocalTime inicioNovo =
+                LocalTime.parse(horario);
+
+        LocalTime fimNovo =
+                inicioNovo.plusMinutes(duracao);
 
         return service.listar()
                 .stream()
 
                 .filter(a ->
                         a.getInstrutor()
-                        .getCpf()
-                        .equals(cpfInstrutor)
+                                .getCpf()
+                                .equals(cpfInstrutor)
                 )
 
                 .anyMatch(a -> {
@@ -180,7 +215,7 @@ public class AulaMenu implements Menu {
                             &&
 
                             fimNovo
-                            .isAfter(inicioExistente);
+                                    .isAfter(inicioExistente);
                 });
     }
 
@@ -207,50 +242,91 @@ public class AulaMenu implements Menu {
 
     private void excluir(Scanner sc) {
 
+        if (!temPermissao()) {
+            return;
+        }
+
         System.out.println(
                 "\n===== EXCLUIR AULA ====="
         );
 
         System.out.print("Nome da aula: ");
-        String nome = EntradaException.lerTexto(sc);
+        String nome = Util.lerTexto(sc);
 
-        boolean removida =
-                service.excluir(nome);
+        Aula aula =
+                service.buscarPorNome(nome);
 
-        if (removida) {
-
-            System.out.println(
-                    "\nAula removida com sucesso!"
-            );
-
-        } else {
+        if (aula == null) {
 
             System.out.println(
                     "\nAula não encontrada!"
             );
+
+            return;
         }
+
+        System.out.print(
+                "Deseja realmente excluir a aula "
+                + aula.getNome()
+                + "? (S/N): "
+        );
+
+        String confirmacao =
+                Util.lerTexto(sc);
+
+        if (confirmacao.equalsIgnoreCase("N")
+                || confirmacao.equalsIgnoreCase("NAO")) {
+
+            System.out.println(
+                    "\nExclusão cancelada."
+            );
+
+            return;
+        }
+
+        service.excluir(nome);
+
+        System.out.println(
+                "\nAula removida com sucesso!"
+        );
     }
 
     private void atualizar(Scanner sc) {
+
+        if (!temPermissao()) {
+            return;
+        }
 
         System.out.println(
                 "\n===== ATUALIZAR AULA ====="
         );
 
         System.out.print("Nome da aula: ");
-        String nome = EntradaException.lerTexto(sc);
+        String nome = Util.lerTexto(sc);
+
+        Aula aulaExistente =
+                service.buscarPorNome(nome);
+
+        if (aulaExistente == null) {
+
+            System.out.println(
+                    "\nAula não encontrada!"
+            );
+
+            return;
+        }
 
         System.out.print("Novo horário: ");
-        String horario = EntradaException.lerTexto(sc);
+        String horario = Util.lerTexto(sc);
 
         System.out.print("Nova duração: ");
-        int duracao = EntradaException.lerInteiro(sc);
+        int duracao = Util.lerInteiro(sc);
 
         System.out.print("Nova capacidade: ");
-        int capacidade = EntradaException.lerInteiro(sc);
+        int capacidade = Util.lerInteiro(sc);
 
         System.out.print("CPF do instrutor: ");
-        String cpf = EntradaException.lerTexto(sc);
+        String cpf = Util.lerTexto(sc);
 
         Instrutor instrutor =
                 instrutorService.buscarPorCpf(cpf);
@@ -264,7 +340,20 @@ public class AulaMenu implements Menu {
             return;
         }
 
-        Aula aula = new Aula(
+        if (possuiConflitoHorario(
+                cpf,
+                horario,
+                duracao
+        )) {
+
+            System.out.println(
+                    "\nO instrutor possui conflito de horário."
+            );
+
+            return;
+        }
+
+        Aula aulaAtualizada = new Aula(
                 nome,
                 horario,
                 duracao,
@@ -273,7 +362,7 @@ public class AulaMenu implements Menu {
         );
 
         boolean atualizada =
-                service.atualizar(aula);
+                service.atualizar(aulaAtualizada);
 
         if (atualizada) {
 
@@ -284,7 +373,7 @@ public class AulaMenu implements Menu {
         } else {
 
             System.out.println(
-                    "\nAula não encontrada!"
+                    "\nErro ao atualizar aula!"
             );
         }
     }
@@ -297,11 +386,11 @@ public class AulaMenu implements Menu {
 
         System.out.print("Nome da aula: ");
         String nomeAula =
-                EntradaException.lerTexto(sc);
+                Util.lerTexto(sc);
 
         System.out.print("CPF do aluno: ");
         String cpfAluno =
-                EntradaException.lerTexto(sc);
+                Util.lerTexto(sc);
 
         Aluno aluno =
                 alunoService.buscarPorCpf(cpfAluno);
@@ -340,11 +429,23 @@ public class AulaMenu implements Menu {
         service.gerarRelatorioOcupacao();
     }
 
-    private void detalharAula(Scanner sc) {
+    private boolean temPermissao() {
 
-        System.out.print("Nome da aula: ");
-        String nome = EntradaException.lerTexto(sc);
+        if (usuario.getTipo()
+                .equalsIgnoreCase("GERENTE")
 
-        service.exibirDetalhesAula(nome, inscricaoService);
+                ||
+
+                usuario.getTipo()
+                        .equalsIgnoreCase("RECEPCIONISTA")) {
+
+            return true;
+        }
+
+        System.out.println(
+                "\nAcesso negado!"
+        );
+
+        return false;
     }
 }

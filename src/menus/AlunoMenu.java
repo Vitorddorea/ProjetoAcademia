@@ -1,10 +1,13 @@
 package menus;
 
-import entities.*;
+import entities.Aluno;
+import entities.Aula;
+import entities.Plano;
+import entities.Usuario;
 import service.AlunoService;
+
 import service.PlanoService;
-import service.InscricaoService;
-import exceptions.EntradaException;
+import util.Util;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -14,135 +17,168 @@ public class AlunoMenu implements Menu {
     private Usuario usuario;
     private AlunoService service;
     private PlanoService planoService;
-    private InscricaoService inscricaoService;
 
-    public AlunoMenu(
-            Usuario usuario,
-            AlunoService service,
-            PlanoService planoService,
-            InscricaoService inscricaoService
-    ) {
-        this.usuario = usuario;
-        this.service = service;
-        this.planoService = planoService;
-        this.inscricaoService = inscricaoService;
-    }
+    public AlunoMenu(Usuario usuario, AlunoService service, PlanoService planoService) {
+    this.usuario = usuario;
+    this.service = service;
+    this.planoService = planoService;
+}
 
     @Override
     public void exibir(Scanner sc) {
 
         while (true) {
-            System.out.println("\n========== GERENCIAR ALUNO ============");
+            System.out.println("\n======== GERENCIAR ALUNO ========");
             System.out.println("1- Cadastrar aluno");
             System.out.println("2- Listar alunos");
             System.out.println("3- Atualizar aluno");
             System.out.println("4- Excluir aluno");
-            System.out.println("5- Detalhes do aluno");
             System.out.println("0- Voltar");
-            System.out.println("=======================================");
-            System.out.print("Escolha uma opção: ");
 
-            int opcao = EntradaException.lerInteiro(sc);
+            int opcao = Util.lerInteiro(sc);
 
             switch (opcao) {
-                case 1:
-                    cadastrar(sc);
-                    break;
-                case 2:
-                    listar();
-                    break;
-                case 3:
-                    atualizar(sc);
-                    break;
-                case 4:
-                    excluir(sc);
-                    break;
-                case 5:
-                    detalharAluno(sc);
-                    break;
-                case 0:
-                    return;
-                default:
-                    System.out.println("Opção inválida");
+                case 1: cadastrar(sc, null); break;
+                case 2: listar(); break;
+                case 3: atualizar(sc); break;
+                case 4: excluir(sc); break;
+                case 0: return;
+                default: System.out.println("Opção inválida");
             }
         }
     }
 
-    private void cadastrar(Scanner sc) {
+    private void cadastrar(Scanner sc, Plano planoEscolhido) {
         if (!temPermissao()) return;
 
         System.out.print("Nome: ");
-        String nome = EntradaException.lerTexto(sc);
+        String nome = Util.lerTexto(sc);
 
         System.out.print("CPF: ");
-        String cpf = EntradaException.lerTexto(sc);
+        String cpf = Util.lerTexto(sc);
 
         System.out.print("Telefone: ");
-        String telefone = EntradaException.lerTexto(sc);
+        String telefone = Util.lerTexto(sc);
 
         System.out.print("Email: ");
-        String email = EntradaException.lerTexto(sc);
+        String email = Util.lerTexto(sc);
 
         System.out.print("Data Nascimento (yyyy-MM-dd): ");
-        LocalDate dataNascimento =
-                LocalDate.parse(EntradaException.lerTexto(sc));
+        LocalDate dataNascimento = LocalDate.parse(Util.lerTexto(sc));
 
         Plano plano = planoService.escolherPlano(sc);
-
         Aluno aluno = new Aluno(
-                nome,
-                cpf,
-                dataNascimento,
-                telefone,
-                email,
-                plano
-        );
-
+        nome,
+        cpf,
+        dataNascimento,
+        telefone,
+        email,
+        plano
+    );
         if (service.cadastrarAluno(aluno)) {
-            System.out.println("\nAluno cadastrado com sucesso!");
+            System.out.println(" ");
+            System.out.println("Aluno cadastrado com Sucesso!");
         } else {
-            System.out.println("CPF já existe!");
+            System.out.println("CPF já existe! tente novamente!");
+            return;
         }
     }
 
-    private void listar() {
+   private void listar() {
 
-        System.out.println("\n===== LISTA DE ALUNOS =====");
-
-        if (service.listarAlunos().isEmpty()) {
-            System.out.println("Nenhum aluno cadastrado.");
-            return;
-        }
+        System.out.println(
+            "\n===== LISTA DE ALUNOS ====="
+        );
 
         for (Aluno aluno : service.listarAlunos()) {
             System.out.println(aluno);
         }
+
+        if (service.listarAlunos().isEmpty()) {
+
+            System.out.println("Nenhum aluno cadastrado." );
+            return;
+        }
     }
 
+    public void listarAulasAluno(Scanner sc){
+        String cpfAluno = Util.lerTexto(sc);
+        Aluno alunoEspecifico = service.buscarPorCpf(cpfAluno);
+
+         if (alunoEspecifico != null) {
+        } else {
+            System.out.println("Aluno não encontrado.");
+        }
+
+            System.out.println("Suas Aulas: "+" ");
+    }
+    
+    public void mostrarDadosAlunoEspecifico(Scanner sc) {
+
+    System.out.println("\n===== RELATÓRIO DO ALUNO =====");
+
+    System.out.print("Digite o CPF do aluno: ");
+    String cpf = Util.lerTexto(sc);
+
+    Aluno aluno = service.buscarPorCpf(cpf);
+
+    if (aluno == null) {
+        System.out.println("Aluno não encontrado.");
+        return;
+    }
+
+    System.out.println("\nNome: " + aluno.getNome());
+    System.out.println("CPF: " + aluno.getCpf());
+    System.out.println("Telefone: " + aluno.getTelefone());
+    System.out.println("Email: " + aluno.getEmail());
+    System.out.println("Data Nascimento: " + aluno.getDataNascimento());
+
+    if (aluno.getPlanoAtivo() != null) {
+
+        System.out.println(
+            "Plano: " +
+            aluno.getPlanoAtivo().getNome()
+        );
+
+    } else {
+        System.out.println("Sem plano ativo.");
+    }
+
+    System.out.println("\n===== AULAS MATRICULADAS =====");
+
+    if (aluno.getAulas().isEmpty()) {
+
+        System.out.println("Nenhuma aula cadastrada.");
+
+    } else {
+
+        for (Aula aula : aluno.getAulas()) {
+
+            System.out.println(
+                "- " + aula.getNome()
+            );
+        }
+      }
+    }
     private void excluir(Scanner sc) {
         if (!temPermissao()) return;
 
         System.out.print("CPF: ");
-        String cpf = EntradaException.lerTexto(sc);
+        String cpf = Util.lerTexto(sc);
 
-        Aluno aluno = service.buscarPorCpf(cpf);
-
-        if (aluno == null) {
-            System.out.println("Aluno não encontrado.");
-            return;
-        }
-
-        System.out.print("Deseja realmente excluir? (S/N): ");
-        String confirmacao = EntradaException.lerTexto(sc);
-
-        if (confirmacao.equalsIgnoreCase("S")) {
-
-            if (service.excluirAluno(cpf)) {
-                System.out.println("Aluno removido com sucesso!");
+        if (service.excluirAluno(cpf)) {
+            System.out.print("Tem certeza que deseja excluir o aluno? (S/N): ");
+            String confirmacao = Util.lerTexto(sc);
+            if (confirmacao.equalsIgnoreCase("S") || confirmacao.equalsIgnoreCase("SIM")) {
+                System.out.println(" ");
+                System.out.println("Aluno Removido com sucesso!");
+            } else {
+                System.out.println(" ");
+                System.out.println("Operação cancelada.");
+                return;
             }
-
         } else {
-            System.out.println("Operação cancelada.");
+            System.out.println("Aluno não encontrado");
         }
     }
 
@@ -150,7 +186,7 @@ public class AlunoMenu implements Menu {
         if (!temPermissao()) return;
 
         System.out.print("CPF do aluno: ");
-        String cpf = EntradaException.lerTexto(sc);
+        String cpf = Util.lerTexto(sc);
 
         Aluno alunoExistente = service.buscarPorCpf(cpf);
 
@@ -159,110 +195,83 @@ public class AlunoMenu implements Menu {
             return;
         }
 
-        System.out.println("\n1- Nome");
+        System.out.println("\nO que você deseja atualizar?");
+        System.out.println("1- Nome");
         System.out.println("2- Telefone");
         System.out.println("3- Email");
-        System.out.println("4- Data nascimento");
+        System.out.println("4- Data de nascimento");
         System.out.println("5- Plano");
         System.out.println("6- Atualizar tudo");
-        System.out.println("0- Cancelar");
+        System.out.println("0- Voltar ao menu");
 
-        int opcao = EntradaException.lerInteiro(sc);
+        int opcao = Util.lerInteiro(sc);
 
         switch (opcao) {
 
             case 1:
                 System.out.print("Novo nome: ");
-                alunoExistente.setNome(
-                        EntradaException.lerTexto(sc)
-                );
+                alunoExistente.setNome(Util.lerTexto(sc));
                 break;
-
             case 2:
                 System.out.print("Novo telefone: ");
-                alunoExistente.setTelefone(
-                        EntradaException.lerTexto(sc)
-                );
+                alunoExistente.setTelefone(Util.lerTexto(sc));
                 break;
-
             case 3:
                 System.out.print("Novo email: ");
-                alunoExistente.setEmail(
-                        EntradaException.lerTexto(sc)
-                );
+                alunoExistente.setEmail(Util.lerTexto(sc));
                 break;
-
             case 4:
-                System.out.print(
-                        "Nova data nascimento (yyyy-MM-dd): "
-                );
+                System.out.print("Nova data de nascimento (yyyy-MM-dd): ");
                 alunoExistente.setDataNascimento(
-                        LocalDate.parse(
-                                EntradaException.lerTexto(sc)
-                        )
+                    LocalDate.parse(Util.lerTexto(sc))
                 );
                 break;
-
             case 5:
-                Plano novoPlano =
-                        planoService.escolherPlano(sc);
-                alunoExistente.setPlanoAtivo(novoPlano);
-                break;
+                planoService.listarPlanos();
 
+                System.out.print("Escolha um novo plano: ");
+                Plano plano = planoService.escolherPlano(sc);
+
+                alunoExistente.setPlanoAtivo(plano);
+                break;
             case 6:
                 System.out.print("Novo nome: ");
-                alunoExistente.setNome(
-                        EntradaException.lerTexto(sc)
-                );
+                alunoExistente.setNome(Util.lerTexto(sc));
 
                 System.out.print("Novo telefone: ");
-                alunoExistente.setTelefone(
-                        EntradaException.lerTexto(sc)
-                );
+                alunoExistente.setTelefone(Util.lerTexto(sc));
 
                 System.out.print("Novo email: ");
-                alunoExistente.setEmail(
-                        EntradaException.lerTexto(sc)
-                );
+                alunoExistente.setEmail(Util.lerTexto(sc));
 
-                System.out.print(
-                        "Nova data nascimento (yyyy-MM-dd): "
-                );
+                System.out.print("Nova data de nascimento (yyyy-MM-dd): ");
                 alunoExistente.setDataNascimento(
-                        LocalDate.parse(
-                                EntradaException.lerTexto(sc)
-                        )
+                    LocalDate.parse(Util.lerTexto(sc))
                 );
 
-                Plano planoNovo =
-                        planoService.escolherPlano(sc);
-                alunoExistente.setPlanoAtivo(planoNovo);
-                break;
+                planoService.listarPlanos();
 
+                System.out.print("Escolha um novo plano: ");
+                Plano novoPlano = planoService.escolherPlano(sc);
+
+                alunoExistente.setPlanoAtivo(novoPlano);
+                break;
             case 0:
                 return;
-
             default:
                 System.out.println("Opção inválida.");
                 return;
         }
-
-        service.atualizarAluno(alunoExistente);
-        System.out.println("Aluno atualizado com sucesso!");
-    }
-
-    private void detalharAluno(Scanner sc) {
-        System.out.print("CPF do aluno: ");
-        String cpf = EntradaException.lerTexto(sc);
-
-        service.exibirDetalhesAluno(
-                cpf,
-                inscricaoService
-        );
+        System.out.println("\nAluno atualizado com sucesso!");
     }
 
     private boolean temPermissao() {
-        return usuario.getTipo() == TipoUsuario.ADMINISTRADOR
-                || usuario.getTipo() == TipoUsuario.FUNCIONARIO;
+        if (usuario.getTipo().equalsIgnoreCase("GERENTE") ||
+            usuario.getTipo().equalsIgnoreCase("RECEPCIONISTA")) {
+            return true;
+        }
+
+        System.out.println("Acesso negado!");
+        return false;
     }
 }

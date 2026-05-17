@@ -31,14 +31,6 @@ public class Plano {
         this.beneficios = beneficios;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getNome() {
         return nome;
     }
@@ -78,14 +70,13 @@ public class Plano {
     public void setBeneficios(String beneficios) {
         this.beneficios = beneficios;
     }
-
     @Override
     public String toString() {
-        return " " + id +
-                " | " + nome + '\'' +
-                " | " + descricao + '\'' +
-                " | Valor: RS" + valorMensal +
-                " | Duração: "+ duracaoMeses + " Meses " +
-                " | Benefícios: '" + beneficios;
-    }
+    return "\nNome: " + nome +
+           "\nDescrição: " + descricao +
+           "\nValor Mensal: R$ " + valorMensal +
+           "\nDuração: " + duracaoMeses + " meses" +
+           "\nBenefícios: " + beneficios +
+           "\n---------------------------";
+}
 }

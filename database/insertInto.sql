@@ -1,4 +1,4 @@
-select * from instrutor;
+
 
 /* =========================================================
    INSERTS DE TESTE - SISTEMA ACADEMIA

@@ -146,7 +146,7 @@ public class AlunoDAO {
         try (Connection conn = ConexaoBanco.conectar();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, cpf);
+            ps.setString(1, cpf.trim());
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {

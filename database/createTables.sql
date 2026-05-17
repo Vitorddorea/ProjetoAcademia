@@ -60,7 +60,7 @@ CREATE TABLE aula (
                       horario VARCHAR(20) NOT NULL,
                       duracao INTEGER NOT NULL,
                       capacidade_maxima INTEGER NOT NULL,
-                      alunoinscritos INTEGER,
+                      alunosinscritos INTEGER,
                       id_instrutor INTEGER,
                       CONSTRAINT fk_aula_instrutor FOREIGN KEY (id_instrutor) REFERENCES instrutor(id)
 );

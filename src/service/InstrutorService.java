@@ -47,7 +47,15 @@ public class InstrutorService {
         return true;
     }
 
-    public Instrutor buscarPorCpf(String cpf) {
-        return repository.buscarPorCpf(cpf);
+public Instrutor buscarPorCpf(String cpf) {
+
+    for (Instrutor instrutor : repository.listar()) {
+
+        if (instrutor.getCpf().equals(cpf)) {
+            return instrutor;
+        }
     }
+
+    return null;
+}
 }

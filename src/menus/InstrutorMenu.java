@@ -9,10 +9,13 @@ import java.util.Scanner;
 
 public class InstrutorMenu implements Menu {
 
-    private Usuario usuario;
-    private InstrutorService service;
+    private final Usuario usuario;
+    private final InstrutorService service;
 
-    public InstrutorMenu(Usuario usuario, InstrutorService service) {
+    public InstrutorMenu(
+            Usuario usuario,
+            InstrutorService service) {
+
         this.usuario = usuario;
         this.service = service;
     }
@@ -20,29 +23,61 @@ public class InstrutorMenu implements Menu {
     @Override
     public void exibir(Scanner sc) {
 
-        while (true) {
-            System.out.println("\n==== GERENCIAR INSTRUTORES ====");
-            System.out.println("1- Cadastrar");
-            System.out.println("2- Listar");
-            System.out.println("3- Atualizar");
-            System.out.println("4- Excluir");
-            System.out.println("0- Voltar");
+        int opcao;
 
-            int op = Util.lerInteiro(sc);
+        do {
 
-            switch (op) {
-                case 1: cadastrar(sc); break;
-                case 2: listar(); break;
-                case 3: atualizar(sc); break;
-                case 4: excluir(sc); break;
-                case 0: return;
-                default: System.out.println("\nOpção inválida!");
+            exibirOpcoes();
+
+            opcao = Util.lerInteiro(sc);
+
+            switch (opcao) {
+
+                case 1:
+                    cadastrar(sc);
+                    break;
+
+                case 2:
+                    listar();
+                    break;
+
+                case 3:
+                    atualizar(sc);
+                    break;
+
+                case 4:
+                    excluir(sc);
+                    break;
+
+                case 0:
+                    System.out.println("\nVoltando...");
+                    break;
+
+                default:
+                    System.out.println("\nOpção inválida!");
             }
-        }
+
+        } while (opcao != 0);
+    }
+
+    private void exibirOpcoes() {
+
+        System.out.println("\n==== GERENCIAR INSTRUTORES ====");
+        System.out.println("1- Cadastrar");
+        System.out.println("2- Listar");
+        System.out.println("3- Atualizar");
+        System.out.println("4- Excluir");
+        System.out.println("0- Voltar");
+        System.out.print("Escolha uma opção: ");
     }
 
     private void cadastrar(Scanner sc) {
-        System.out.print("Cadastrar novo instrutor\n");
+
+        if (!temPermissao()) {
+            return;
+        }
+
+        System.out.println("\n===== CADASTRAR INSTRUTOR =====");
 
         System.out.print("Nome: ");
         String nome = Util.lerTexto(sc);
@@ -51,63 +86,151 @@ public class InstrutorMenu implements Menu {
         String cpf = Util.lerTexto(sc);
 
         System.out.print("Telefone: ");
-        String tel = Util.lerTexto(sc);
+        String telefone = Util.lerTexto(sc);
 
         System.out.print("Especialidade: ");
-        String esp = Util.lerTexto(sc);
+        String especialidade = Util.lerTexto(sc);
 
         System.out.print("Horário: ");
-        String hor = Util.lerTexto(sc);
+        String horario = Util.lerTexto(sc);
 
-        Instrutor i = new Instrutor(nome, cpf, tel, esp, hor);
+        Instrutor instrutor = new Instrutor(
+                nome,
+                cpf,
+                telefone,
+                especialidade,
+                horario
+        );
 
-        if (service.cadastrar(i))
-            System.out.println("\nInstrutor Cadastrado!");
-        else
-            System.out.println("\nJá existe!");
+        boolean cadastrado =
+                service.cadastrar(instrutor);
+
+        if (cadastrado) {
+
+            System.out.println(
+                    "\nInstrutor cadastrado com sucesso!"
+            );
+
+        } else {
+
+            System.out.println(
+                    "\nJá existe um instrutor com esse CPF!"
+            );
+        }
     }
 
     private void listar() {
-        System.out.println("Lista de instrutores:");
-        service.listar().forEach(System.out::println);
+
+        System.out.println(
+                "\n===== LISTA DE INSTRUTORES ====="
+        );
+
+        if (service.listar().isEmpty()) {
+
+            System.out.println(
+                    "Nenhum instrutor cadastrado."
+            );
+
+            return;
+        }
+
+        for (Instrutor instrutor : service.listar()) {
+
+            System.out.println(instrutor);
+        }
     }
 
     private void excluir(Scanner sc) {
+
+        if (!temPermissao()) {
+            return;
+        }
+
+        System.out.println(
+                "\n===== EXCLUIR INSTRUTOR ====="
+        );
+
         System.out.print("CPF: ");
         String cpf = Util.lerTexto(sc);
 
-        Instrutor instrutor = service.buscarPorCpf(cpf);
+        Instrutor instrutor =
+                service.buscarPorCpf(cpf);
+
         if (instrutor == null) {
-            System.out.println("\nInstrutor não encontrado!");
+
+            System.out.println(
+                    "\nInstrutor não encontrado!"
+            );
+
             return;
         }
 
-        System.out.print("Deseja realmente excluir o instrutor: " + instrutor.getNome() + "? (S/N):");
-        String confirmacao = Util.lerTexto(sc);
-        if (confirmacao.equalsIgnoreCase("N") || confirmacao.equalsIgnoreCase("nao")) {
-            System.out.println("\nExclusão cancelada.");
+        System.out.print(
+                "Deseja realmente excluir "
+                + instrutor.getNome()
+                + "? (S/N): "
+        );
+
+        String confirmacao =
+                Util.lerTexto(sc);
+
+        if (confirmacao.equalsIgnoreCase("N")) {
+
+            System.out.println(
+                    "\nExclusão cancelada."
+            );
+
             return;
         }
-        service.excluir(cpf);
-        System.out.println("\nInstrutor Removido com sucesso!");
+
+        boolean removido =
+                service.excluir(cpf);
+
+        if (removido) {
+
+            System.out.println(
+                    "\nInstrutor removido com sucesso!"
+            );
+
+        } else {
+
+            System.out.println(
+                    "\nErro ao remover instrutor!"
+            );
+        }
     }
 
     private void atualizar(Scanner sc) {
-        System.out.println("Atualizar instrutor\n");
 
-        System.out.println("Digite o CPF do instrutor a ser atualizado:");
-        System.out.print("CPF: ");
-        String cpf = Util.lerTexto(sc);
-
-        Instrutor instrutorExistente = service.buscarPorCpf(cpf);
-
-        if (instrutorExistente == null) {
-            System.out.println("\nInstrutor não encontrado!");
+        if (!temPermissao()) {
             return;
         }
 
-        System.out.print("\nDados atuais do instrutor: "+ instrutorExistente);
-       
+        System.out.println(
+                "\n===== ATUALIZAR INSTRUTOR ====="
+        );
+
+        System.out.print("CPF do instrutor: ");
+        String cpf = Util.lerTexto(sc);
+
+        Instrutor instrutor =
+                service.buscarPorCpf(cpf);
+
+        if (instrutor == null) {
+
+            System.out.println(
+                    "\nInstrutor não encontrado!"
+            );
+
+            return;
+        }
+
+        System.out.println(
+                "\nDados atuais:"
+        );
+
+        System.out.println(instrutor);
+
         System.out.println("\n1- Nome");
         System.out.println("2- Telefone");
         System.out.println("3- Especialidade");
@@ -115,59 +238,149 @@ public class InstrutorMenu implements Menu {
         System.out.println("5- Todos os dados");
         System.out.println("0- Cancelar");
 
-        System.out.print("Escolha o campo a atualizar: ");
+        System.out.print(
+                "Escolha uma opção: "
+        );
+
         int opcao = Util.lerInteiro(sc);
 
-
         switch (opcao) {
+
             case 1:
-                System.out.print(" Novo Nome: ");
-                String nome = Util.lerTexto(sc);
-                    instrutorExistente.setNome(nome);
-                    System.out.println("\nNome atualizado!");
+
+                System.out.print(
+                        "Novo nome: "
+                );
+
+                instrutor.setNome(
+                        Util.lerTexto(sc)
+                );
+
                 break;
+
             case 2:
-                System.out.print(" NovoTelefone: ");
-                String tel = Util.lerTexto(sc);
-                instrutorExistente.setTelefone(tel);
-                System.out.println("\nTelefone atualizado!");
+
+                System.out.print(
+                        "Novo telefone: "
+                );
+
+                instrutor.setTelefone(
+                        Util.lerTexto(sc)
+                );
+
                 break;
+
             case 3:
-                System.out.print("Nova Especialidade: ");
-                String esp = Util.lerTexto(sc);
-                instrutorExistente.setEspecialidade(esp);
-                System.out.println("\nEspecialidade atualizada!");
+
+                System.out.print(
+                        "Nova especialidade: "
+                );
+
+                instrutor.setEspecialidade(
+                        Util.lerTexto(sc)
+                );
+
                 break;
+
             case 4:
-                System.out.print("Novo Horário: ");
-                String hor = Util.lerTexto(sc);
-                instrutorExistente.setHorarioTrabalho(hor);
-                System.out.println("\nHorário atualizado!");
+
+                System.out.print(
+                        "Novo horário: "
+                );
+
+                instrutor.setHorarioTrabalho(
+                        Util.lerTexto(sc)
+                );
+
                 break;
+
             case 5:
-                System.out.print(" Novo Nome: ");
-                String nome2 = Util.lerTexto(sc);
 
-                System.out.print(" Novo Telefone: ");
-                String tel2 = Util.lerTexto(sc);
+                System.out.print(
+                        "Novo nome: "
+                );
 
-                System.out.print("Nova Especialidade: ");
-                String esp2 = Util.lerTexto(sc);
+                instrutor.setNome(
+                        Util.lerTexto(sc)
+                );
 
-                System.out.print("Novo Horário: ");
-                String hor2 = Util.lerTexto(sc);
+                System.out.print(
+                        "Novo telefone: "
+                );
 
-                instrutorExistente.setNome(nome2);
-                instrutorExistente.setTelefone(tel2);
-                instrutorExistente.setEspecialidade(esp2);
-                instrutorExistente.setHorarioTrabalho(hor2);   
-                break;                
-            case 0:
-                System.out.println("\nAtualização cancelada.");
-                return;
-            default:
-                System.out.println("\nOpção inválida!");
+                instrutor.setTelefone(
+                        Util.lerTexto(sc)
+                );
+
+                System.out.print(
+                        "Nova especialidade: "
+                );
+
+                instrutor.setEspecialidade(
+                        Util.lerTexto(sc)
+                );
+
+                System.out.print(
+                        "Novo horário: "
+                );
+
+                instrutor.setHorarioTrabalho(
+                        Util.lerTexto(sc)
+                );
+
                 break;
+
+            case 0:
+
+                System.out.println(
+                        "\nAtualização cancelada."
+                );
+
+                return;
+
+            default:
+
+                System.out.println(
+                        "\nOpção inválida!"
+                );
+
+                return;
         }
+
+        boolean atualizado =
+                service.atualizar(instrutor);
+
+        if (atualizado) {
+
+            System.out.println(
+                    "\nInstrutor atualizado com sucesso!"
+            );
+
+        } else {
+
+            System.out.println(
+                    "\nErro ao atualizar instrutor!"
+            );
+        }
+    }
+
+    private boolean temPermissao() {
+
+        if (usuario.getTipo()
+                .equalsIgnoreCase("GERENTE")
+
+                ||
+
+                usuario.getTipo()
+                        .equalsIgnoreCase("RECEPCIONISTA")) {
+
+            return true;
+        }
+
+        System.out.println(
+                "\nAcesso negado!"
+        );
+
+        return false;
     }
 }

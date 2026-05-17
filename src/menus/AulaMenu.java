@@ -76,7 +76,7 @@ public class AulaMenu implements Menu {
                     break;
 
                 default:
-                    System.out.println("\nOpção inválida.");
+                    System.out.println("\nOpção inválida!");
             }
 
         } while (opcao != 0);
@@ -84,7 +84,7 @@ public class AulaMenu implements Menu {
 
     private void exibirOpcoes() {
 
-        System.out.println("\n==== GERENCIAR AULAS ====");
+        System.out.println("\n===== GERENCIAR AULAS =====");
         System.out.println("1 - Cadastrar aula");
         System.out.println("2 - Listar aulas");
         System.out.println("3 - Atualizar aula");
@@ -92,11 +92,19 @@ public class AulaMenu implements Menu {
         System.out.println("5 - Matricular aluno");
         System.out.println("6 - Relatório de ocupação");
         System.out.println("0 - Voltar");
+
+        System.out.print("Escolha uma opção: ");
     }
 
     private void cadastrar(Scanner sc) {
 
-        System.out.println("\n===== CADASTRO DE AULA =====");
+        if (!temPermissao()) {
+            return;
+        }
+
+        System.out.println(
+                "\n===== CADASTRO DE AULA ====="
+        );
 
         System.out.print("Nome: ");
         String nome = Util.lerTexto(sc);
@@ -132,13 +140,11 @@ public class AulaMenu implements Menu {
         )) {
 
             System.out.println(
-                    "\nO instrutor possui " +
-                    "conflito de horário."
+                    "\nO instrutor possui conflito de horário."
             );
 
             System.out.println(
-                    "É necessário intervalo " +
-                    "mínimo de 10 minutos."
+                    "É necessário intervalo mínimo de 10 minutos."
             );
 
             return;
@@ -164,7 +170,7 @@ public class AulaMenu implements Menu {
         } else {
 
             System.out.println(
-                    "\nAula já cadastrada!"
+                    "\nJá existe uma aula com esse nome!"
             );
         }
     }
@@ -185,8 +191,8 @@ public class AulaMenu implements Menu {
 
                 .filter(a ->
                         a.getInstrutor()
-                        .getCpf()
-                        .equals(cpfInstrutor)
+                                .getCpf()
+                                .equals(cpfInstrutor)
                 )
 
                 .anyMatch(a -> {
@@ -209,7 +215,7 @@ public class AulaMenu implements Menu {
                             &&
 
                             fimNovo
-                            .isAfter(inicioExistente);
+                                    .isAfter(inicioExistente);
                 });
     }
 
@@ -236,6 +242,10 @@ public class AulaMenu implements Menu {
 
     private void excluir(Scanner sc) {
 
+        if (!temPermissao()) {
+            return;
+        }
+
         System.out.println(
                 "\n===== EXCLUIR AULA ====="
         );
@@ -243,24 +253,49 @@ public class AulaMenu implements Menu {
         System.out.print("Nome da aula: ");
         String nome = Util.lerTexto(sc);
 
-        boolean removida =
-                service.excluir(nome);
+        Aula aula =
+                service.buscarPorNome(nome);
 
-        if (removida) {
-
-            System.out.println(
-                    "\nAula removida com sucesso!"
-            );
-
-        } else {
+        if (aula == null) {
 
             System.out.println(
                     "\nAula não encontrada!"
             );
+
+            return;
         }
+
+        System.out.print(
+                "Deseja realmente excluir a aula "
+                + aula.getNome()
+                + "? (S/N): "
+        );
+
+        String confirmacao =
+                Util.lerTexto(sc);
+
+        if (confirmacao.equalsIgnoreCase("N")
+                || confirmacao.equalsIgnoreCase("NAO")) {
+
+            System.out.println(
+                    "\nExclusão cancelada."
+            );
+
+            return;
+        }
+
+        service.excluir(nome);
+
+        System.out.println(
+                "\nAula removida com sucesso!"
+        );
     }
 
     private void atualizar(Scanner sc) {
+
+        if (!temPermissao()) {
+            return;
+        }
 
         System.out.println(
                 "\n===== ATUALIZAR AULA ====="
@@ -268,6 +303,18 @@ public class AulaMenu implements Menu {
 
         System.out.print("Nome da aula: ");
         String nome = Util.lerTexto(sc);
+
+        Aula aulaExistente =
+                service.buscarPorNome(nome);
+
+        if (aulaExistente == null) {
+
+            System.out.println(
+                    "\nAula não encontrada!"
+            );
+
+            return;
+        }
 
         System.out.print("Novo horário: ");
         String horario = Util.lerTexto(sc);
@@ -293,7 +340,20 @@ public class AulaMenu implements Menu {
             return;
         }
 
-        Aula aula = new Aula(
+        if (possuiConflitoHorario(
+                cpf,
+                horario,
+                duracao
+        )) {
+
+            System.out.println(
+                    "\nO instrutor possui conflito de horário."
+            );
+
+            return;
+        }
+
+        Aula aulaAtualizada = new Aula(
                 nome,
                 horario,
                 duracao,
@@ -302,7 +362,7 @@ public class AulaMenu implements Menu {
         );
 
         boolean atualizada =
-                service.atualizar(aula);
+                service.atualizar(aulaAtualizada);
 
         if (atualizada) {
 
@@ -313,7 +373,7 @@ public class AulaMenu implements Menu {
         } else {
 
             System.out.println(
-                    "\nAula não encontrada!"
+                    "\nErro ao atualizar aula!"
             );
         }
     }
@@ -367,5 +427,25 @@ public class AulaMenu implements Menu {
     private void relatorioOcupacao() {
 
         service.gerarRelatorioOcupacao();
+    }
+
+    private boolean temPermissao() {
+
+        if (usuario.getTipo()
+                .equalsIgnoreCase("GERENTE")
+
+                ||
+
+                usuario.getTipo()
+                        .equalsIgnoreCase("RECEPCIONISTA")) {
+
+            return true;
+        }
+
+        System.out.println(
+                "\nAcesso negado!"
+        );
+
+        return false;
     }
 }

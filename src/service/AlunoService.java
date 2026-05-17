@@ -59,5 +59,5 @@ public class AlunoService {
     }
     public Aluno buscarPorCpf(String cpf) {
     return repository.buscarAlunoPorCpf(cpf);
-}
+    }
 }

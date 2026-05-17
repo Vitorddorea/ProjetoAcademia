@@ -16,7 +16,7 @@ public class Aluno extends Pessoa {
         super(id, nome, cpf, telefone);
         this.dataNascimento = dataNascimento;
         this.email = email;
-        this.dataMatricula = LocalDate.now();
+        this.dataMatricula = dataMatricula;
         this.planoAtivo = planoAtivo;
     }
     private List<Aula> aulas = new ArrayList<>();

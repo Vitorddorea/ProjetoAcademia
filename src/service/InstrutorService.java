@@ -1,15 +1,15 @@
 package service;
 
 import entities.Instrutor;
-import repositories.InstrutorRepository;
+import repositories.InstrutorDAO;
 
 import java.util.List;
 
 public class InstrutorService {
 
-    private final InstrutorRepository repository;
+    private final InstrutorDAO repository;
 
-    public InstrutorService(InstrutorRepository repository) {
+    public InstrutorService(InstrutorDAO repository) {
         this.repository = repository;
     }
 
@@ -17,8 +17,7 @@ public class InstrutorService {
         if (repository.buscarPorCpf(instrutor.getCpf()) != null) {
             return false;
         }
-        repository.salvar(instrutor);
-        return true;
+        return repository.salvar(instrutor);
     }
 
     public List<Instrutor> listar() {
@@ -26,25 +25,11 @@ public class InstrutorService {
     }
 
     public boolean excluir(String cpf) {
-        Instrutor instrutor = repository.buscarPorCpf(cpf);
-
-        if (instrutor == null) return false;
-
-        repository.remover(instrutor);
-        return true;
+        return repository.remover(cpf);
     }
 
     public boolean atualizar(Instrutor atualizado) {
-        Instrutor existente = repository.buscarPorCpf(atualizado.getCpf());
-
-        if (existente == null) return false;
-
-        existente.setNome(atualizado.getNome());
-        existente.setTelefone(atualizado.getTelefone());
-        existente.setEspecialidade(atualizado.getEspecialidade());
-        existente.setHorarioTrabalho(atualizado.getHorarioTrabalho());
-
-        return true;
+        return repository.atualizar(atualizado);
     }
 
 public Instrutor buscarPorCpf(String cpf) {

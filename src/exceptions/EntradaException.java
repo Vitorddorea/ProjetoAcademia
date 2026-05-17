@@ -1,8 +1,8 @@
-package util;
+package exceptions;
 
 import java.util.Scanner;
 
-public class Util {
+public class EntradaException {
 
     // Função para ler a entrada de número inteiros
     public static int lerInteiro(Scanner sc) {

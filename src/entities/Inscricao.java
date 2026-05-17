@@ -24,6 +24,6 @@ public class Inscricao {
     @Override
     public String toString() {
         return "Aluno: " + aluno.getNome() +
-               " | Aula: " + aula.getNome();
+               " | Aula: " + aula.getNome() + " | " + aula.getHorario();
     }
 }

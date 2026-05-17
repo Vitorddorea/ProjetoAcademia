@@ -7,6 +7,7 @@ import entities.Usuario;
 
 import service.AlunoService;
 import service.AulaService;
+import service.InscricaoService;
 import service.InstrutorService;
 
 import exceptions.EntradaException;
@@ -17,21 +18,22 @@ import java.util.Scanner;
 public class AulaMenu implements Menu {
 
     private final Usuario usuario;
-
     private final AulaService service;
     private final InstrutorService instrutorService;
     private final AlunoService alunoService;
+    private final InscricaoService inscricaoService;
 
     public AulaMenu(
             Usuario usuario,
             AulaService service,
             InstrutorService instrutorService,
-            AlunoService alunoService) {
+            AlunoService alunoService, InscricaoService inscricaoService) {
 
         this.usuario = usuario;
         this.service = service;
         this.instrutorService = instrutorService;
         this.alunoService = alunoService;
+        this.inscricaoService = inscricaoService;
     }
 
     @Override
@@ -47,6 +49,7 @@ public class AulaMenu implements Menu {
             System.out.println("4 - Excluir aula");
             System.out.println("5 - Matricular aluno");
             System.out.println("6 - Relatório de ocupação");
+            System.out.println("7 - Detalhes da aula");
             System.out.println("0 - Voltar");
             System.out.println("=======================================");
             System.out.println("Escolha uma opção: ");
@@ -72,6 +75,9 @@ public class AulaMenu implements Menu {
                     break;
                 case 6:
                     relatorioOcupacao();
+                    break;
+                case 7:
+                    detalharAula(sc);
                     break;
                 case 0:
                     System.out.println("\nVoltando...");
@@ -332,5 +338,13 @@ public class AulaMenu implements Menu {
     private void relatorioOcupacao() {
 
         service.gerarRelatorioOcupacao();
+    }
+
+    private void detalharAula(Scanner sc) {
+
+        System.out.print("Nome da aula: ");
+        String nome = EntradaException.lerTexto(sc);
+
+        service.exibirDetalhesAula(nome, inscricaoService);
     }
 }

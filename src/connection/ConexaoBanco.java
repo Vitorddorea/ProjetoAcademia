@@ -18,8 +18,7 @@ public class ConexaoBanco {
                     USUARIO,
                     SENHA
             );
-
-            System.out.println("Conexão realizada com sucesso.");
+            
             return con;
 
         } catch (SQLException e) {

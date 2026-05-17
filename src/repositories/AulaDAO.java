@@ -40,11 +40,16 @@ public class AulaDAO {
         List<Aula> aulas = new ArrayList<>();
 
         String sql = """
-                SELECT a.*, i.nome AS nome_instrutor, i.cpf, i.telefone,
-                       i.especialidade, i.horario_trabalho
-                FROM aula a
-                JOIN instrutor i ON a.id_instrutor = i.id
-                """;
+        SELECT a.*,
+               i.id AS instrutor_id,
+               i.nome AS nome_instrutor,
+               i.cpf,
+               i.telefone,
+               i.especialidade,
+               i.horario_trabalho
+        FROM aula a
+        JOIN instrutor i ON a.id_instrutor = i.id
+        """;
 
         try (Connection conn = ConexaoBanco.conectar();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -53,8 +58,8 @@ public class AulaDAO {
             while (rs.next()) {
 
                 Instrutor instrutor = new Instrutor(
-                        rs.getLong("id"),
-                        rs.getString("nome"),
+                        rs.getLong("instrutor_id"),
+                        rs.getString("nome_instrutor"),
                         rs.getString("cpf"),
                         rs.getString("telefone"),
                         rs.getString("especialidade"),
@@ -105,10 +110,14 @@ public class AulaDAO {
 
     public boolean atualizar(Aula aula) {
         String sql = """
-                UPDATE aula
-                SET horario = ?, duracao = ?, capacidade_maxima = ?, id_instrutor = ?
-                WHERE LOWER(nome) = LOWER(?)
-                """;
+            UPDATE aula
+            SET horario = ?,
+                duracao = ?,
+                capacidade_maxima = ?,
+                alunosinscritos = ?,
+                id_instrutor = ?
+            WHERE LOWER(nome) = LOWER(?)
+            """;
 
         try (Connection conn = ConexaoBanco.conectar();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -116,8 +125,9 @@ public class AulaDAO {
             ps.setString(1, aula.getHorario());
             ps.setInt(2, aula.getDuracao());
             ps.setInt(3, aula.getCapacidadeMaxima());
-            ps.setLong(4, aula.getInstrutor().getId());
-            ps.setString(5, aula.getNome());
+            ps.setInt(4, aula.getAlunosInscritos());
+            ps.setLong(5, aula.getInstrutor().getId());
+            ps.setString(6, aula.getNome());
 
             return ps.executeUpdate() > 0;
 

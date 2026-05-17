@@ -47,8 +47,8 @@ public class Academia {
         }
 
         // MENUS
-        Menu alunoMenu = new AlunoMenu(usuarioLogado, alunoService, planoService);
-        Menu aulaMenu = new AulaMenu(usuarioLogado, aulaService, instrutorService, alunoService);
+        Menu alunoMenu = new AlunoMenu(usuarioLogado, alunoService, planoService, inscricaoService);
+        Menu aulaMenu = new AulaMenu(usuarioLogado, aulaService, instrutorService, alunoService, inscricaoService);
         Menu instrutorMenu = new InstrutorMenu(usuarioLogado, instrutorService);
         Menu planoMenu = new PlanoMenu(planoService);
         Menu inscricaoMenu = new InscricaoMenu(usuarioLogado, inscricaoService);

@@ -80,7 +80,7 @@ public class Aula {
 
     @Override
     public String toString() {
-        return "\n Aula: " + nome +
+        return "ID " + id + " | Aula: " + nome +
                 " | Horário: " + horario +
                 " | Instrutor: " + instrutor.getNome() + " | Capacidade: " + alunosInscritos + "/" + capacidadeMaxima;
     }

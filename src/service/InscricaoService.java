@@ -30,16 +30,32 @@ public class InscricaoService {
             return false;
         }
 
+        if (!alunoService.planoAtivo(aluno)) {
+            System.out.println(
+                    "Plano vencido em: "
+                            + alunoService.dataVencimento(aluno)
+            );
+            return false;
+        }
+
         Aula aula = aulaService.buscarPorNome(nomeAula);
         if (aula == null) {
             System.out.println("Aula não encontrada.");
             return false;
         }
 
+        if (possuiConflitoHorario(aluno, aula)) {
+            System.out.println(
+                    "Conflito de horário! " +
+                            "Aluno já possui aula nesse horário."
+            );
+            return false;
+        }
+
         boolean jaExiste = repository.listar().stream()
                 .anyMatch(i ->
                         i.getAluno().getCpf().equals(cpf) &&
-                        i.getAula().getNome().equalsIgnoreCase(nomeAula)
+                                i.getAula().getNome().equalsIgnoreCase(nomeAula)
                 );
 
         if (jaExiste) {
@@ -54,6 +70,10 @@ public class InscricaoService {
             return false;
         }
 
+        aluno.adicionarAula(aula);
+
+        aulaService.atualizar(aula);
+
         boolean sucesso = repository.salvar(new Inscricao(aluno, aula));
 
         if (sucesso) {
@@ -63,15 +83,34 @@ public class InscricaoService {
         return sucesso;
     }
 
+    private boolean possuiConflitoHorario(Aluno aluno, Aula novaAula) {
+
+        return repository.listar().stream()
+                .filter(i ->
+                        i.getAluno().getCpf().equals(aluno.getCpf())
+                )
+                .anyMatch(i ->
+                        i.getAula().getHorario()
+                                .equalsIgnoreCase(novaAula.getHorario())
+                );
+    }
+
     public List<Inscricao> listar() {
         return repository.listar();
     }
 
     public boolean cancelar(String cpf, String nomeAula) {
 
+        Aluno aluno = alunoService.buscarPorCpf(cpf);
+        Aula aula = aulaService.buscarPorNome(nomeAula);
+
         boolean removido = repository.remover(cpf, nomeAula);
 
         if (removido) {
+            if (aluno != null && aula != null) {
+                aluno.removerAula(aula);
+            }
+
             System.out.println("Inscrição cancelada!");
         } else {
             System.out.println("Inscrição não encontrada.");

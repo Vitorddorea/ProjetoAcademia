@@ -70,11 +70,7 @@ public class UsuarioMenu implements Menu {
             tipo = TipoUsuario.FUNCIONARIO;
         }
 
-        Usuario usuario = new Usuario(
-                nome,
-                senha,
-                tipo
-        );
+        Usuario usuario = new Usuario(nome, senha, tipo);
 
         if (service.cadastrar(usuario)) {
             System.out.println("Usuário cadastrado com sucesso!");
@@ -84,7 +80,6 @@ public class UsuarioMenu implements Menu {
     }
 
     private void listar() {
-
         System.out.println("\n===== USUÁRIOS =====");
 
         service.listar().forEach(System.out::println);

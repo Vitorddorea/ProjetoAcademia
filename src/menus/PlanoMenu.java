@@ -30,23 +30,18 @@ public class PlanoMenu implements Menu {
             int opcao = EntradaException.lerInteiro(sc);
 
             switch (opcao) {
-
                 case 1:
                     cadastrarPlano(sc);
                     break;
-
                 case 2:
                     listarPlanos();
                     break;
-
                 case 3:
                     atualizarPlano(sc);
                     break;
-
                 case 4:
                     excluirPlano(sc);
                     break;
-
                 case 0:
                     return;
 

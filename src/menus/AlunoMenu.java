@@ -84,18 +84,11 @@ public class AlunoMenu implements Menu {
         String email = EntradaException.lerTexto(sc);
 
         System.out.print("Data Nascimento (yyyy-MM-dd): ");
-        LocalDate dataNascimento =
-                LocalDate.parse(EntradaException.lerTexto(sc));
+        LocalDate dataNascimento = LocalDate.parse(EntradaException.lerTexto(sc));
 
         Plano plano = planoService.escolherPlano(sc);
 
-        Aluno aluno = new Aluno(
-                nome,
-                cpf,
-                dataNascimento,
-                telefone,
-                email,
-                plano
+        Aluno aluno = new Aluno(nome, cpf, dataNascimento, telefone, email, plano
         );
 
         if (service.cadastrarAluno(aluno)) {
@@ -173,75 +166,40 @@ public class AlunoMenu implements Menu {
 
             case 1:
                 System.out.print("Novo nome: ");
-                alunoExistente.setNome(
-                        EntradaException.lerTexto(sc)
-                );
+                alunoExistente.setNome(EntradaException.lerTexto(sc));
                 break;
-
             case 2:
                 System.out.print("Novo telefone: ");
-                alunoExistente.setTelefone(
-                        EntradaException.lerTexto(sc)
-                );
+                alunoExistente.setTelefone(EntradaException.lerTexto(sc));
                 break;
-
             case 3:
                 System.out.print("Novo email: ");
-                alunoExistente.setEmail(
-                        EntradaException.lerTexto(sc)
-                );
+                alunoExistente.setEmail(EntradaException.lerTexto(sc));
                 break;
-
             case 4:
-                System.out.print(
-                        "Nova data nascimento (yyyy-MM-dd): "
-                );
-                alunoExistente.setDataNascimento(
-                        LocalDate.parse(
-                                EntradaException.lerTexto(sc)
-                        )
-                );
+                System.out.print("Nova data nascimento (yyyy-MM-dd): ");
+                alunoExistente.setDataNascimento(LocalDate.parse(EntradaException.lerTexto(sc)));
                 break;
-
             case 5:
-                Plano novoPlano =
-                        planoService.escolherPlano(sc);
-                alunoExistente.setPlanoAtivo(novoPlano);
+                Plano novoPlano = planoService.escolherPlano(sc);alunoExistente.setPlanoAtivo(novoPlano);
                 break;
-
             case 6:
                 System.out.print("Novo nome: ");
-                alunoExistente.setNome(
-                        EntradaException.lerTexto(sc)
-                );
+                alunoExistente.setNome(EntradaException.lerTexto(sc));
 
-                System.out.print("Novo telefone: ");
-                alunoExistente.setTelefone(
-                        EntradaException.lerTexto(sc)
-                );
+                System.out.print("Novo telefone: ");alunoExistente.setTelefone(EntradaException.lerTexto(sc));
 
                 System.out.print("Novo email: ");
-                alunoExistente.setEmail(
-                        EntradaException.lerTexto(sc)
+                alunoExistente.setEmail(EntradaException.lerTexto(sc));
+
+                System.out.print("Nova data nascimento (yyyy-MM-dd): ");
+                alunoExistente.setDataNascimento(LocalDate.parse(EntradaException.lerTexto(sc))
                 );
 
-                System.out.print(
-                        "Nova data nascimento (yyyy-MM-dd): "
-                );
-                alunoExistente.setDataNascimento(
-                        LocalDate.parse(
-                                EntradaException.lerTexto(sc)
-                        )
-                );
-
-                Plano planoNovo =
-                        planoService.escolherPlano(sc);
-                alunoExistente.setPlanoAtivo(planoNovo);
+                Plano planoNovo = planoService.escolherPlano(sc);alunoExistente.setPlanoAtivo(planoNovo);
                 break;
-
             case 0:
                 return;
-
             default:
                 System.out.println("Opção inválida.");
                 return;

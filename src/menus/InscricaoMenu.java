@@ -23,6 +23,7 @@ public class InscricaoMenu implements Menu {
             System.out.println("\n======== GERENCIAR INSCRIÇÕES =========");
             System.out.println("1- Inscrever aluno");
             System.out.println("2- Listar inscrições");
+            System.out.println("3- Cancelar inscrição");
             System.out.println("0- Voltar");
             System.out.println("=======================================");
             System.out.println("Escolha uma opção:");
@@ -43,6 +44,8 @@ public class InscricaoMenu implements Menu {
                 case 2:
                     service.listar().forEach(System.out::println);
                     break;
+                case 3:
+                    System.out.println("cancelar inscricao");
 
                 case 0:
                     return;

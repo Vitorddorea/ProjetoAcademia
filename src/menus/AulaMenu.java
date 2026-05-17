@@ -9,6 +9,7 @@ import service.AlunoService;
 import service.AulaService;
 import service.InscricaoService;
 import service.InstrutorService;
+import menus.InscricaoMenu;
 
 import exceptions.EntradaException;
 
@@ -34,6 +35,7 @@ public class AulaMenu implements Menu {
         this.instrutorService = instrutorService;
         this.alunoService = alunoService;
         this.inscricaoService = inscricaoService;
+
     }
 
     @Override
@@ -47,9 +49,8 @@ public class AulaMenu implements Menu {
             System.out.println("2 - Listar aulas");
             System.out.println("3 - Atualizar aula");
             System.out.println("4 - Excluir aula");
-            System.out.println("5 - Matricular aluno");
-            System.out.println("6 - Relatório de ocupação");
-            System.out.println("7 - Detalhes da aula");
+            System.out.println("5 - Relatório de ocupação");
+            System.out.println("6 - Detalhes da aula");
             System.out.println("0 - Voltar");
             System.out.println("=======================================");
             System.out.println("Escolha uma opção: ");
@@ -71,12 +72,9 @@ public class AulaMenu implements Menu {
                     excluir(sc);
                     break;
                 case 5:
-                    matricularAluno(sc);
-                    break;
-                case 6:
                     relatorioOcupacao();
                     break;
-                case 7:
+                case 6:
                     detalharAula(sc);
                     break;
                 case 0:
@@ -112,26 +110,14 @@ public class AulaMenu implements Menu {
                 instrutorService.buscarPorCpf(cpf);
 
         if (instrutor == null) {
-
-            System.out.println(
-                    "\nInstrutor não encontrado!"
-            );
-
+            System.out.println("\nInstrutor não encontrado!");
             return;
         }
 
         if (possuiConflitoHorario(cpf, horario, duracao)) {
+            System.out.println("\nO instrutor possui " + "conflito de horário.");
 
-            System.out.println(
-                    "\nO instrutor possui " +
-                    "conflito de horário."
-            );
-
-            System.out.println(
-                    "É necessário intervalo " +
-                    "mínimo de 10 minutos."
-            );
-
+            System.out.println("É necessário intervalo " + "mínimo de 10 minutos.");
             return;
         }
 
@@ -151,91 +137,49 @@ public class AulaMenu implements Menu {
 
         LocalTime fimNovo = inicioNovo.plusMinutes(duracao);
 
-        return service.listar()
-                .stream()
+        return service.listar().stream().filter(a -> a.getInstrutor().getCpf().equals(cpfInstrutor)
+                ).anyMatch(a -> {
 
-                .filter(a ->
-                        a.getInstrutor()
-                        .getCpf()
-                        .equals(cpfInstrutor)
-                )
+                    LocalTime inicioExistente = LocalTime.parse(a.getHorario());
 
-                .anyMatch(a -> {
+                    LocalTime fimExistente = inicioExistente.plusMinutes(a.getDuracao()).plusMinutes(10);
 
-                    LocalTime inicioExistente =
-                            LocalTime.parse(
-                                    a.getHorario()
-                            );
-
-                    LocalTime fimExistente =
-                            inicioExistente
-                                    .plusMinutes(
-                                            a.getDuracao()
-                                    )
-                                    .plusMinutes(10);
-
-                    return inicioNovo
-                            .isBefore(fimExistente)
-
-                            &&
-
-                            fimNovo
-                            .isAfter(inicioExistente);
+                    return inicioNovo.isBefore(fimExistente) && fimNovo.isAfter(inicioExistente);
                 });
     }
 
     private void listar() {
 
-        System.out.println(
-                "\n===== LISTA DE AULAS ====="
-        );
+        System.out.println("\n===== LISTA DE AULAS =====");
 
         if (service.listar().isEmpty()) {
-
-            System.out.println(
-                    "Nenhuma aula cadastrada."
-            );
-
+            System.out.println("Nenhuma aula cadastrada.");
             return;
         }
 
         for (Aula aula : service.listar()) {
-
             System.out.println(aula);
         }
     }
 
     private void excluir(Scanner sc) {
 
-        System.out.println(
-                "\n===== EXCLUIR AULA ====="
-        );
+        System.out.println("\n===== EXCLUIR AULA =====");
 
         System.out.print("Nome da aula: ");
         String nome = EntradaException.lerTexto(sc);
 
-        boolean removida =
-                service.excluir(nome);
+        boolean removida = service.excluir(nome);
 
-        if (removida) {
-
-            System.out.println(
-                    "\nAula removida com sucesso!"
-            );
-
+        if (removida) {System.out.println("\nAula removida com sucesso!");
         } else {
-
-            System.out.println(
-                    "\nAula não encontrada!"
-            );
+            System.out.println("\nAula não encontrada!");
         }
     }
 
     private void atualizar(Scanner sc) {
 
-        System.out.println(
-                "\n===== ATUALIZAR AULA ====="
-        );
+        System.out.println("\n===== ATUALIZAR AULA =====");
 
         System.out.print("Nome da aula: ");
         String nome = EntradaException.lerTexto(sc);
@@ -252,96 +196,28 @@ public class AulaMenu implements Menu {
         System.out.print("CPF do instrutor: ");
         String cpf = EntradaException.lerTexto(sc);
 
-        Instrutor instrutor =
-                instrutorService.buscarPorCpf(cpf);
+        Instrutor instrutor = instrutorService.buscarPorCpf(cpf);
 
         if (instrutor == null) {
-
-            System.out.println(
-                    "\nInstrutor não encontrado!"
-            );
-
+            System.out.println("\nInstrutor não encontrado!");
             return;
         }
 
-        Aula aula = new Aula(
-                nome,
-                horario,
-                duracao,
-                capacidade,
-                instrutor
-        );
+        Aula aula = new Aula(nome, horario, duracao, capacidade, instrutor);
 
-        boolean atualizada =
-                service.atualizar(aula);
+        boolean atualizada = service.atualizar(aula);
 
         if (atualizada) {
-
-            System.out.println(
-                    "\nAula atualizada com sucesso!"
-            );
-
-        } else {
-
-            System.out.println(
-                    "\nAula não encontrada!"
-            );
-        }
-    }
-
-    private void matricularAluno(Scanner sc) {
-
-        System.out.println(
-                "\n===== MATRÍCULA EM AULA ====="
-        );
-
-        System.out.print("Nome da aula: ");
-        String nomeAula =
-                EntradaException.lerTexto(sc);
-
-        System.out.print("CPF do aluno: ");
-        String cpfAluno =
-                EntradaException.lerTexto(sc);
-
-        Aluno aluno =
-                alunoService.buscarPorCpf(cpfAluno);
-
-        if (aluno == null) {
-
-            System.out.println(
-                    "\nAluno não encontrado!"
-            );
-
-            return;
-        }
-
-        boolean matriculado =
-                service.matricularAluno(
-                        nomeAula,
-                        aluno
-                );
-
-        if (matriculado) {
-
-            System.out.println(
-                    "\nAluno matriculado com sucesso!"
-            );
-
-        } else {
-
-            System.out.println(
-                    "\nErro ao matricular aluno!"
-            );
+            System.out.println("\nAula atualizada com sucesso!");
+        } else {System.out.println("\nAula não encontrada!");
         }
     }
 
     private void relatorioOcupacao() {
-
         service.gerarRelatorioOcupacao();
     }
 
     private void detalharAula(Scanner sc) {
-
         System.out.print("Nome da aula: ");
         String nome = EntradaException.lerTexto(sc);
 

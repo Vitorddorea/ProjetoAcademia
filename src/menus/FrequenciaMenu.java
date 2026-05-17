@@ -44,14 +44,11 @@ public class FrequenciaMenu implements Menu {
 
                     service.registrar(cpf, aula, presente);
                     break;
-
                 case 2:
                     service.listar().forEach(System.out::println);
                     break;
-
                 case 0:
                     return;
-
                 default:
                     System.out.println("Opção inválida!");
             }

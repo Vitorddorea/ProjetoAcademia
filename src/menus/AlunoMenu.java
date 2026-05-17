@@ -23,7 +23,6 @@ public class AlunoMenu implements Menu {
     this.service = service;
     this.planoService = planoService;
 }
-    
 
     @Override
     public void exibir(Scanner sc) {
@@ -87,24 +86,21 @@ public class AlunoMenu implements Menu {
 
    private void listar() {
 
-    System.out.println(
-        "\n===== LISTA DE ALUNOS ====="
-    );
-
-    if (service.listarAlunos().isEmpty()) {
-
         System.out.println(
-            "Nenhum aluno cadastrado."
+            "\n===== LISTA DE ALUNOS ====="
         );
 
-        return;
+        for (Aluno aluno : service.listarAlunos()) {
+            System.out.println(aluno);
+        }
+
+        if (service.listarAlunos().isEmpty()) {
+
+            System.out.println("Nenhum aluno cadastrado." );
+            return;
+        }
     }
 
-    for (Aluno aluno : service.listarAlunos()) {
-
-        System.out.println(aluno);
-    }
-}
     public void listarAulasAluno(Scanner sc){
         String cpfAluno = Util.lerTexto(sc);
         Aluno alunoEspecifico = service.buscarPorCpf(cpfAluno);
@@ -187,87 +183,88 @@ public class AlunoMenu implements Menu {
     }
 
     private void atualizar(Scanner sc) {
-    if (!temPermissao()) return;
+        if (!temPermissao()) return;
 
-    System.out.print("CPF do aluno: ");
-    String cpf = Util.lerTexto(sc);
+        System.out.print("CPF do aluno: ");
+        String cpf = Util.lerTexto(sc);
 
-    Aluno alunoExistente = service.buscarPorCpf(cpf);
+        Aluno alunoExistente = service.buscarPorCpf(cpf);
 
-    if (alunoExistente == null) {
-        System.out.println("Aluno não encontrado.");
-        return;
+        if (alunoExistente == null) {
+            System.out.println("Aluno não encontrado.");
+            return;
+        }
+
+        System.out.println("\nO que você deseja atualizar?");
+        System.out.println("1- Nome");
+        System.out.println("2- Telefone");
+        System.out.println("3- Email");
+        System.out.println("4- Data de nascimento");
+        System.out.println("5- Plano");
+        System.out.println("6- Atualizar tudo");
+        System.out.println("0- Voltar ao menu");
+
+        int opcao = Util.lerInteiro(sc);
+
+        switch (opcao) {
+
+            case 1:
+                System.out.print("Novo nome: ");
+                alunoExistente.setNome(Util.lerTexto(sc));
+                break;
+            case 2:
+                System.out.print("Novo telefone: ");
+                alunoExistente.setTelefone(Util.lerTexto(sc));
+                break;
+            case 3:
+                System.out.print("Novo email: ");
+                alunoExistente.setEmail(Util.lerTexto(sc));
+                break;
+            case 4:
+                System.out.print("Nova data de nascimento (yyyy-MM-dd): ");
+                alunoExistente.setDataNascimento(
+                    LocalDate.parse(Util.lerTexto(sc))
+                );
+                break;
+            case 5:
+                planoService.listarPlanos();
+
+                System.out.print("Escolha um novo plano: ");
+                Plano plano = planoService.escolherPlano(sc);
+
+                alunoExistente.setPlanoAtivo(plano);
+                break;
+            case 6:
+                System.out.print("Novo nome: ");
+                alunoExistente.setNome(Util.lerTexto(sc));
+
+                System.out.print("Novo telefone: ");
+                alunoExistente.setTelefone(Util.lerTexto(sc));
+
+                System.out.print("Novo email: ");
+                alunoExistente.setEmail(Util.lerTexto(sc));
+
+                System.out.print("Nova data de nascimento (yyyy-MM-dd): ");
+                alunoExistente.setDataNascimento(
+                    LocalDate.parse(Util.lerTexto(sc))
+                );
+
+                planoService.listarPlanos();
+
+                System.out.print("Escolha um novo plano: ");
+                Plano novoPlano = planoService.escolherPlano(sc);
+
+                alunoExistente.setPlanoAtivo(novoPlano);
+                break;
+            case 0:
+                return;
+            default:
+                System.out.println("Opção inválida.");
+                return;
+        }
+        System.out.println("\nAluno atualizado com sucesso!");
     }
 
-    System.out.println("\nO que você deseja atualizar?");
-    System.out.println("1- Nome");
-    System.out.println("2- Telefone");
-    System.out.println("3- Email");
-    System.out.println("4- Data de nascimento");
-    System.out.println("5- Plano");
-    System.out.println("6- Atualizar tudo");
-    System.out.println("0- Voltar ao menu");
-
-    int opcao = Util.lerInteiro(sc);
-
-    switch (opcao) {
-
-        case 1:
-            System.out.print("Novo nome: ");
-            alunoExistente.setNome(Util.lerTexto(sc));
-            break;
-        case 2:
-            System.out.print("Novo telefone: ");
-            alunoExistente.setTelefone(Util.lerTexto(sc));
-            break;
-        case 3:
-            System.out.print("Novo email: ");
-            alunoExistente.setEmail(Util.lerTexto(sc));
-            break;
-        case 4:
-            System.out.print("Nova data de nascimento (yyyy-MM-dd): ");
-            alunoExistente.setDataNascimento(
-                LocalDate.parse(Util.lerTexto(sc))
-            );
-            break;
-        case 5:
-            planoService.listarPlanos();
-
-            System.out.print("Escolha um novo plano: ");
-            Plano plano = planoService.escolherPlano(sc);
-
-            alunoExistente.setPlanoAtivo(plano);
-            break;
-        case 6:
-            System.out.print("Novo nome: ");
-            alunoExistente.setNome(Util.lerTexto(sc));
-
-            System.out.print("Novo telefone: ");
-            alunoExistente.setTelefone(Util.lerTexto(sc));
-
-            System.out.print("Novo email: ");
-            alunoExistente.setEmail(Util.lerTexto(sc));
-
-            System.out.print("Nova data de nascimento (yyyy-MM-dd): ");
-            alunoExistente.setDataNascimento(
-                LocalDate.parse(Util.lerTexto(sc))
-            );
-
-            planoService.listarPlanos();
-
-            System.out.print("Escolha um novo plano: ");
-            Plano novoPlano = planoService.escolherPlano(sc);
-
-            alunoExistente.setPlanoAtivo(novoPlano);
-            break;
-        case 0:
-            return;
-        default:
-            System.out.println("Opção inválida.");
-            return;
-    }
-    System.out.println("\nAluno atualizado com sucesso!");
-}
     private boolean temPermissao() {
         if (usuario.getTipo().equalsIgnoreCase("GERENTE") ||
             usuario.getTipo().equalsIgnoreCase("RECEPCIONISTA")) {

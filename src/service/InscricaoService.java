@@ -15,9 +15,7 @@ public class InscricaoService {
     private AlunoService alunoService;
     private AulaService aulaService;
 
-    public InscricaoService(InscricaoRepository repository,
-                            AlunoService alunoService,
-                            AulaService aulaService) {
+    public InscricaoService(InscricaoRepository repository, AlunoService alunoService,AulaService aulaService) {
 
         this.repository = repository;
         this.alunoService = alunoService;
@@ -40,8 +38,8 @@ public class InscricaoService {
 
         boolean jaExiste = repository.listar().stream()
                 .anyMatch(i ->
-                        i.getAluno().getCpf().equals(cpf) &&
-                        i.getAula().getNome().equalsIgnoreCase(nomeAula)
+                i.getAluno().getCpf().equals(cpf) &&
+                i.getAula().getNome().equalsIgnoreCase(nomeAula)
                 );
 
         if (jaExiste) {
@@ -57,6 +55,7 @@ public class InscricaoService {
         }
 
         repository.salvar(new Inscricao(aluno, aula));
+        aula.adicionarAluno();
         System.out.println("Inscrição realizada!");
         return true;
     }
@@ -69,8 +68,8 @@ public class InscricaoService {
 
         Inscricao encontrada = repository.listar().stream()
                 .filter(i ->
-                        i.getAluno().getCpf().equals(cpf) &&
-                        i.getAula().getNome().equalsIgnoreCase(nomeAula)
+                i.getAluno().getCpf().equals(cpf) &&
+                i.getAula().getNome().equalsIgnoreCase(nomeAula)
                 )
                 .findFirst()
                 .orElse(null);

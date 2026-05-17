@@ -70,4 +70,13 @@ public class Plano {
     public void setBeneficios(String beneficios) {
         this.beneficios = beneficios;
     }
+    @Override
+    public String toString() {
+    return "\nNome: " + nome +
+           "\nDescrição: " + descricao +
+           "\nValor Mensal: R$ " + valorMensal +
+           "\nDuração: " + duracaoMeses + " meses" +
+           "\nBenefícios: " + beneficios +
+           "\n---------------------------";
+}
 }

@@ -54,14 +54,21 @@ public class FrequenciaService {
         System.out.println("Presença registrada com sucesso.");
         return true;
     }
+    
     public List<Frequencia> listar() {
         return repository.listar();
     }
     private boolean estaInscrito(String cpf, String nomeAula) {
-        return inscricaoService.listar().stream()
-            .anyMatch(i ->
-            i.getAluno().getCpf().equals(cpf) &&
-            i.getAula().getNome().equalsIgnoreCase(nomeAula)
-        );
+
+    Aula aula = aulaService.buscarPorNome(nomeAula);
+
+    if (aula == null) {
+        return false;
     }
+
+    return aula.getAlunos().stream()
+        .anyMatch(aluno ->
+            aluno.getCpf().equals(cpf)
+        );
+}
 }

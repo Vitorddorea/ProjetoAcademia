@@ -45,8 +45,14 @@ public class InscricaoMenu implements Menu {
                     service.listar().forEach(System.out::println);
                     break;
                 case 3:
-                    System.out.println("cancelar inscricao");
+                    System.out.print("CPF do aluno: ");
+                    String cpfCancelar = EntradaException.lerTexto(sc);
 
+                    System.out.print("Nome da aula: ");
+                    String aulaCancelar = EntradaException.lerTexto(sc);
+
+                    service.cancelar(cpfCancelar, aulaCancelar);
+                    break;
                 case 0:
                     return;
 

@@ -1,8 +1,23 @@
+/**
+ * Serviço responsável pelo gerenciamento de alunos.
+ * Realiza operações de cadastro, atualização, exclusão,
+ * consulta e validação de planos ativos.
+ *
+ * @author Camila Bandeira de Oliveira
+ * @author Gabriel Rodrigues Lopes
+ * @author John Lucas Garcia dos Santos
+ * @author Marina Pereira Marcelino
+ * @author Marina Santos Morais
+ * @author Vitor Daniel Dorea Santos
+ *
+ * @version 1.0
+ * @since 2026-05-16
+ */
+
 package service;
 
 import entities.Aluno;
 import repositories.AlunoDAO;
-import service.InscricaoService;
 
 public class AlunoService {
     // criando depencia aluno repository
@@ -48,9 +63,7 @@ public class AlunoService {
             return false;
         }
 
-        return !java.time.LocalDate.now().isAfter(
-                dataVencimento(aluno)
-        );
+        return !java.time.LocalDate.now().isAfter(dataVencimento(aluno));
     }
 
     public java.time.LocalDate dataVencimento(Aluno aluno) {
@@ -59,11 +72,7 @@ public class AlunoService {
             return null;
         }
 
-        return aluno.getDataMatricula()
-                .plusMonths(
-                        aluno.getPlanoAtivo()
-                                .getDuracaoMeses()
-                );
+        return aluno.getDataMatricula().plusMonths(aluno.getPlanoAtivo().getDuracaoMeses());
     }
 
     public void exibirDetalhesAluno(String cpf, InscricaoService inscricaoService) {
@@ -99,11 +108,9 @@ public class AlunoService {
 
         for (var inscricao : inscricaoService.listar()) {
             if (inscricao.getAluno().getCpf().equals(cpf)) {
-                System.out.println(
-                        "- " + inscricao.getAula().getNome()
+                System.out.println("- " + inscricao.getAula().getNome()
                                 + " | "
-                                + inscricao.getAula().getHorario()
-                );
+                                + inscricao.getAula().getHorario());
                 encontrou = true;
             }
         }

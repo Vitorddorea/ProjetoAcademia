@@ -1,3 +1,24 @@
+/**
+ * Serviço responsável pelo gerenciamento de inscrições
+ * de alunos em aulas coletivas.
+ *
+ * Regras implementadas:
+ * - Verificação de plano ativo
+ * - Controle de capacidade máxima
+ * - Verificação de conflito de horário
+ * - Cancelamento de inscrições
+ *
+ * @author Camila Bandeira de Oliveira
+ * @author Gabriel Rodrigues Lopes
+ * @author John Lucas Garcia dos Santos
+ * @author Marina Pereira Marcelino
+ * @author Marina Santos Morais
+ * @author Vitor Daniel Dorea Santos
+ *
+ * @version 1.0
+ * @since 2026-05-16
+ */
+
 package service;
 
 import entities.Aluno;
@@ -31,10 +52,7 @@ public class InscricaoService {
         }
 
         if (!alunoService.planoAtivo(aluno)) {
-            System.out.println(
-                    "Plano vencido em: "
-                            + alunoService.dataVencimento(aluno)
-            );
+            System.out.println("Plano vencido em: " + alunoService.dataVencimento(aluno));
             return false;
         }
 
@@ -45,10 +63,7 @@ public class InscricaoService {
         }
 
         if (possuiConflitoHorario(aluno, aula)) {
-            System.out.println(
-                    "Conflito de horário! " +
-                            "Aluno já possui aula nesse horário."
-            );
+            System.out.println("Conflito de horário! " + "Aluno já possui aula nesse horário.");
             return false;
         }
 

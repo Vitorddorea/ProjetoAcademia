@@ -1,3 +1,21 @@
+/**
+ * Classe responsável pela persistência e consulta
+ * de registros de frequência no banco de dados.
+ *
+ * Implementa cadastro, atualização, exclusão
+ * e geração de consultas para relatórios.
+ *
+ * @author Camila Bandeira de Oliveira
+ * @author Gabriel Rodrigues Lopes
+ * @author John Lucas Garcia dos Santos
+ * @author Marina Pereira Marcelino
+ * @author Marina Santos Morais
+ * @author Vitor Daniel Dorea Santos
+ *
+ * @version 1.0
+ * @since 2026-05-16
+ */
+
 package repositories;
 
 import connection.ConexaoBanco;

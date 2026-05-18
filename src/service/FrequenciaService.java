@@ -1,3 +1,21 @@
+/**
+ * Serviço responsável pelo controle de frequência
+ * dos alunos nas aulas da academia.
+ *
+ * Permite registrar presença, atualizar frequência,
+ * excluir registros e gerar relatórios.
+ *
+ * @author Camila Bandeira de Oliveira
+ * @author Gabriel Rodrigues Lopes
+ * @author John Lucas Garcia dos Santos
+ * @author Marina Pereira Marcelino
+ * @author Marina Santos Morais
+ * @author Vitor Daniel Dorea Santos
+ *
+ * @version 1.0
+ * @since 2026-05-16
+ */
+
 package service;
 
 import entities.Aluno;

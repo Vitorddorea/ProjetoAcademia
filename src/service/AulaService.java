@@ -1,3 +1,19 @@
+/**
+ * Serviço responsável pelo gerenciamento de aulas.
+ * Realiza cadastro, atualização, exclusão,
+ * listagem e geração de relatórios de ocupação.
+ *
+ * @author Camila Bandeira de Oliveira
+ * @author Gabriel Rodrigues Lopes
+ * @author John Lucas Garcia dos Santos
+ * @author Marina Pereira Marcelino
+ * @author Marina Santos Morais
+ * @author Vitor Daniel Dorea Santos
+ *
+ * @version 1.0
+ * @since 2026-05-16
+ */
+
 package service;
 
 import entities.Aluno;

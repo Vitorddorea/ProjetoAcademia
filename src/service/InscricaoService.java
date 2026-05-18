@@ -79,7 +79,7 @@ public class InscricaoService {
         }
 
         try {
-            aula.adicionarAluno();
+            aula.adicionarAluno(aluno);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
@@ -111,7 +111,14 @@ public class InscricaoService {
     }
 
     public List<Inscricao> listar() {
-        return repository.listar();
+
+    List<Inscricao> inscricoes = repository.listar();
+
+        if (inscricoes.isEmpty()) {
+         System.out.println("Não há nenhum aluno inscrito em nenhuma aula.");
+        }
+
+        return inscricoes;
     }
 
     public boolean cancelar(String cpf, String nomeAula) {

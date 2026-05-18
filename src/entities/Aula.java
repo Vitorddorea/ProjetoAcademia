@@ -46,36 +46,29 @@ public class Aula {
     public void setCapacidadeMaxima(int capacidadeMaxima) { this.capacidadeMaxima = capacidadeMaxima; }
     public void setInstrutor(Instrutor instrutor) { this.instrutor = instrutor; }
 
-    public void adicionarAluno() {
+    public void adicionarAluno(Aluno aluno) {
         if (alunosInscritos >= capacidadeMaxima) {
-            throw new IllegalStateException("Capacidade máxima atingida.");
-        }
-        alunosInscritos++;
+        throw new IllegalStateException("Capacidade máxima atingida.");
     }
-
-    public void removerAluno() {
-        if (alunosInscritos > 0) {
-            alunosInscritos--;
-        }
-    }
-    public List<Aluno> getAlunos() {
-    return alunos;
-   }
-   public void setAlunos(List<Aluno> alunos) {
-    this.alunos = alunos;
-    }
-     public void adicionarAluno(
-            Aluno aluno) {
-
         if (!alunos.contains(aluno)) {
             alunos.add(aluno);
+            alunosInscritos++;
         }
     }
 
-    public void removerAluno(
-            Aluno aluno) {
+    public void removerAluno(Aluno aluno) {
 
-        alunos.remove(aluno);
+        if (alunos.remove(aluno)) {
+        alunosInscritos--;
+        }
+    }
+
+    public List<Aluno> getAlunos() {
+        return alunos;
+   }
+   
+    public void setAlunos(List<Aluno> alunos) {
+        this.alunos = alunos;
     }
 
     @Override

@@ -13,6 +13,15 @@ public class UsuarioDAO {
     public Usuario autenticar(String nome, String senha) {
         String sql = "SELECT * FROM usuario WHERE nome = ? AND senha = ?";
 
+
+
+
+
+
+
+
+
+
         try (Connection conn = ConexaoBanco.conectar();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 

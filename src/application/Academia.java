@@ -94,7 +94,7 @@ public class Academia {
             }
 
             System.out.println("=======================================");
-            System.out.println("Escolha uma opção: ");
+            System.out.print("Escolha uma opção: ");
 
             int opcao = EntradaException.lerInteiro(sc);
             Menu menuSelecionado = null;

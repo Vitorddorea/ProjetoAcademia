@@ -77,7 +77,7 @@ public class AulaService {
 
         for (Aula aula : repository.listar()) {
 
-            int ocupacaoAtual = aula.getAlunos().size();
+            int ocupacaoAtual = aula.getAlunosInscritos();
             int capacidadeMaxima = aula.getCapacidadeMaxima();
 
             double percentual =

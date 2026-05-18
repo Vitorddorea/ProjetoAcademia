@@ -19,7 +19,7 @@ public class Aula {
         this.horario = horario;
         this.duracao = duracao;
         this.capacidadeMaxima = capacidadeMaxima;
-        this.alunosInscritos = 0;
+        this.alunosInscritos = alunosInscritos;
         this.instrutor = instrutor;
     }
     private List<Aluno> alunos = new ArrayList<>();
@@ -82,6 +82,6 @@ public class Aula {
     public String toString() {
         return "ID " + id + " | Aula: " + nome +
                 " | Horário: " + horario +
-                " | Instrutor: " + instrutor.getNome() + " | Capacidade: " + alunosInscritos + "/" + capacidadeMaxima;
+                " | Instrutor: " + instrutor.getNome() + " | Capacidade: " + getAlunosInscritos() + "/" + capacidadeMaxima;
     }
 }

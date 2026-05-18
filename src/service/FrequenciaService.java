@@ -54,6 +54,7 @@ public class FrequenciaService {
         System.out.println("Presença registrada com sucesso.");
         return true;
     }
+
     public List<Frequencia> listar() {
         return repository.listar();
     }
@@ -63,5 +64,56 @@ public class FrequenciaService {
             i.getAluno().getCpf().equals(cpf) &&
             i.getAula().getNome().equalsIgnoreCase(nomeAula)
         );
+    }
+
+    public void gerarRelatorioAluno(
+            String cpf,
+            java.time.LocalDate inicio,
+            java.time.LocalDate fim
+    ) {
+
+        List<Frequencia> frequencias =
+                repository.buscarPorAlunoPeriodo(cpf, inicio, fim);
+
+        if (frequencias.isEmpty()) {
+            System.out.println("Nenhuma frequência encontrada.");
+            return;
+        }
+
+        System.out.println("\n===== RELATÓRIO DE FREQUÊNCIA =====");
+
+        frequencias.forEach(System.out::println);
+
+        System.out.println("\nTotal de visitas: " + repository.contarVisitas(cpf));
+
+        System.out.println("Última visita: " + repository.buscarUltimaVisita(cpf));
+    }
+
+    public boolean atualizar(String cpf, String nomeAula, boolean presente) {
+
+        boolean atualizado =
+                repository.atualizar(cpf, nomeAula, presente);
+
+        if (atualizado) {
+            System.out.println("Frequência atualizada com sucesso.");
+        } else {
+            System.out.println("Frequência não encontrada.");
+        }
+
+        return atualizado;
+    }
+
+    public boolean excluir(String cpf, String nomeAula) {
+
+        boolean removido =
+                repository.remover(cpf, nomeAula);
+
+        if (removido) {
+            System.out.println("Frequência removida com sucesso.");
+        } else {
+            System.out.println("Frequência não encontrada.");
+        }
+
+        return removido;
     }
 }

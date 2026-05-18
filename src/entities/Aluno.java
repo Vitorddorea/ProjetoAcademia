@@ -77,7 +77,7 @@ public class Aluno extends Pessoa {
     }
 
    @Override
-public String toString() {
+    public String toString() {
     return "Nome: " + nome +
             " | CPF: " + cpf +
             " | Email: " + email +
@@ -85,5 +85,5 @@ public String toString() {
             " | Plano: " + (planoAtivo != null ? planoAtivo.getNome() : "Sem plano ou Inativo") +
             " | Nascimento: " + dataNascimento +
             " | Data de Matrícula: " + dataMatricula;
-}
+    }
 }

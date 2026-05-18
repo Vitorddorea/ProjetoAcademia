@@ -13,7 +13,7 @@ public class FrequenciaDAO {
 
         String sql = """
                 INSERT INTO frequencia
-                (id_aluno, id_aula, data_hora, presente)
+                (id_aluno, id_aula, data_entrada, presente)
                 VALUES (?, ?, ?, ?)
                 """;
 
@@ -41,7 +41,7 @@ public class FrequenciaDAO {
         String sql = """
                 SELECT
                     f.id,
-                    f.data_hora,
+                    f.data_entrada,
                     f.presente,
 
                     a.id as aluno_id,
@@ -54,7 +54,7 @@ public class FrequenciaDAO {
                     au.horario,
                     au.duracao,
                     au.capacidade_maxima,
-                    au.alunos_inscritos
+                    au.alunosinscritos
 
                 FROM frequencia f
                 JOIN aluno a ON f.id_aluno = a.id
@@ -84,7 +84,7 @@ public class FrequenciaDAO {
                         rs.getString("horario"),
                         rs.getInt("duracao"),
                         rs.getInt("capacidade_maxima"),
-                        rs.getInt("alunos_inscritos"),
+                        rs.getInt("alunosinscritos"),
                         null
                 );
 
@@ -92,7 +92,7 @@ public class FrequenciaDAO {
                         rs.getLong("id"),
                         aluno,
                         aula,
-                        rs.getTimestamp("data_hora").toLocalDateTime(),
+                        rs.getTimestamp("data_entrada").toLocalDateTime(),
                         rs.getBoolean("presente")
                 );
 
@@ -106,6 +106,61 @@ public class FrequenciaDAO {
         return lista;
     }
 
+    public boolean atualizar(String cpf, String nomeAula, boolean presente) {
+        String sql = """
+            UPDATE frequencia
+            SET presente = ?
+            WHERE id_aluno = (
+                SELECT id FROM aluno WHERE cpf = ?
+            )
+            AND id_aula = (
+                SELECT id FROM aula WHERE LOWER(nome) = LOWER(?)
+            )
+            """;
+
+        try (Connection conn = ConexaoBanco.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setBoolean(1, presente);
+            ps.setString(2, cpf);
+            ps.setString(3, nomeAula);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean remover(String cpf, String nomeAula) {
+
+        String sql = """
+        DELETE FROM frequencia
+        WHERE id_aluno = (
+            SELECT id FROM aluno WHERE cpf = ?
+        )
+        AND id_aula = (
+            SELECT id FROM aula WHERE LOWER(nome) = LOWER(TRIM(?))
+        )
+        """;
+
+        try (Connection conn = ConexaoBanco.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, cpf.trim());
+            ps.setString(2, nomeAula.trim());
+
+            int linhasAfetadas = ps.executeUpdate();
+
+            return linhasAfetadas > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public Frequencia buscar(String cpf, String nomeAula) {
 
         return listar().stream()
@@ -114,6 +169,42 @@ public class FrequenciaDAO {
                                 f.getAula().getNome().equalsIgnoreCase(nomeAula)
                 )
                 .findFirst()
+                .orElse(null);
+    }
+
+    public List<Frequencia> buscarPorAlunoPeriodo(
+            String cpf,
+            java.time.LocalDate inicio,
+            java.time.LocalDate fim
+    ) {
+
+        return listar().stream()
+                .filter(f ->
+                        f.getAluno().getCpf().equals(cpf)
+                                && !f.getDataHora().toLocalDate().isBefore(inicio)
+                                && !f.getDataHora().toLocalDate().isAfter(fim)
+                )
+                .toList();
+    }
+
+    public long contarVisitas(String cpf) {
+        return listar().stream()
+                .filter(f ->
+                        f.getAluno().getCpf().equals(cpf)
+                                && f.isPresente()
+                )
+                .count();
+    }
+
+    public java.time.LocalDateTime buscarUltimaVisita(String cpf) {
+
+        return listar().stream()
+                .filter(f ->
+                        f.getAluno().getCpf().equals(cpf)
+                                && f.isPresente()
+                )
+                .map(Frequencia::getDataHora)
+                .max(java.time.LocalDateTime::compareTo)
                 .orElse(null);
     }
 }

@@ -53,7 +53,6 @@ public class Academia {
         Menu planoMenu = new PlanoMenu(planoService);
         Menu inscricaoMenu = new InscricaoMenu(usuarioLogado, inscricaoService);
         Menu frequenciaMenu = new FrequenciaMenu(usuarioLogado, frequenciaService);
-        Menu relatorioMenu = new RelatorioMenu(alunoService, aulaService);
         Menu usuarioMenu = new UsuarioMenu(usuarioService);
 
         boolean executando = true;
@@ -68,15 +67,13 @@ public class Academia {
                 System.out.println("4 - Aulas");
                 System.out.println("5 - Inscrições");
                 System.out.println("6 - Frequências");
-                System.out.println("7 - Relatórios");
-                System.out.println("8 - Usuários");
+                System.out.println("7 - Usuários");
                 System.out.println("0 - Sair");
             } else {
                 System.out.println("1 - Alunos");
                 System.out.println("2 - Aulas");
                 System.out.println("3 - Inscrições");
                 System.out.println("4 - Frequências");
-                System.out.println("5 - Relatórios");
                 System.out.println("0 - Sair");
             }
 
@@ -94,8 +91,7 @@ public class Academia {
                     case 4 -> menuSelecionado = aulaMenu;
                     case 5 -> menuSelecionado = inscricaoMenu;
                     case 6 -> menuSelecionado = frequenciaMenu;
-                    case 7 -> menuSelecionado = relatorioMenu;
-                    case 8 -> menuSelecionado = usuarioMenu;
+                    case 7 -> menuSelecionado = usuarioMenu;
                     case 0 -> {
                         executando = false;
                         System.out.println("Encerrando sistema...");
@@ -108,7 +104,6 @@ public class Academia {
                     case 2 -> menuSelecionado = aulaMenu;
                     case 3 -> menuSelecionado = inscricaoMenu;
                     case 4 -> menuSelecionado = frequenciaMenu;
-                    case 5 -> menuSelecionado = relatorioMenu;
                     case 0 -> {
                         executando = false;
                         System.out.println("Encerrando sistema...");

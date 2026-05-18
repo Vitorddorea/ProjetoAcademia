@@ -10,12 +10,16 @@ public class Frequencia {
     private LocalDateTime dataHora;
     private boolean presente;
 
-    public Frequencia(Long id, Aluno aluno, Aula aula, LocalDateTime dataHora, boolean presente) {
+    public Frequencia(Long id,
+                      Aluno aluno,
+                      Aula aula,
+                      LocalDateTime dataHora,
+                      boolean presente) {
         this.id = id;
         this.aluno = aluno;
         this.aula = aula;
-        this.dataHora = LocalDateTime.now();
-        this.presente = false;
+        this.dataHora = dataHora;
+        this.presente = presente;
     }
 
     public Frequencia(Aluno aluno, Aula aula) {

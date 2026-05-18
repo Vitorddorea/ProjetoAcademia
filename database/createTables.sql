@@ -78,6 +78,7 @@ CREATE TABLE frequencia (
                             id_aluno INTEGER,
                             id_aula INTEGER,
                             data_entrada TIMESTAMP,
+                            presente BOOLEAN NOT NULL DEFAULT false,
                             CONSTRAINT fk_frequencia_aluno FOREIGN KEY (id_aluno) REFERENCES aluno(id),
                             CONSTRAINT fk_frequencia_aula FOREIGN KEY (id_aula) REFERENCES aula(id)
 );

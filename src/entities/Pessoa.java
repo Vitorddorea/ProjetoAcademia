@@ -1,6 +1,6 @@
 package entities;
 
-public  abstract class Pessoa {
+public abstract class Pessoa {
 
     private Long id;
     protected String nome;

@@ -142,8 +142,8 @@ Além disso, proporcionou experiência prática com:
 
 # 👥 Integrantes
 
-* Seu Nome
-* Nome da dupla
+* Vitor Dorea
+* Marina Santos
 
 ---
 
